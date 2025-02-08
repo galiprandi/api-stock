@@ -630,3 +630,69 @@ curl -X DELETE http://localhost:3000/api/products/1
 - [ ] El producto eliminado deberá ser removido del array de productos.
 - [ ] Deberás agregar pruebas automatizadas para el endpoint DELETE /api/products/:id.
 
+## Paso 9: Gestión de variables de entorno
+
+> 📚 ¿Qué son las variables de entorno? Las variables de entorno son valores dinámicos que pueden afectar el comportamiento de un programa. Se utilizan para configurar la aplicación en diferentes entornos, como desarrollo, pruebas y producción.
+
+En este paso, vamos a implementar la gestión de variables de entorno en nuestra aplicación utilizando la librería `dotenv`. 
+
+### Instalar la librería dotenv
+
+Ejecuta el siguiente comando en tu terminal para instalar la librería `dotenv`:
+
+```bash
+npm install dotenv
+``` 
+
+### Crear un archivo .env
+
+Crea un archivo `.env` en la raíz de tu proyecto y agrega las siguientes variables de entorno:
+
+```env
+PORT=3000
+```
+
+### Uso de dotenv en tu proyecto
+
+Crea un archivo `src/config.ts` para cargar las variables de entorno y exportarlas:
+
+```typescript
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+export const config = {
+  PORT: process.env.PORT || 3000,
+  ENV: process.env.NODE_ENV || 'development',
+};
+```
+
+### Actualización del servidor para usar las variables de entorno
+
+Edita el archivo `src/index.ts` para usar las variables de entorno desde el archivo de configuración, deberás reemplazar la línea donde se define el puerto por la siguiente:
+
+```typescript
+const PORT = process.env.PORT || 3000;
+```
+
+por:
+
+```typescript
+const { PORT } = config;
+```
+
+Y relanzar el servidor con `npm run dev` para verificar que las variables de entorno se están cargando correctamente y el servidor sigue funcionando en el puerto 3000. Sería recomendable que cambies el puerto en el archivo `.env`, por ejemplo al puerto 5000 y verifiques que el servidor se inicia en el puerto 5000. Luego de realizar esta verificación, puedes volver a cambiar el puerto a 3000.
+
+### Criterios de Aceptación del Paso 9
+
+- [ ] Deberás instalar la librería `dotenv` en tu proyecto.
+- [ ] Deberás crear un archivo `.env` con la variable `PORT=3000`.
+- [ ] Deberás crear un archivo `src/config.ts` para cargar las variables de entorno.
+- [ ] Deberás actualizar el servidor para usar las variables de entorno desde el archivo de configuración.
+- [ ] Deberás verificar que el servidor se inicia correctamente en el puerto especificado en el archivo `.env`.
+- [ ] Deberás verificar que el servidor y las pruebas unitarias siguen funcionando correctamente después de la implementación de las variables de entorno.
+
+
+
+
+
