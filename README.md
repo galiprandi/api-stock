@@ -313,3 +313,15 @@ Deberías ver una salida similar a esta:
 ```
 
  ¡Listo! Ahora tienes pruebas automatizadas para validar que el endpoint /api/health-check funciona correctamente. 🚀
+
+ ## 🎉 ¡Felicitaciones!
+
+En este punto, has configurado tu proyecto con TypeScript y Express, además haz configurado tu primer endpoint y pruebas automatizadas. ¡Estás en camino de construir una API REST moderna para control de inventario!
+
+Si aún tienes ganas de explorar más en profundidad, puedes visitar los siguientes recursos:
+
+- [Express.js](https://expressjs.com/en/guide/routing.html)
+- [Pruebas con Vites](https://vitest.dev/guide)
+- [Intercambio de recursos de origen cruzado (CORS)](https://developer.mozilla.org/es/docs/Web/HTTP/CORS)
+- [Supertest](https://github.com/ladjs/supertest)
+- [API REST](https://es.wikipedia.org/wiki/Transferencia_de_Estado_Representacional)
