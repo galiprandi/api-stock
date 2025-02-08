@@ -437,5 +437,55 @@ En este caso, hemos introducido un error intencional en la prueba para que falle
 
 Corrige la prueba en `src/tests/products.test.ts` para que pase correctamente. Lee atentamente el código de la prueba, ejecuta las pruebas y asegúrate de que pasen correctamente. 
 
+ ## 🎉 ¡Felicitaciones!
 
+Haz avanzado mucho y ya tiene la estructura básica de tu API REST y los conocimientos necesarios para agregar nuevas rutas y funcionalidades. A partir de ahora las intrucciones serán menos precisas y tendrás que investigar y probar por tu cuenta. Las proximas tareas serán más parecidas a requeriemientos de un cliente y tendrás que implementarlos por tu cuenta, pero siempre especificaremos los criterios de aceptación que deberás cumplir.
 
+## Paso 6: Implementar un Endpoint para Crear Productos
+
+En este paso, vamos a implementar un endpoint POST /api/products que permita crear un nuevo producto. El endpoint recibirá los datos del producto en el cuerpo de la solicitud y devolverá el producto creado con un ID único.
+
+Los pasos a seguir son los siguientes:
+1. Crear la ruta POST /api/products en el archivo src/routes/products.ts.
+2. Recuperar del body de la solicitud los datos del producto a crear.
+3. Generar un ID único para el nuevo producto. Por ahora puedes usar la longitud del array + 1 como ID.
+4. Agregar el nuevo producto al array de productos usando el método push.
+5. Devolver el producto creado con el código de estado 201 (Created).
+6. Verifica que el GET /api/products devuelva las lista de productos con el nuevo producto creado.
+7. Agregar pruebas automatizadas para el endpoint POST /api/products.
+
+```bash
+# Curl para crear un nuevo producto
+curl -X POST http://localhost:3000/api/products -H "Content-Type: application/json" -d '{"title": "Smart Speaker", "brand": "Google", "category": "Electronics", "price": 99.99, "stock": 15}'
+```
+
+```typescript
+// Prueba unitaria para el endpoint POST /api/products
+// Crea el archivo src/tests/products.post.test.ts y agrega el siguiente código:
+
+describe("POST /api/products", () => {
+  it("should create a new product", async () => {
+    const newProduct = {
+      title: "Smart Speaker",
+      brand: "Google",
+      category: "Electronics",
+      price: 99.99,
+      stock: 15
+    };
+
+    const response = await request(app)
+      .post("/api/products")
+      .send(newProduct);
+
+    expect(response.status).toBe(201);
+    expect(response.body).toMatchObject(newProduct);
+  });
+});
+```
+### Criterios de Aceptación
+- [ ] Deberás implementar el endpoint POST /api/products en el archivo src/routes/products.ts.
+- [ ] El endpoint deberá recibir los datos del producto a crear en el cuerpo de la solicitud.
+- [ ] El endpoint deberá devolver el producto creado con un ID único y el código de estado 201 (Created).
+- [ ] El producto creado deberá ser agregado al array de productos.
+- [ ] El endpoint GET /api/products deberá devolver la lista de productos con el nuevo producto creado.
+- [ ] Deberás agregar pruebas automatizadas para el endpoint POST /api/products.
