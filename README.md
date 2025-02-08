@@ -149,3 +149,70 @@ npm run dev
 ```
 
 Deberías ver el mensaje "Hello, World!" impreso en la consola. Si ves este mensaje, ¡tu configuración de TypeScript está lista y funcionando! Ahora, puedes avanzar al siguiente paso.
+
+## Paso 3: Configuración del Servidor Express y primer endpoint
+En este paso, vamos a instalar Express y CORS, y crearemos un endpoint /api/health-check que devolverá { status: "ready" }.
+
+### Instalar Dependencias
+Ejecuta el siguiente comando en tu terminal para instalar Express y CORS:
+
+```bash
+npm install express cors
+npm install --save-dev @types/express @types/cors
+```
+
+### Configurar el Servidor en src/libs/server.ts
+Crea el archivo `src/libs/server.ts` y agrega el siguiente código:
+
+```typescript
+import express from "express";
+import cors from "cors";
+
+const app = express();
+
+// Middleware
+app.use(cors());
+app.use(express.json());
+
+// Rutas
+app.get("/api/health-check", (_req, res) => {
+  res.json({ status: "ready" });
+});
+
+// Exportar el servidor para usarlo en index.ts
+export { app };
+```
+
+### Inicializar el Servidor en src/index.ts
+Edita `src/index.ts` para importar e iniciar el servidor:
+
+```typescript
+import { app } from "./libs/server";
+
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`✅ Server running at http://localhost:${PORT}`);
+});
+```
+
+### Probar el Servidor
+Ejecuta el siguiente comando:
+
+```bash
+npm run dev
+```
+
+Luego, abre tu navegador o usa curl para probar el endpoint:
+
+```bash
+curl http://localhost:3000/api/health-check
+```
+
+Deberías recibir esta respuesta:
+
+```json
+{ "status": "ready" }
+```
+
+¡Felicidades! Has creado tu primer endpoint en Express. Ahora, puedes avanzar al siguiente paso para implementar más funcionalidades en tu API.
