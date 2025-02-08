@@ -217,7 +217,7 @@ Deberías recibir esta respuesta:
 
 ¡Felicidades! Has creado tu primer endpoint en Express. Ahora, puedes avanzar al siguiente paso para implementar más funcionalidades en tu API.
 
-## Paso 4: Paso 4: Agregar Pruebas para /api/health-check
+## Paso 4: Agregar Pruebas para /api/health-check
 
 > 📚 ¿Qué son las pruebas unitarias? Las pruebas unitarias son pruebas automatizadas que verifican que una unidad de código (como una función o un módulo) funcione correctamente. Estas pruebas se centran en probar partes específicas del código para garantizar que se comporten como se espera.
 
