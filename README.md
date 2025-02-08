@@ -272,7 +272,7 @@ describe("GET /api/health-check", () => {
     const response = await request(app).get("/api/health-check");
     
     expect(response.status).toBe(200);
-    expect(response.body).toEqual({ status: "ready" });
+    expect(response.body).toHaveProperty("status", "ready");
   });
 });
 ```
@@ -300,8 +300,16 @@ npm test
 Deberías ver una salida similar a esta:
 
 ```bash
- PASS  src/tests/health-check.test.ts
-  ✓ should return { status: 'ready' } (50 ms)
+ ✓ src/tests/health-check.test.ts (1 test) 28ms
+   ✓ GET /api/health-check > should return { status: 'ready' }
+
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+   Start at  02:44:18
+   Duration  208ms
+
+ PASS  Waiting for file changes...
+       press h to show help, press q to quit
 ```
 
  ¡Listo! Ahora tienes pruebas automatizadas para validar que el endpoint /api/health-check funciona correctamente. 🚀
