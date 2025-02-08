@@ -186,7 +186,7 @@ npm install "express@>=5.0.0" cors
 npm install --save-dev @types/express @types/cors
 ```
 
-### Configurar el Servidor en `src/libs/server.ts`
+### Configurar el Servidor en src/libs/server.ts
 Crea el archivo `src/libs/server.ts` y agrega el siguiente código:
 
 ```typescript
@@ -201,7 +201,7 @@ app.use(express.json());
 
 // Rutas
 app.get("/api/health-check", (_req, res) => {
-  res.json({ status: "ready" });
+  res.json({ status: "ready", uptime: process.uptime() });
 });
 
 // Exportar el servidor para usarlo en index.ts
@@ -217,7 +217,7 @@ import { app } from "./libs/server";
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-  console.log(`✅ Server running at http://localhost:${PORT}`);
+  console.log(`🚀 Server running at http://localhost:${PORT}/api/health-check`);
 });
 ```
 
@@ -237,7 +237,7 @@ curl http://localhost:3000/api/health-check
 Deberías recibir esta respuesta:
 
 ```json
-{ "status": "ready" }
+{ "status": "ready", "uptime": 0.123 }
 ```
 
 ¡Felicidades! Has creado tu primer endpoint en Express. Ahora, puedes avanzar al siguiente paso para implementar más funcionalidades en tu API.
