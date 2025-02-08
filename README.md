@@ -40,3 +40,42 @@ Las contribuciones son bienvenidas. Si deseas mejorar este proyecto, por favor, 
 
 ### Licencia
 Este proyecto está bajo la Licencia MIT. Consulta el archivo LICENSE para más detalles.
+
+## Paso 1: Fork del repositorio [api-stock](https://github.com/galiprandi/api-stock)
+
+> 📚 ¿Que es un fork? Un fork es una copia de un repositorio que se crea en tu cuenta de GitHub. Permite que puedas hacer cambios en el proyecto original sin afectar el repositorio principal. Los forks son útiles cuando deseas contribuir a un proyecto de código abierto, ya que puedes trabajar en tus propias modificaciones y luego proponer que se integren en el proyecto original mediante un pull request.
+
+### Verificar que tengas una cuenta en GitHub
+
+Si no tienes una cuenta en GitHub, [regístrate en GitHub](https://github.com/join).
+Si ya tienes una cuenta, asegúrate de haber iniciado sesión.
+
+### Instalar y configurar Git y GitHub CLI
+Instalar Git:
+
+Sigue las instrucciones en la [página oficial de Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
+Instalar GitHub CLI (gh):
+
+Sigue las instrucciones en la [página oficial de GitHub CLI](https://cli.github.com/).
+Configurar Git:
+
+Configura tu nombre de usuario y correo electrónico:
+```bash
+git config --global user.name "Tu Nombre"
+git config --global user.email "tu-email@example.com"
+```
+### Hacer el fork, clonar el repo y abrirlo en VSCode
+Hacer el fork del repositorio:
+
+En tu navegador, ve al repositorio original: https://github.com/galiprandi/api-stock.
+Haz clic en el botón "Fork" en la esquina superior derecha y selecciona tu cuenta.
+Clonar el repositorio:
+
+En tu terminal, clona el repositorio forkeado:
+Cambia tu-usuario por tu nombre de usuario de GitHub.
+Abrir el proyecto en VSCode:
+
+Navega al directorio del proyecto clonado:
+Abre el proyecto en VSCode:
+
+Con estos pasos, habrás completado la configuración inicial y estarás listo para comenzar a trabajar en el proyecto.
