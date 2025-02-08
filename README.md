@@ -85,6 +85,7 @@ Con estos pasos, habrás completado la configuración inicial y estarás listo p
 Primero, necesitamos inicializar TypeScript en nuestro proyecto. Abre tu terminal y ejecuta el siguiente comando:
 
 ```bash
+npm i -D typescript
 npx tsc --init
 ```
 
