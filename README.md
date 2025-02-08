@@ -325,3 +325,117 @@ Si aún tienes ganas de explorar más en profundidad, puedes visitar los siguien
 - [Intercambio de recursos de origen cruzado (CORS)](https://developer.mozilla.org/es/docs/Web/HTTP/CORS)
 - [Supertest](https://github.com/ladjs/supertest)
 - [API REST](https://es.wikipedia.org/wiki/Transferencia_de_Estado_Representacional)
+
+## Paso 5: Ruta /api/products
+
+En este paso, vamos a implementar una ruta que devuelva una lista mockeada de productos. Esta ruta será accesible a través de /api/products con el método GET y devolverá una lista de productos en formato JSON.
+
+### Crear un Mock de Productos
+
+Crea un archivo `src/data/products.ts` y agrega el siguiente código:
+
+```typescript
+export const products = [
+    { id: 1, title: "Laptop", brand: "Apple", category: "Electronics", price: 1299.99, stock: 10 },
+    { id: 2, title: "Smartphone", brand: "Samsung", category: "Electronics", price: 899.99, stock: 20 },
+    { id: 3, title: "Tablet", brand: "Amazon", category: "Electronics", price: 299.99, stock: 5 },
+    { id: 4, title: "Smartwatch", brand: "Fitbit", category: "Electronics", price: 199.99, stock: 15 },
+    { id: 5, title: "Headphones", brand: "Sony", category: "Electronics", price: 99.99, stock: 30 },
+    { id: 6, title: "Backpack", brand: "North Face", category: "Fashion", price: 79.99, stock: 25 },
+    { id: 7, title: "Sneakers", brand: "Nike", category: "Fashion", price: 129.99, stock: 40 },
+    { id: 8, title: "T-shirt", brand: "Adidas", category: "Fashion", price: 29.99, stock: 50 },
+    { id: 9, title: "Jeans", brand: "Levi's", category: "Fashion", price: 59.99, stock: 20 },
+    { id: 10, title: "Sunglasses", brand: "Ray-Ban", category: "Fashion", price: 149.99, stock: 10 }
+];
+```
+
+> 💡 Este archivo nos será de utiiidad para simular una base de datos de productos hasta que implementemos la conexión con una base de datos real.
+
+### Crear la Ruta /api/products
+
+En este punto es importante que separemos las rutas en archivos diferentes para mantener nuestro código organizado y fácil de mantener. Crea un archivo `src/routes/products.ts` y agrega el siguiente código:
+
+```typescript
+import { Router } from "express";
+import { products } from "../data/products";
+
+const router = Router();
+
+router.get("/", (_req, res) => {
+  res.json(products);
+});
+
+export { router as productsRouter };
+```
+
+### Agregar la Ruta en el Servidor
+
+Importa y usa la ruta `/api/products` en tu servidor. Edita el archivo `src/libs/server.ts` para agregar la ruta de productos:
+
+```typescript
+import express from "express";
+import cors from "cors";
+
+// Rutas
+import { productsRouter } from "../routes/products";
+
+const app = express();
+
+// Middleware
+app.use(cors());
+app.use(express.json());
+
+// Rutas
+app.get("/api/health-check", (_req, res) => {
+    res.json({ status: "ready", uptime: process.uptime() });
+});
+
+app.use("/api/products", productsRouter);
+
+// Exportar el servidor para usarlo en index.ts
+export { app };
+```
+
+### Probar la Ruta /api/products
+
+Ejecuta tu servidor con `npm run dev` y luego abre tu navegador o usa curl para probar la ruta `/api/products`:
+
+```bash
+curl http://localhost:3000/api/products
+```
+
+Deberías recibir una respuesta con la lista de productos en formato JSON.
+
+### Pruebas Automatizadas para /api/products
+
+Agrega pruebas automatizadas para la ruta `/api/products`. Crea un archivo `src/tests/products.test.ts` y agrega el siguiente código:
+
+```typescript
+import { describe, it, expect } from "vitest";
+import request from "supertest";
+import { app } from "../libs/server";
+import { products } from "../data/products";
+
+describe("GET /api/products", () => {
+  it("should return a list of products", async () => {
+    const response = await request(app).get("/api/products");
+    
+    expect(response.status).toBe(200);
+    // ⚠️ Introducimos un error intencional en la prueba
+    expect(response.body).not.toEqual(products);
+  });
+});
+```
+📚 ¿ Qué es TDD? El Desarrollo Guiado por Pruebas (TDD) es una metodología de desarrollo de software en la que las pruebas se escriben antes del código de producción. El ciclo de TDD generalmente sigue estos pasos:
+
+Escribir una prueba que falle: Escribir una prueba automatizada para una nueva funcionalidad que aún no está implementada.
+Escribir el código mínimo para pasar la prueba: Implementar el código necesario para que la prueba pase.
+Refactorizar el código: Mejorar el código asegurándose de que todas las pruebas sigan pasando.
+En este caso, hemos introducido un error intencional en la prueba para que falle. El siguiente paso es corregir el código para que la prueba pase.
+
+### Corregir la Prueba
+
+Corrige la prueba en `src/tests/products.test.ts` para que pase correctamente. Lee atentamente el código de la prueba, ejecuta las pruebas y asegúrate de que pasen correctamente. 
+
+
+
