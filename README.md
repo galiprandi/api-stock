@@ -678,6 +678,8 @@ const PORT = process.env.PORT || 3000;
 por:
 
 ```typescript
+import { config } from "./config";
+
 const { PORT } = config;
 ```
 
@@ -692,7 +694,104 @@ Y relanzar el servidor con `npm run dev` para verificar que las variables de ent
 - [ ] Deberás verificar que el servidor se inicia correctamente en el puerto especificado en el archivo `.env`.
 - [ ] Deberás verificar que el servidor y las pruebas unitarias siguen funcionando correctamente después de la implementación de las variables de entorno.
 
+## Paso 10: Introducción a la Observabilidad y Configuración de Herramientas
+
+> 📚 ¿Qué es la observabilidad? La observabilidad es la capacidad de comprender y depurar un sistema complejo a través de la recopilación y análisis de datos. En el contexto de las aplicaciones web, la observabilidad se refiere a la capacidad de monitorear y analizar el comportamiento de la aplicación en tiempo real.
+
+En este paso, vamos a introducir los conceptos básicos de observabilidad y configurar herramientas para el monitoreo y logging de nuestra API. La observabilidad es crucial para entender el comportamiento de nuestra aplicación en producción y detectar problemas antes de que afecten a los usuarios.
+
+### Instalación de Pino Logger
+
+[Pino](https://getpino.io) es una biblioteca de logging rápida y eficiente para Node.js. Vamos a instalar y configurar Pino para registrar eventos y errores en nuestra API.
+
+Ejecuta el siguiente comando en tu terminal para instalar Pino:
+
+```bash
+npm install pino pino-pretty pino-http
+```
+
+### Configuración de Pino Logger
+
+Crea un archivo `src/libs/logger.ts` para configurar Pino y exportar un logger personalizado:
+
+```typescript
+import pino from 'pino';
+import { config } from '../config';
+
+const { ENV } = config
+
+export const logger = pino({
+  transport: {
+    target: 'pino-pretty',
+    options: {
+      colorize: true
+    }
+  },
+  level: ENV === 'production' ? 'info' : 'debug',
+});
+```
+
+Luego, integra Pino en tu servidor Express. Edita el archivo `src/libs/server.ts` para usar Pino como un nuevo middleware de Express, recuerda importar el `logger` que acabas de crear:
+
+```typescript
+app.use(pinoHttp({ logger }));
+```
+
+### Instalación de Datadog para Monitoreo
+
+[Datadog](https://www.datadoghq.com/) es una plataforma de monitoreo y análisis que ofrece un plan gratuito adecuado para proyectos pequeños. Vamos a configurar Datadog para monitorear nuestra API.
 
 
+### Registro en Datadog
 
+1. Regístrate en [Datadog](https://www.datadoghq.com/).
+2. Crea una nueva API key desde el panel de configuración.
 
+### Instalación del Agente de Datadog
+
+Ejecuta el siguiente comando para instalar el cliente de Datadog para Node.js:
+
+```bash
+npm install dd-trace
+```
+
+### Configuración del Agente de Datadog
+
+Crea un archivo `src/libs/datadog.ts` y agrega el siguiente código para configurar Datadog:
+
+```typescript
+import tracer from 'dd-trace';
+
+tracer.init({
+  service: 'api-stock',
+  env: process.env.NODE_ENV || 'development',
+  logInjection: true,
+});
+
+export { tracer };
+```
+
+Luego, importa y usa Datadog en tu servidor. Edita el archivo src/index.ts para inicializar Datadog antes de iniciar el servidor:
+
+```typescript
+import { tracer } from './libs/datadog';
+import { app } from './libs/server';
+
+// ... Código anterior
+```
+
+Ahora solo resta lanzar nuevamente tu servidor con `npm run dev` y verificar que el logging y la integración con Datadog funcionen correctamente.
+
+### Criterios de Aceptación del Paso 10
+
+- [ ] Deberás instalar la librería `pino` para el logging y configurarla en tu proyecto.
+- [ ] Deberás instalar la librería `dd-trace` para la integración con Datadog.
+- [ ] Deberás crear un archivo `src/libs/logger.ts` para configurar Pino y exportar un logger personalizado.
+- [ ] Deberás integrar Pino en tu servidor Express como un middleware.
+- [ ] Deberás crear un archivo `src/libs/datadog.ts` para configurar Datadog y exportar el agente.
+- [ ] Deberás importar y usar Datadog en tu servidor antes de iniciar la aplicación.
+- [ ] Deberás verificar que el logging y la integración con Datadog funcionen correctamente en tu aplicación.
+
+## 🎉 ¡Felicitaciones!
+
+Haz hecho avances muy impresionanes en tu proyecto, y mejorado la infraestructura de tu API con herramientas de observabilidad y monitoreo que son claves para escalar y mantener aplicaciones en producción. ¡Sigue así!
