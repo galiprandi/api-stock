@@ -216,3 +216,67 @@ Deberías recibir esta respuesta:
 ```
 
 ¡Felicidades! Has creado tu primer endpoint en Express. Ahora, puedes avanzar al siguiente paso para implementar más funcionalidades en tu API.
+
+## Paso 4: Paso 4: Agregar Pruebas para /api/health-check
+
+> 📚 ¿Qué son las pruebas unitarias? Las pruebas unitarias son pruebas automatizadas que verifican que una unidad de código (como una función o un módulo) funcione correctamente. Estas pruebas se centran en probar partes específicas del código para garantizar que se comporten como se espera.
+
+En este paso, agregaremos pruebas automatizadas para verificar que el endpoint /api/health-check responde correctamente.
+
+### Instalar Dependencias
+Primero, necesitamos instalar Vitest y Supertest para realizar pruebas automatizadas. Ejecuta el siguiente comando en tu terminal:
+
+```bash
+npm install --save-dev vitest supertest @types/supertest
+```
+
+### Crear el Archivo de Pruebas
+
+
+> 📌 Todos los archivos de pruebas unitarias estarán alojados en la carpeta `src/tests/` lo que facilita su organización y mantenimiento.
+
+Crea el archivo `src/tests/health-check.test.ts` y agrega el siguiente código:
+
+```typescript
+import { describe, it, expect } from "vitest";
+import request from "supertest";
+import { app } from "../libs/server";
+
+describe("GET /api/health-check", () => {
+  it("should return { status: 'ready' }", async () => {
+    const response = await request(app).get("/api/health-check");
+    
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual({ status: "ready" });
+  });
+});
+```
+
+### Agregar el Script de Pruebas en `package.json`
+
+Agrega el siguiente script en la sección "scripts" de tu archivo `package.json`:
+
+```json
+{
+  "scripts": {
+    "test": "vitest"
+  }
+}
+```
+
+### Ejecutar las Pruebas
+
+Ejecuta el siguiente comando en tu terminal para ejecutar las pruebas:
+
+```bash
+npm test
+```
+
+Deberías ver una salida similar a esta:
+
+```bash
+ PASS  src/tests/health-check.test.ts
+  ✓ should return { status: 'ready' } (50 ms)
+```
+
+ ¡Listo! Ahora tienes pruebas automatizadas para validar que el endpoint /api/health-check funciona correctamente. 🚀
