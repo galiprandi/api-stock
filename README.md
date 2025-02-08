@@ -467,6 +467,8 @@ Corrige la prueba en `src/tests/products.get.test.ts` para que pase correctament
 
 Haz avanzado mucho y ya tiene la estructura básica de tu API REST y los conocimientos necesarios para agregar nuevas rutas y funcionalidades. A partir de ahora las intrucciones serán menos precisas y tendrás que investigar y probar por tu cuenta. Las proximas tareas serán más parecidas a requeriemientos de un cliente y tendrás que implementarlos por tu cuenta, pero siempre especificaremos los criterios de aceptación que deberás cumplir.
 
+> 💡 Recuerda apoyarte en las sugerencias de GitHub Copilot a partir de ahora, será tu compañero y te facilitará el aprendizaje y las tareas repetitivas. Para más información, consulta la [documentación oficial de GitHub Copilot](https://docs.github.com/en/copilot/quickstart?tool=visualstudio).
+
 ## Paso 6: Implementar un Endpoint para Crear Productos
 
 En este paso, vamos a implementar un endpoint POST /api/products que permita crear un nuevo producto. El endpoint recibirá los datos del producto en el cuerpo de la solicitud y devolverá el producto creado con un ID único.
