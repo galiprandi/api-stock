@@ -520,3 +520,109 @@ curl -X POST http://localhost:3000/api/products -H "Content-Type: application/js
 - [ ] El producto creado deberá ser agregado al array de productos.
 - [ ] El endpoint GET /api/products deberá devolver la lista de productos con el nuevo producto creado.
 - [ ] Deberás agregar pruebas automatizadas para el endpoint POST /api/products.
+
+## Paso 7: Implementar un Endpoint para Actualizar Productos
+
+> 📚 ¿Qué significa CRUD? CRUD es un acrónimo que significa Crear, Leer, Actualizar y Eliminar. Se utiliza para describir las cuatro operaciones básicas que se pueden realizar en una base de datos o en una API REST.
+
+En este paso, vamos a implementar un endpoint PUT /api/products/:id que permita actualizar un producto existente. El endpoint recibirá el ID del producto a actualizar en la URL y los nuevos datos del producto en el cuerpo de la solicitud.
+
+Los pasos a seguir son los siguientes:
+1. Crear la ruta PUT /api/products/:id en el archivo `src/routes/products.ts`.
+2. Recuperar el ID del producto a actualizar de los parámetros de la URL.
+3. Recuperar los nuevos datos del producto del cuerpo de la solicitud.
+4. Buscar el producto con el ID proporcionado en el array de productos.
+5. Actualizar los datos del producto con los nuevos datos proporcionados.
+6. Devolver el producto actualizado con el código de estado 200 (OK).
+7. Verificar que el GET /api/products devuelva las lista de productos con el producto actualizado.
+8. Agregar pruebas automatizadas para el endpoint PUT /api/products/:id.
+
+Comencemos creando primero las pruebas unitarias, crea el archivo `src/tests/products.put.test.ts` y agrega el siguiente código:
+
+```typescript
+import { describe, it, expect } from "vitest";
+import request from "supertest";
+import { app } from "../libs/server";
+import { products } from "../data/products";
+
+describe("PUT /api/products/:id", () => {
+  it("should update an existing product", async () => {
+    const productId = 1;
+    const updatedProduct = {
+      title: "Updated Laptop",
+      brand: "Apple",
+      category: "Electronics",
+      price: 1499.99,
+      stock: 5
+    };
+
+    const response = await request(app)
+      .put(`/api/products/${productId}`)
+      .send(updatedProduct);
+
+    expect(response.status).toBe(200);
+    expect(response.body).toMatchObject(updatedProduct);
+  });
+});
+```
+
+Una vez que hayan implementado el endpoint PUT /api/products/:id y las pruebas unitarias unitarias pasen correctamente, prueba manualmente actualizando un producto usando el siguiente curl:
+
+```bash
+# Curl para actualizar un producto
+curl -X PUT http://localhost:3000/api/products/1 -H "Content-Type: application/json" -d '{"title": "Updated Laptop", "brand": "Apple", "category": "Electronics", "price": 1499.99, "stock": 5}'
+```
+
+### Criterios de Aceptación del Paso 7
+- [ ] Deberás implementar el endpoint PUT /api/products/:id en el archivo src/routes/products.ts.
+- [ ] El endpoint deberá recibir el ID del producto a actualizar en los parámetros de la URL.
+- [ ] El endpoint deberá recibir los nuevos datos del producto en el cuerpo de la solicitud.
+- [ ] El producto actualizado deberá ser devuelto con el código de estado 200 (OK).
+- [ ] Deberás agregar pruebas automatizadas para el endpoint PUT /api/products/:id.
+
+## Paso 8: Implementar un Endpoint para Eliminar Productos
+
+En este paso, vamos a implementar un endpoint DELETE /api/products/:id que permita eliminar un producto existente. El endpoint recibirá el ID del producto a eliminar en la URL.
+
+Los pasos a seguir son los siguientes:
+1. Crear la ruta DELETE /api/products/:id en el archivo `src/routes/products.ts`.
+2. Recuperar el ID del producto a eliminar de los parámetros de la URL.
+3. Buscar el producto con el ID proporcionado en el array de productos.
+4. Eliminar el producto del array de productos.
+5. Devolver el producto eliminado con el código de estado 200 (OK).
+6. Verificar que el GET /api/products devuelva las lista de productos sin el producto eliminado.
+7. Agregar pruebas automatizadas para el endpoint DELETE /api/products/:id.
+
+Comencemos creando primero las pruebas unitarias, crea el archivo `src/tests/products.delete.test.ts` y agrega el siguiente código:
+
+```typescript
+import { describe, it, expect } from "vitest";
+import request from "supertest";
+import { app } from "../libs/server";
+import { products } from "../data/products";
+
+describe("DELETE /api/products/:id", () => {
+  it("should delete an existing product", async () => {
+    const productId = 1;
+    const response = await request(app).delete(`/api/products/${productId}`);
+
+    expect(response.status).toBe(200);
+    expect(products.some(product => product.id === productId)).toBe(false);
+  });
+});
+```
+
+Una vez que hayan implementado el endpoint DELETE /api/products/:id y las pruebas unitarias unitarias pasen correctamente, prueba manualmente eliminando un producto usando el siguiente curl:
+
+```bash
+# Curl para eliminar un producto
+curl -X DELETE http://localhost:3000/api/products/1
+```
+
+### Criterios de Aceptación del Paso 8
+- [ ] Deberás implementar el endpoint DELETE /api/products/:id en el archivo src/routes/products.ts.
+- [ ] El endpoint deberá recibir el ID del producto a eliminar en los parámetros de la URL.
+- [ ] El producto eliminado deberá ser devuelto con el código de estado 200 (OK).
+- [ ] El producto eliminado deberá ser removido del array de productos.
+- [ ] Deberás agregar pruebas automatizadas para el endpoint DELETE /api/products/:id.
+
