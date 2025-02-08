@@ -454,35 +454,42 @@ Los pasos a seguir son los siguientes:
 6. Verifica que el GET /api/products devuelva las lista de productos con el nuevo producto creado.
 7. Agregar pruebas automatizadas para el endpoint POST /api/products.
 
+
+Comencemos creando primero las pruebas unitarias, crea el archivo `src/tests/products.post.test.ts` y agrega el siguiente código:
+
+```typescript
+import { describe, it, expect } from "vitest";
+import request from "supertest";
+import { app } from "../libs/server";
+
+describe("POST /api/products", () => {
+    it("should create a new product", async () => {
+      const newProduct = {
+        title: "Smart Speaker",
+        brand: "Google",
+        category: "Electronics",
+        price: 99.99,
+        stock: 15
+      };
+  
+      const response = await request(app)
+        .post("/api/products")
+        .send(newProduct);
+  
+      expect(response.status).toBe(201);
+      expect(response.body).toMatchObject(newProduct);
+    });
+  });
+```
+
+Una vez que hayan implementado el endpoint POST /api/products y las pruebas unitarias unitarias pasen correctamente, prueba manualmente crea un nuevo producto usando el siguiente curl:
+
 ```bash
 # Curl para crear un nuevo producto
 curl -X POST http://localhost:3000/api/products -H "Content-Type: application/json" -d '{"title": "Smart Speaker", "brand": "Google", "category": "Electronics", "price": 99.99, "stock": 15}'
 ```
 
-```typescript
-// Prueba unitaria para el endpoint POST /api/products
-// Crea el archivo src/tests/products.post.test.ts y agrega el siguiente código:
-
-describe("POST /api/products", () => {
-  it("should create a new product", async () => {
-    const newProduct = {
-      title: "Smart Speaker",
-      brand: "Google",
-      category: "Electronics",
-      price: 99.99,
-      stock: 15
-    };
-
-    const response = await request(app)
-      .post("/api/products")
-      .send(newProduct);
-
-    expect(response.status).toBe(201);
-    expect(response.body).toMatchObject(newProduct);
-  });
-});
-```
-### Criterios de Aceptación
+### Criterios de Aceptación del Paso 6
 - [ ] Deberás implementar el endpoint POST /api/products en el archivo src/routes/products.ts.
 - [ ] El endpoint deberá recibir los datos del producto a crear en el cuerpo de la solicitud.
 - [ ] El endpoint deberá devolver el producto creado con un ID único y el código de estado 201 (Created).
