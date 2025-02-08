@@ -79,3 +79,73 @@ Navega al directorio del proyecto clonado:
 Abre el proyecto en VSCode:
 
 Con estos pasos, habrás completado la configuración inicial y estarás listo para comenzar a trabajar en el proyecto.
+
+## Paso 2: Configuremos nuestro proyecto
+
+Primero, necesitamos inicializar TypeScript en nuestro proyecto. Abre tu terminal y ejecuta el siguiente comando:
+
+```bash
+npx tsc --init
+```
+
+Esto creará un archivo tsconfig.json en tu proyecto. A continuación, te muestro un ejemplo de un archivo tsconfig.json optimizado para una aplicación Node.js:
+
+```json
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "commonjs",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "resolveJsonModule": true,
+    "sourceMap": true
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules"]
+}
+```
+
+Este archivo de configuración establece varias opciones importantes para un proyecto Node.js, como el objetivo de compilación (target), el sistema de módulos (module), y los directorios de salida y raíz (outDir y rootDir).
+
+Para más detalles sobre las opciones de configuración de TypeScript, te recomiendo leer la [cheat sheet de tsconfig](https://www.totaltypescript.com/tsconfig-cheat-sheet).
+
+### Scripts del package.json
+Ahora, vamos a agregar algunos scripts útiles en nuestro archivo package.json. Abre el archivo package.json y agrega los siguientes scripts en la sección "scripts":
+
+```json
+{
+  "scripts": {
+    "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js"
+  }
+}
+```
+
+- `npm run dev`: Este script utiliza ts-node-dev para ejecutar tu aplicación en modo de desarrollo, permitiendo recargas automáticas cuando cambias el código.
+
+- `npm run build`: Este script compila tu código TypeScript en JavaScript, colocando los archivos compilados en el directorio dist.
+
+- `npm run start`: Este script ejecuta la versión compilada de tu aplicación desde el directorio dist.
+
+Con estos scripts, estarás listo para desarrollar, compilar y ejecutar tu aplicación Node.js con TypeScript.
+
+### Hello World en consola
+
+Para verificar que todo está configurado correctamente, vamos a crear un simple "Hello World" en la consola. Crea un archivo src/index.ts con el siguiente contenido:
+
+```typescript
+console.log("Hello, World!");
+```
+
+Ahora, ejecuta el siguiente comando en tu terminal:
+
+```bash
+npm run dev
+```
+
+Deberías ver el mensaje "Hello, World!" impreso en la consola. Si ves este mensaje, ¡tu configuración de TypeScript está lista y funcionando! Ahora, puedes avanzar al siguiente paso.
