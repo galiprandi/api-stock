@@ -8,7 +8,9 @@ Este proyecto está estructurado como una guía práctica de aprendizaje. Al seg
 
 ### Herramientas Necesarias
 - [Visual Studio Code](https://code.visualstudio.com/) (Editor de código recomendado)
+- [Github Copilot](https://copilot.github.com/) (como asistente de código)
 - [GitHub](https://github.com/) (para control de versiones)
+- [Github cli](https://cli.github.com/) (para manejar repositorios desde la terminal)
 - [ChatGPT](https://chat.openai.com/) (como asistente de aprendizaje)
 - [Node.js y npm](https://nodejs.org/) (para ejecutar y construir la aplicación)
 
