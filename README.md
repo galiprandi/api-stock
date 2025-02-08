@@ -182,11 +182,11 @@ En este paso, vamos a instalar Express y CORS, y crearemos un endpoint /api/heal
 Ejecuta el siguiente comando en tu terminal para instalar Express y CORS:
 
 ```bash
-npm install express cors
+npm install "express@>=5.0.0" cors
 npm install --save-dev @types/express @types/cors
 ```
 
-### Configurar el Servidor en src/libs/server.ts
+### Configurar el Servidor en `src/libs/server.ts`
 Crea el archivo `src/libs/server.ts` y agrega el siguiente código:
 
 ```typescript
