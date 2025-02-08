@@ -7,10 +7,10 @@ Este es un repositorio educativo diseñado para aprender paso a paso cómo const
 Este proyecto está estructurado como una guía práctica de aprendizaje. Al seguir las instrucciones paso a paso, aprenderás a construir una API profesional mientras aplicas las mejores prácticas de desarrollo moderno. El objetivo es proporcionarte las habilidades necesarias para convertirte en un desarrollador backend moderno y competente.
 
 ### Herramientas Necesarias
-- [Visual Studio Code](https://code.visualstudio.com/)
+- [Visual Studio Code](https://code.visualstudio.com/) (Editor de código recomendado)
 - [GitHub](https://github.com/) (para control de versiones)
 - [ChatGPT](https://chat.openai.com/) (como asistente de aprendizaje)
-- [Node.js y npm](https://nodejs.org/)
+- [Node.js y npm](https://nodejs.org/) (para ejecutar y construir la aplicación)
 
 ### Lo que Aprenderás
 - Configuración de un proyecto TypeScript moderno
@@ -37,6 +37,9 @@ Este repositorio está dirigido a desarrolladores que desean mejorar sus habilid
 
 ### Contribuciones
 Las contribuciones son bienvenidas. Si deseas mejorar este proyecto, por favor, abre un issue o envía un pull request con tus sugerencias y mejoras.
+
+### Autor
+Este proyecto fue creado por [Germán Aliprandi](mailto:galiprandi@gmail.com) y te inito a contactarme si tienes alguna pregunta o sugerencia.
 
 ### Licencia
 Este proyecto está bajo la Licencia MIT. Consulta el archivo LICENSE para más detalles.
