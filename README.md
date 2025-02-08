@@ -89,7 +89,7 @@ npm i -D typescript
 npx tsc --init
 ```
 
-Esto creará un archivo tsconfig.json en tu proyecto. A continuación, te muestro un ejemplo de un archivo tsconfig.json optimizado para una aplicación Node.js:
+Esto creará un archivo tsconfig.json en tu proyecto. A continuación, te muestro un ejemplo de un archivo tsconfig.json optimizado para una aplicación Node.js, reemplaza el contenido de tu archivo tsconfig.json con el siguiente código:
 
 ```json
 {
@@ -115,7 +115,7 @@ Este archivo de configuración establece varias opciones importantes para un pro
 Para más detalles sobre las opciones de configuración de TypeScript, te recomiendo leer la [cheat sheet de tsconfig](https://www.totaltypescript.com/tsconfig-cheat-sheet).
 
 ### Scripts del package.json
-Ahora, vamos a agregar algunos scripts útiles en nuestro archivo package.json. Abre el archivo package.json y agrega los siguientes scripts en la sección "scripts":
+Ahora, vamos a agregar algunos scripts útiles en nuestro archivo `package.json`. Abre el archivo package.json y agrega los siguientes scripts en la sección "scripts":
 
 ```json
 {
@@ -135,9 +135,16 @@ Ahora, vamos a agregar algunos scripts útiles en nuestro archivo package.json. 
 
 Con estos scripts, estarás listo para desarrollar, compilar y ejecutar tu aplicación Node.js con TypeScript.
 
+### Instalemos `ts-node-dev` y `@types/node`
+Para poder ejecutar nuestra aplicación en modo de desarrollo, necesitamos instalar `ts-node-dev` y `@types/node`. Ejecuta el siguiente comando en tu terminal:
+
+```bash
+npm install -D ts-node-dev @types/node
+```
+
 ### Hello World en consola
 
-Para verificar que todo está configurado correctamente, vamos a crear un simple "Hello World" en la consola. Crea un archivo src/index.ts con el siguiente contenido:
+Para verificar que todo está configurado correctamente, vamos a crear un simple "Hello World" en la consola. Crea un archivo `src/index.ts` con el siguiente contenido:
 
 ```typescript
 console.log("Hello, World!");
@@ -150,6 +157,23 @@ npm run dev
 ```
 
 Deberías ver el mensaje "Hello, World!" impreso en la consola. Si ves este mensaje, ¡tu configuración de TypeScript está lista y funcionando! Ahora, puedes avanzar al siguiente paso.
+
+```bash 
+# Salida esperada
+[INFO] 01:00:00 ts-node-dev ver. 2.0.0 (using ts-node ver. 10.9.2, typescript ver. 5.7.3)
+Hello, World!
+```
+
+### Probando el hot-reloading
+Para probar el hot-reloading, modifica el mensaje en `src/index.ts` por "Hello, TypeScript!" y guarda el archivo. Deberías ver que el servidor se reinicia automáticamente y muestra el nuevo mensaje en la consola.
+
+```bash
+# Salida esperada
+[INFO] 01:00:00 ts-node-dev ver. 2.0.0 (using ts-node ver. 10.9.2, typescript ver. 5.7.3)
+Hello, TypeScript!
+```
+
+¡Excelente! Has configurado correctamente tu proyecto con TypeScript y ts-node-dev. Ahora, puedes avanzar al siguiente paso para configurar un servidor Express.
 
 ## Paso 3: Configuración del Servidor Express y primer endpoint
 En este paso, vamos a instalar Express y CORS, y crearemos un endpoint /api/health-check que devolverá { status: "ready" }.
