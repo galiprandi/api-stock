@@ -54,7 +54,6 @@ Si no tienes una cuenta en GitHub, [regístrate en GitHub](https://github.com/jo
 Si ya tienes una cuenta, asegúrate de haber iniciado sesión.
 
 ### Instalar y configurar Git y GitHub CLI
-Instalar Git:
 
 Sigue las instrucciones en la [página oficial de Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
 Instalar GitHub CLI (gh):
@@ -68,7 +67,6 @@ git config --global user.name "Tu Nombre"
 git config --global user.email "tu-email@example.com"
 ```
 ### Hacer el fork, clonar el repo y abrirlo en VSCode
-Hacer el fork del repositorio:
 
 En tu navegador, ve al repositorio original: https://github.com/galiprandi/api-stock.
 Haz clic en el botón "Fork" en la esquina superior derecha y selecciona tu cuenta.
@@ -88,11 +86,11 @@ Con estos pasos, habrás completado la configuración inicial y estarás listo p
 Primero, necesitamos inicializar TypeScript en nuestro proyecto. Abre tu terminal y ejecuta el siguiente comando:
 
 ```bash
-npm i -D typescript
-npx tsc --init
+npm i -D typescript # Instalar TypeScript como dependencia de desarrollo
+npx tsc --init # Inicializar un archivo de configuración de TypeScript
 ```
 
-Esto creará un archivo tsconfig.json en tu proyecto. A continuación, te muestro un ejemplo de un archivo tsconfig.json optimizado para una aplicación Node.js, reemplaza el contenido de tu archivo tsconfig.json con el siguiente código:
+Esto creará un archivo `tsconfig.json` en tu proyecto. A continuación, te muestro un ejemplo de un archivo `tsconfig.json` optimizado para una aplicación Node.js, reemplaza el contenido de tu archivo tsconfig.json con el siguiente código:
 
 ```json
 {
@@ -138,16 +136,20 @@ Ahora, vamos a agregar algunos scripts útiles en nuestro archivo `package.json`
 
 Con estos scripts, estarás listo para desarrollar, compilar y ejecutar tu aplicación Node.js con TypeScript.
 
-### Instalemos `ts-node-dev` y `@types/node`
+### Instalemos dependencias de desarrollo
 Para poder ejecutar nuestra aplicación en modo de desarrollo, necesitamos instalar `ts-node-dev` y `@types/node`. Ejecuta el siguiente comando en tu terminal:
+
+> 📚 ¿Qué es ts-node-dev? ts-node-dev es una herramienta que permite ejecutar archivos TypeScript directamente en Node.js con recarga automática. Es una excelente herramienta para el desarrollo de aplicaciones Node.js con TypeScript.
+
+> 📚 ¿Cuales son las diferencias entre dependencias de desarrollo y de producción? Las dependencias de desarrollo son aquellas que solo se necesitan durante el proceso de desarrollo, como herramientas de prueba y compiladores. Las dependencias de producción son aquellas que se necesitan para que la aplicación funcione en un entorno de producción, como bibliotecas y frameworks necesarios para la ejecución del código.
 
 ```bash
 npm install -D ts-node-dev @types/node
 ```
 
-### Hello World en consola
+### Hello World!
 
-Para verificar que todo está configurado correctamente, vamos a crear un simple "Hello World" en la consola. Crea un archivo `src/index.ts` con el siguiente contenido:
+Para verificar que todo está configurado correctamente, vamos a crear un simple "Hello World!" en la consola. Crea un archivo `src/index.ts` con el siguiente contenido:
 
 ```typescript
 console.log("Hello, World!");
@@ -170,6 +172,8 @@ Hello, World!
 ### Probando el hot-reloading
 Para probar el hot-reloading, modifica el mensaje en `src/index.ts` por "Hello, TypeScript!" y guarda el archivo. Deberías ver que el servidor se reinicia automáticamente y muestra el nuevo mensaje en la consola.
 
+> 📚 ¿Qué es hot-reloading? Hot-reloading es una técnica que permite recargar automáticamente la aplicación cuando se detectan cambios en el código fuente. Es una característica muy útil para el desarrollo de aplicaciones, ya que permite ver los cambios en tiempo real sin tener que reiniciar manualmente el servidor.
+
 ```bash
 # Salida esperada
 [INFO] 01:00:00 ts-node-dev ver. 2.0.0 (using ts-node ver. 10.9.2, typescript ver. 5.7.3)
@@ -179,17 +183,21 @@ Hello, TypeScript!
 ¡Excelente! Has configurado correctamente tu proyecto con TypeScript y ts-node-dev. Ahora, puedes avanzar al siguiente paso para configurar un servidor Express.
 
 ## Paso 3: Configuración del Servidor Express y primer endpoint
-En este paso, vamos a instalar Express y CORS, y crearemos un endpoint /api/health-check que devolverá { status: "ready" }.
+En este paso, vamos a instalar Express y CORS, y crearemos un endpoint /api/health-check que devolverá `status: "ready"`.
+
+> 📚 ¿Qué función tiene este endpoint? Este tipo de endpoints son comunes en las aplicaciones web y sirven para verificar si el servidor está en funcionamiento y listo para recibir solicitudes. Proporciona una forma sencilla de comprobar el estado del servidor y la conexión a la base de datos.
 
 ### Instalar Dependencias
 Ejecuta el siguiente comando en tu terminal para instalar Express y CORS:
 
 ```bash
-npm install "express@>=5.0.0" cors
-npm install --save-dev @types/express @types/cors
+# Instalar Express y CORS
+npm install "express@>=5.0.0" cors 
+# Instalar tipos de TypeScript para Express y CORS
+npm install -D @types/express @types/cors 
 ```
 
-### Configurar el Servidor en src/libs/server.ts
+### Configurar el Servidor
 Crea el archivo `src/libs/server.ts` y agrega el siguiente código:
 
 ```typescript
@@ -211,7 +219,9 @@ app.get("/api/health-check", (_req, res) => {
 export { app };
 ```
 
-### Inicializar el Servidor en src/index.ts
+> 📚 ¿Qué es un middleware? En Express, un middleware es una función que tiene acceso al objeto de solicitud (req), al objeto de respuesta (res) y a la siguiente función de middleware en el ciclo de solicitud-respuesta. Los middlewares se utilizan para realizar tareas como el registro de solicitudes, la validación de datos, la autenticación de usuarios, etc.
+
+### Inicializar el Servidor
 Edita `src/index.ts` para importar e iniciar el servidor:
 
 ```typescript
@@ -243,27 +253,37 @@ Deberías recibir esta respuesta:
 { "status": "ready", "uptime": 0.123 }
 ```
 
-¡Felicidades! Has creado tu primer endpoint en Express. Ahora, puedes avanzar al siguiente paso para implementar más funcionalidades en tu API.
+> 📚 ¿Qué es curl? curl es una herramienta de línea de comandos que permite transferir datos con URL sintácticas. Es una herramienta muy practica para realizar solicitudes HTTP desde la terminal.
 
-## Paso 4: Agregar Pruebas para /api/health-check
+### Criterios de Aceptación del Paso 3
+- [ ] Deberás instalar Express y CORS en tu proyecto.
+- [ ] Deberás crear un servidor Express en el archivo `src/libs/server.ts`.
+- [ ] El servidor deberá tener un endpoint GET `/api/health-check` que devuelva `{ status: 'ready' }`.
+- [ ] Deberás inicializar el servidor en el archivo `src/index.ts` y escuchar en el puerto 3000.
+- [ ] Deberás probar el servidor y verificar que el endpoint `/api/health-check` responda correctamente.
+
+ ## 🎉 ¡Felicitaciones!
+
+Has creado tu primer endpoint en Express. Ahora, puedes avanzar al siguiente paso para implementar más funcionalidades en tu API.
+
+## Paso 4: Agregar Pruebas Unitarias
 
 > 📚 ¿Qué son las pruebas unitarias? Las pruebas unitarias son pruebas automatizadas que verifican que una unidad de código (como una función o un módulo) funcione correctamente. Estas pruebas se centran en probar partes específicas del código para garantizar que se comporten como se espera.
 
 En este paso, agregaremos pruebas automatizadas para verificar que el endpoint /api/health-check responde correctamente.
 
-### Instalar Dependencias
+### Instalar Dependencias necesarias
 Primero, necesitamos instalar Vitest y Supertest para realizar pruebas automatizadas. Ejecuta el siguiente comando en tu terminal:
 
 ```bash
-npm install --save-dev vitest supertest @types/supertest
+npm install -D vitest supertest @types/supertest
 ```
 
 ### Crear el Archivo de Pruebas
 
+> 💡 Todos los archivos de pruebas unitarias estarán alojados en la carpeta `src/tests/` lo que facilita su organización y mantenimiento.
 
-> 📌 Todos los archivos de pruebas unitarias estarán alojados en la carpeta `src/tests/` lo que facilita su organización y mantenimiento.
-
-Crea el archivo `src/tests/health-check.test.ts` y agrega el siguiente código:
+Crea el archivo `src/tests/health-check.get.test.ts` y agrega el siguiente código:
 
 ```typescript
 import { describe, it, expect } from "vitest";
@@ -280,7 +300,7 @@ describe("GET /api/health-check", () => {
 });
 ```
 
-### Agregar el Script de Pruebas en `package.json`
+### Agregar el Script para lanzar las Pruebas
 
 Agrega el siguiente script en la sección "scripts" de tu archivo `package.json`:
 
@@ -303,7 +323,7 @@ npm test
 Deberías ver una salida similar a esta:
 
 ```bash
- ✓ src/tests/health-check.test.ts (1 test) 28ms
+ ✓ src/tests/health-check.get.test.ts (1 test) 28ms
    ✓ GET /api/health-check > should return { status: 'ready' }
 
  Test Files  1 passed (1)
@@ -352,7 +372,7 @@ export const products = [
 ];
 ```
 
-> 💡 Este archivo nos será de utiiidad para simular una base de datos de productos hasta que implementemos la conexión con una base de datos real.
+> 📚 ¿Qué es un mock de datos? Un mock de datos es un conjunto de datos falsos o simulados que se utilizan para pruebas o desarrollo. En este caso, hemos creado un mock de productos que se utilizará para simular una base de datos de productos hasta que implementemos la integración con Prisma y PostgreSQL.
 
 ### Crear la Ruta /api/products
 
@@ -411,7 +431,7 @@ Deberías recibir una respuesta con la lista de productos en formato JSON.
 
 ### Pruebas Automatizadas para /api/products
 
-Agrega pruebas automatizadas para la ruta `/api/products`. Crea un archivo `src/tests/products.test.ts` y agrega el siguiente código:
+Agrega pruebas automatizadas para la ruta `/api/products`. Crea un archivo `src/tests/products.get.test.ts` y agrega el siguiente código:
 
 ```typescript
 import { describe, it, expect } from "vitest";
@@ -419,26 +439,27 @@ import request from "supertest";
 import { app } from "../libs/server";
 import { products } from "../data/products";
 
+// ⚠️ Introducimos un error intencional en la prueba
 describe("GET /api/products", () => {
   it("should return a list of products", async () => {
     const response = await request(app).get("/api/products");
     
     expect(response.status).toBe(200);
-    // ⚠️ Introducimos un error intencional en la prueba
     expect(response.body).not.toEqual(products);
   });
 });
 ```
-📚 ¿ Qué es TDD? El Desarrollo Guiado por Pruebas (TDD) es una metodología de desarrollo de software en la que las pruebas se escriben antes del código de producción. El ciclo de TDD generalmente sigue estos pasos:
-
-Escribir una prueba que falle: Escribir una prueba automatizada para una nueva funcionalidad que aún no está implementada.
-Escribir el código mínimo para pasar la prueba: Implementar el código necesario para que la prueba pase.
-Refactorizar el código: Mejorar el código asegurándose de que todas las pruebas sigan pasando.
-En este caso, hemos introducido un error intencional en la prueba para que falle. El siguiente paso es corregir el código para que la prueba pase.
+> 📚 ¿Qué es TDD? El Desarrollo Guiado por Pruebas (TDD) es una metodología de desarrollo de software en la que las pruebas se escriben antes del código de producción. El ciclo de TDD generalmente sigue estos pasos:
+>
+>1. **Escribir una prueba que falle:** Crear una prueba automatizada para una nueva funcionalidad que aún no está implementada.
+>2. **Escribir el código mínimo para pasar la prueba:** Implementar el código necesario para que la prueba pase.
+>3. **Refactorizar el código:** Mejorar el código asegurándose de que todas las pruebas sigan pasando.
+>
+>En este caso, hemos introducido un error intencional en la prueba para que falle. El siguiente paso es corregir el código para que la prueba pase.
 
 ### Corregir la Prueba
 
-Corrige la prueba en `src/tests/products.test.ts` para que pase correctamente. Lee atentamente el código de la prueba, ejecuta las pruebas y asegúrate de que pasen correctamente. 
+Corrige la prueba en `src/tests/products.get.test.ts` para que pase correctamente. Lee atentamente el código de la prueba, ejecuta las pruebas y asegúrate de que pasen correctamente. 
 
  ## 🎉 ¡Felicitaciones!
 
@@ -449,7 +470,7 @@ Haz avanzado mucho y ya tiene la estructura básica de tu API REST y los conocim
 En este paso, vamos a implementar un endpoint POST /api/products que permita crear un nuevo producto. El endpoint recibirá los datos del producto en el cuerpo de la solicitud y devolverá el producto creado con un ID único.
 
 Los pasos a seguir son los siguientes:
-1. Crear la ruta POST /api/products en el archivo src/routes/products.ts.
+1. Crear la ruta POST /api/products en el archivo `src/routes/products.ts`.
 2. Recuperar del body de la solicitud los datos del producto a crear.
 3. Generar un ID único para el nuevo producto. Por ahora puedes usar la longitud del array + 1 como ID.
 4. Agregar el nuevo producto al array de productos usando el método push.
