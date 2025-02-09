@@ -720,6 +720,23 @@ Ejecuta el siguiente comando para instalar el cliente de Datadog para Node.js:
 npm install dd-trace
 ```
 
+### Agregar la Clave de API de Datadog a las Variables de Entorno
+
+Edita tu archivo `.env` y el archivo `src/config.ts` para agregar la clave de API de Datadog:
+
+```env
+PORT=3000
+DD_API_KEY=your-api-key
+```
+
+```typescript
+export const config = {
+  ENV: process.env.NODE_ENV || "development
+  PORT: process.env.PORT || 3000,
+  DD_API_KEY: process.env.DD_API_KEY || "",
+};
+```
+
 ### Configuración del Agente de Datadog
 
 Crea un archivo `src/libs/datadog.ts` y agrega el siguiente código para configurar Datadog:
@@ -728,7 +745,7 @@ Crea un archivo `src/libs/datadog.ts` y agrega el siguiente código para configu
 import tracer from 'dd-trace';
 import { config } from '../config';
 
-const { DD_API_KEY, ENV } = config;
+const { ENV } = config;
 
 tracer.init({
     service: 'api-stock',
@@ -745,7 +762,7 @@ Luego, importa y usa Datadog en tu servidor. Edita el archivo src/index.ts para 
 import { tracer } from './libs/datadog';
 import { app } from './libs/server';
 
-// ... Código anterior
+// ...Código anterior
 ```
 
 Ahora solo resta lanzar nuevamente tu servidor con `npm run dev` y verificar que el logging y la integración con Datadog funcionen correctamente.
