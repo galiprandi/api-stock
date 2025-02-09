@@ -1093,9 +1093,10 @@ Antes de comenzar con el código, necesitas hacer lo siguiente:
 
 1. Crea un archivo `.gitignore` en la raíz de tu proyecto y agregues las siguientes líneas:
 
-```bash
+```gitignore
 .env
 node_modules
+dist
 ```
 
 > ⚠️ IMPORTANTE: Esto evitará que el archivo `.env`, con las variables de entorno sensibles, se suba al repositorio.
