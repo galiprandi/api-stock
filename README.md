@@ -232,7 +232,7 @@ import { app } from "./libs/server";
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-  console.log(`🚀 Server running at http://localhost:${PORT}/api/health-check`);
+  console.log(`🚀 Server is up and running! Access it at: http://localhost:${PORT}/api/health-check`);
 });
 ```
 
