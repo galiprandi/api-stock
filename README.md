@@ -306,8 +306,7 @@ En este paso, agregaremos pruebas automatizadas para verificar que el endpoint /
 Primero, necesitamos instalar Vitest y Supertest para realizar pruebas automatizadas. Ejecuta el siguiente comando en tu terminal:
 
 ```bash
-npm install supertest
-npm install -D vitest @types/supertest
+npm install -D vitest supertest @types/supertest
 ```
 
 ### Crear el Archivo de Pruebas
@@ -750,7 +749,7 @@ DD_API_KEY=your-api-key
 
 ```typescript
 export const config = {
-  ENV: process.env.NODE_ENV || "development"
+  ENV: process.env.NODE_ENV || "development",
   PORT: process.env.PORT || 3000,
   DD_API_KEY: process.env.DD_API_KEY || "",
 };
@@ -798,4 +797,4 @@ Ahora solo resta lanzar nuevamente tu servidor con `npm run dev` y verificar que
 
 ## 🎉 ¡Felicitaciones!
 
-Haz hecho avances muy impresionanes en tu proyecto, y mejorado la infraestructura de tu API con herramientas de observabilidad y monitoreo que son claves para escalar y mantener aplicaciones en producción. ¡Sigue así!
+Has hecho avances muy impresionantes en tu proyecto, y mejorado la infraestructura de tu API con herramientas de observabilidad y monitoreo que son claves para escalar y mantener aplicaciones en producción. ¡Sigue así!
