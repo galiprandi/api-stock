@@ -723,79 +723,12 @@ Luego de instalar y configurar Pino, ejecuta tu servidor con `npm run dev` y ver
 [01:41:32.832] INFO (160460): 🚀 Server is up and running! Access it at: http://localhost:3000/api/health-check
 ```
 
-### Instalación de Datadog para Monitoreo
-
-[Datadog](https://www.datadoghq.com/) es una plataforma de monitoreo y análisis que ofrece un plan gratuito adecuado para proyectos pequeños. Vamos a configurar Datadog para monitorear nuestra API.
-
-
-### Registro en Datadog
-
-1. Regístrate en [Datadog](https://www.datadoghq.com/).
-2. Crea una nueva API key desde el panel de configuración.
-
-### Instalación del Agente de Datadog
-
-Ejecuta el siguiente comando para instalar el cliente de Datadog para Node.js:
-
-```bash
-npm install dd-trace
-```
-
-### Agregar la Clave de API de Datadog a las Variables de Entorno
-
-Edita tu archivo `.env` y el archivo `src/config.ts` para agregar la clave de API de Datadog:
-
-```env
-PORT=3000
-DD_API_KEY=your-api-key
-```
-
-```typescript
-export const config = {
-  ENV: process.env.NODE_ENV || "development",
-  PORT: process.env.PORT || 3000,
-  DD_API_KEY: process.env.DD_API_KEY || "",
-};
-```
-
-### Configuración del Agente de Datadog
-
-Crea un archivo `src/libs/datadog.ts` y agrega el siguiente código para configurar Datadog:
-
-```typescript
-import tracer from 'dd-trace';
-import { config } from '../config';
-
-const { ENV } = config;
-
-tracer.init({
-    service: 'api-stock',
-    env: ENV,
-    logInjection: true,
-});
-
-export { tracer };
-```
-
-Luego, importa y usa Datadog en tu servidor. Edita el archivo src/index.ts para inicializar Datadog antes de iniciar el servidor:
-
-```typescript
-import { tracer } from './libs/datadog';
-import { app } from './libs/server';
-
-// ...Código anterior
-```
-
-Ahora solo resta lanzar nuevamente tu servidor con `npm run dev` y verificar que el logging y la integración con Datadog funcionen correctamente.
-
 ### Criterios de Aceptación del Paso 9
 
 - [ ] Deberás instalar la librería `pino` para el logging y configurarla en tu proyecto.
-- [ ] Deberás instalar la librería `dd-trace` para la integración con Datadog.
 - [ ] Deberás crear un archivo `src/libs/logger.ts` para configurar Pino y exportar un logger personalizado.
 - [ ] Deberás integrar Pino en tu servidor Express como un middleware.
 - [ ] Deberás crear un archivo `src/libs/datadog.ts` para configurar Datadog y exportar el agente.
-- [ ] Deberás importar y usar Datadog en tu servidor antes de iniciar la aplicación.
 - [ ] Deberás verificar que el logging y la integración con Datadog funcionen correctamente en tu aplicación.
 
 ## 🎉 ¡Felicitaciones!
