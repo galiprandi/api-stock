@@ -88,7 +88,7 @@ Con estos pasos, habrás completado la configuración inicial y estarás listo p
 Primero, necesitamos inicializar TypeScript en nuestro proyecto. Abre tu terminal y ejecuta el siguiente comando:
 
 ```bash
-npm i -D typescript # Instalar TypeScript como dependencia de desarrollo
+npm install -D typescript # Instalar TypeScript como dependencia de desarrollo
 npx tsc --init # Inicializar un archivo de configuración de TypeScript
 ```
 
@@ -118,19 +118,20 @@ Este archivo de configuración establece varias opciones importantes para un pro
 Para más detalles sobre las opciones de configuración de TypeScript, te recomiendo leer la [cheat sheet de tsconfig](https://www.totaltypescript.com/tsconfig-cheat-sheet).
 
 ### Scripts del package.json
-Ahora, vamos a agregar algunos scripts útiles en nuestro archivo `package.json`. Abre el archivo package.json y agrega los siguientes scripts en la sección "scripts":
+
+Ahora, vamos a agregar algunos scripts útiles en nuestro archivo `package.json`. Abre el archivo `package.json` y agrega los siguientes scripts en la sección "scripts":
 
 ```json
 {
   "scripts": {
-    "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
+    "dev": "tsx watch --env-file=.env src/index.ts",
     "build": "tsc",
-    "start": "node dist/index.js"
+    "start": "node --env-file=.env dist/index.js"
   }
 }
 ```
 
-- `npm run dev`: Este script utiliza ts-node-dev para ejecutar tu aplicación en modo de desarrollo, permitiendo recargas automáticas cuando cambias el código.
+- `npm run dev`: Este script utiliza tsx para ejecutar tu aplicación en modo de desarrollo, permitiendo recargas automáticas cuando cambias el código.
 
 - `npm run build`: Este script compila tu código TypeScript en JavaScript, colocando los archivos compilados en el directorio dist.
 
@@ -139,14 +140,38 @@ Ahora, vamos a agregar algunos scripts útiles en nuestro archivo `package.json`
 Con estos scripts, estarás listo para desarrollar, compilar y ejecutar tu aplicación Node.js con TypeScript.
 
 ### Instalemos dependencias de desarrollo
-Para poder ejecutar nuestra aplicación en modo de desarrollo, necesitamos instalar `ts-node-dev` y `@types/node`. Ejecuta el siguiente comando en tu terminal:
 
-> 📚 ¿Qué es ts-node-dev? ts-node-dev es una herramienta que permite ejecutar archivos TypeScript directamente en Node.js con recarga automática. Es una excelente herramienta para el desarrollo de aplicaciones Node.js con TypeScript.
+Para poder ejecutar nuestra aplicación en modo de desarrollo, necesitamos instalar tsx y @types/node. Ejecuta el siguiente comando en tu terminal:
+
+> 📚 ¿Qué es tsx? tsx es una herramienta que permite ejecutar TypeScript en Node.js con soporte para hot-reloading, lo que significa que la aplicación se reinicia automáticamente cuando se detectan cambios en el código fuente.
 
 > 📚 ¿Cuales son las diferencias entre dependencias de desarrollo y de producción? Las dependencias de desarrollo son aquellas que solo se necesitan durante el proceso de desarrollo, como herramientas de prueba y compiladores. Las dependencias de producción son aquellas que se necesitan para que la aplicación funcione en un entorno de producción, como bibliotecas y frameworks necesarios para la ejecución del código.
 
 ```bash
-npm install -D ts-node-dev @types/node
+npm install -D tsx @types/node
+```
+
+### Gestión de variables de entorno
+
+> 📚 ¿Qué son las variables de entorno? Las variables de entorno son valores dinámicos que pueden afectar el comportamiento de un programa. Se utilizan para configurar la aplicación en diferentes entornos, como desarrollo, pruebas y producción.
+
+Para gestionar las variables de entorno en nuestro proyecto, vamos a crear un archivo `.env` en la raíz de nuestro proyecto. Este archivo contendrá las variables de entorno necesarias para configurar nuestra aplicación.
+
+Crea un archivo `.env` en la raíz de tu proyecto y agrega las siguientes variables de entorno:
+
+```env
+PORT=3000
+```
+
+Para centrar la gestión de las variables de entorno en un solo lugar, vamos a crear un archivo de configuración `src/config.ts` que cargará las variables de entorno y las exportará para su uso en la aplicación.
+
+Crea un archivo `src/config.ts` y agrega el siguiente código:
+
+```typescript
+export const config = {
+  ENV: process.env.NODE_ENV || "development",
+  PORT: process.env.PORT || 3000,
+};
 ```
 
 ### Hello World!
@@ -167,7 +192,8 @@ Deberías ver el mensaje "Hello, World!" impreso en la consola. Si ves este mens
 
 ```bash 
 # Salida esperada
-[INFO] 01:00:00 ts-node-dev ver. 2.0.0 (using ts-node ver. 10.9.2, typescript ver. 5.7.3)
+> npx tsx watch --env-file=.env src/index.ts
+
 Hello, World!
 ```
 
@@ -178,11 +204,12 @@ Para probar el hot-reloading, modifica el mensaje en `src/index.ts` por "Hello, 
 
 ```bash
 # Salida esperada
-[INFO] 01:00:00 ts-node-dev ver. 2.0.0 (using ts-node ver. 10.9.2, typescript ver. 5.7.3)
+> npx tsx watch --env-file=.env src/index.ts
+
 Hello, TypeScript!
 ```
 
-¡Excelente! Has configurado correctamente tu proyecto con TypeScript y ts-node-dev. Ahora, puedes avanzar al siguiente paso para configurar un servidor Express.
+¡Excelente! Has configurado correctamente tu proyecto con TypeScript y tsx. Ahora, puedes avanzar al siguiente paso para configurar un servidor Express.
 
 ## Paso 3: Configuración del Servidor Express y primer endpoint
 En este paso, vamos a instalar Express y CORS, y crearemos un endpoint /api/health-check que devolverá `status: "ready"`.
@@ -228,8 +255,9 @@ Edita `src/index.ts` para importar e iniciar el servidor:
 
 ```typescript
 import { app } from "./libs/server";
+import { config } from "./config";
 
-const PORT = process.env.PORT || 3000;
+const { PORT } = config;
 
 app.listen(PORT, () => {
   console.log(`🚀 Server is up and running! Access it at: http://localhost:${PORT}/api/health-check`);
@@ -630,71 +658,7 @@ curl -X DELETE http://localhost:3000/api/products/1
 - [ ] El producto eliminado deberá ser removido del array de productos.
 - [ ] Deberás agregar pruebas automatizadas para el endpoint DELETE /api/products/:id.
 
-## Paso 9: Gestión de variables de entorno
-
-> 📚 ¿Qué son las variables de entorno? Las variables de entorno son valores dinámicos que pueden afectar el comportamiento de un programa. Se utilizan para configurar la aplicación en diferentes entornos, como desarrollo, pruebas y producción.
-
-En este paso, vamos a implementar la gestión de variables de entorno en nuestra aplicación utilizando la librería `dotenv`. 
-
-### Instalar la librería dotenv
-
-Ejecuta el siguiente comando en tu terminal para instalar la librería `dotenv`:
-
-```bash
-npm install dotenv
-``` 
-
-### Crear un archivo .env
-
-Crea un archivo `.env` en la raíz de tu proyecto y agrega las siguientes variables de entorno:
-
-```env
-PORT=3000
-```
-
-### Uso de dotenv en tu proyecto
-
-Crea un archivo `src/config.ts` para cargar las variables de entorno y exportarlas:
-
-```typescript
-import dotenv from 'dotenv';
-
-dotenv.config();
-
-export const config = {
-  PORT: process.env.PORT || 3000,
-  ENV: process.env.NODE_ENV || 'development',
-};
-```
-
-### Actualización del servidor para usar las variables de entorno
-
-Edita el archivo `src/index.ts` para usar las variables de entorno desde el archivo de configuración, deberás reemplazar la línea donde se define el puerto por la siguiente:
-
-```typescript
-const PORT = process.env.PORT || 3000;
-```
-
-por:
-
-```typescript
-import { config } from "./config";
-
-const { PORT } = config;
-```
-
-Y relanzar el servidor con `npm run dev` para verificar que las variables de entorno se están cargando correctamente y el servidor sigue funcionando en el puerto 3000. Sería recomendable que cambies el puerto en el archivo `.env`, por ejemplo al puerto 5000 y verifiques que el servidor se inicia en el puerto 5000. Luego de realizar esta verificación, puedes volver a cambiar el puerto a 3000.
-
-### Criterios de Aceptación del Paso 9
-
-- [ ] Deberás instalar la librería `dotenv` en tu proyecto.
-- [ ] Deberás crear un archivo `.env` con la variable `PORT=3000`.
-- [ ] Deberás crear un archivo `src/config.ts` para cargar las variables de entorno.
-- [ ] Deberás actualizar el servidor para usar las variables de entorno desde el archivo de configuración.
-- [ ] Deberás verificar que el servidor se inicia correctamente en el puerto especificado en el archivo `.env`.
-- [ ] Deberás verificar que el servidor y las pruebas unitarias siguen funcionando correctamente después de la implementación de las variables de entorno.
-
-## Paso 10: Introducción a la Observabilidad y Configuración de Herramientas
+## Paso 9: Introducción a la Observabilidad y Configuración de Herramientas
 
 > 📚 ¿Qué es la observabilidad? La observabilidad es la capacidad de comprender y depurar un sistema complejo a través de la recopilación y análisis de datos. En el contexto de las aplicaciones web, la observabilidad se refiere a la capacidad de monitorear y analizar el comportamiento de la aplicación en tiempo real.
 
@@ -731,9 +695,10 @@ export const logger = pino({
 });
 ```
 
-Luego, integra Pino en tu servidor Express. Edita el archivo `src/libs/server.ts` para usar Pino como un nuevo middleware de Express, recuerda importar el `logger` que acabas de crear:
+Luego, integra Pino en tu servidor Express. Edita el archivo `src/libs/server.ts` para importar y usar Pino como un nuevo middleware de Express, recuerda importar el `logger` que acabas de crear:
 
 ```typescript
+import pinoHttp from "pino-http"; 
 app.use(pinoHttp({ logger }));
 ```
 
@@ -761,11 +726,14 @@ Crea un archivo `src/libs/datadog.ts` y agrega el siguiente código para configu
 
 ```typescript
 import tracer from 'dd-trace';
+import { config } from '../config';
+
+const { DD_API_KEY, ENV } = config;
 
 tracer.init({
-  service: 'api-stock',
-  env: process.env.NODE_ENV || 'development',
-  logInjection: true,
+    service: 'api-stock',
+    env: ENV,
+    logInjection: true,
 });
 
 export { tracer };
@@ -782,7 +750,7 @@ import { app } from './libs/server';
 
 Ahora solo resta lanzar nuevamente tu servidor con `npm run dev` y verificar que el logging y la integración con Datadog funcionen correctamente.
 
-### Criterios de Aceptación del Paso 10
+### Criterios de Aceptación del Paso 9
 
 - [ ] Deberás instalar la librería `pino` para el logging y configurarla en tu proyecto.
 - [ ] Deberás instalar la librería `dd-trace` para la integración con Datadog.
