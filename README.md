@@ -92,7 +92,7 @@ npm install -D typescript # Instalar TypeScript como dependencia de desarrollo
 npx tsc --init # Inicializar un archivo de configuración de TypeScript
 ```
 
-Esto creará un archivo `tsconfig.json` en tu proyecto. A continuación, te muestro un ejemplo de un archivo `tsconfig.json` optimizado para una aplicación Node.js, reemplaza el contenido de tu archivo tsconfig.json con el siguiente código:
+Esto creará un archivo `tsconfig.json` en tu proyecto. A continuación, te muestro un ejemplo de un archivo `tsconfig.json` optimizado para una aplicación Node.js, reemplaza el contenido de tu archivo `tsconfig.json` con el siguiente código, te recomendamos que habras el proyecto en VSCode para hacerlo más fácil:
 
 ```json
 {
@@ -204,8 +204,6 @@ Para probar el hot-reloading, modifica el mensaje en `src/index.ts` por "Hello, 
 
 ```bash
 # Salida esperada
-> npx tsx watch --env-file=.env src/index.ts
-
 Hello, TypeScript!
 ```
 
@@ -428,8 +426,6 @@ Importa y usa la ruta `/api/products` en tu servidor. Edita el archivo `src/libs
 ```typescript
 import express from "express";
 import cors from "cors";
-
-// Rutas
 import { productsRouter } from "../routes/products";
 
 const app = express();
@@ -487,7 +483,7 @@ describe("GET /api/products", () => {
 >
 >En este caso, hemos introducido un error intencional en la prueba para que falle. El siguiente paso es corregir el código para que la prueba pase.
 
-### Corregir la Prueba
+### ⚠️ Recuerda corregir la Prueba
 
 Corrige la prueba en `src/tests/products.get.test.ts` para que pase correctamente. Lee atentamente el código de la prueba, ejecuta las pruebas y asegúrate de que pasen correctamente. 
 
@@ -705,6 +701,12 @@ import { logger } from "./logger";
 app.use(pinoHttp({ logger }));
 ```
 
+Tambien podemos usar Pino para registar el evento que indica que el servidor está corriendo, para ello edita el archivo `src/index.ts` y modifica el mensaje de inicio del servidor por el siguiente:
+
+```typescript
+logger.info(`🚀 Server is up and running! Access it at: http://localhost:${PORT}/api/health-check`);
+```
+
 >📚 ¿Cuál es la diferencia entre pino y pino-http?
 >
 > - `pino` es un logger rápido para registrar eventos generales en la aplicación.
@@ -716,8 +718,9 @@ Luego de instalar y configurar Pino, ejecuta tu servidor con `npm run dev` y ver
 
 ```bash
 # Salida esperada
-> npx tsx watch --env-file=.env src/index.ts
-INFO  [1678987645000] req: { method: 'GET', url: '/api/products', statusCode: 200, responseTime: 5 }
+> tsx watch --env-file=.env src/index.ts
+
+[01:41:32.832] INFO (160460): 🚀 Server is up and running! Access it at: http://localhost:3000/api/health-check
 ```
 
 ### Instalación de Datadog para Monitoreo
