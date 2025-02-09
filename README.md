@@ -1133,7 +1133,7 @@ Has refactorizado tu API para seguir una arquitectura más escalable y mantenibl
 - Paso 20: Módulo de importar/exportar datos
   - Implementar endpoints para importar y exportar datos en formato CSV o JSON.
   - Agregar validaciones y transformaciones de datos para garantizar la integridad.
-  
+
 - Paso 21: Seguridad y Buenas Prácticas en Producción
   - Configurar Helmet y Rate Limiting para proteger la API.
   - Evitar inyecciones SQL y ataques XSS.
