@@ -7,6 +7,7 @@ Este es un repositorio educativo diseñado para aprender paso a paso cómo const
 Este proyecto está estructurado como una guía práctica de aprendizaje. Al seguir las instrucciones paso a paso, aprenderás a construir una API profesional mientras aplicas las mejores prácticas de desarrollo moderno. El objetivo es proporcionarte las habilidades necesarias para convertirte en un desarrollador backend moderno y competente.
 
 ### Herramientas Necesarias
+
 - [Visual Studio Code](https://code.visualstudio.com/) (Editor de código recomendado)
 - [Github Copilot](https://copilot.github.com/) (como asistente de código)
 - [GitHub](https://github.com/) (para control de versiones)
@@ -15,6 +16,7 @@ Este proyecto está estructurado como una guía práctica de aprendizaje. Al seg
 - [Node.js y npm](https://nodejs.org/) (para ejecutar y construir la aplicación)
 
 ### Lo que Aprenderás
+
 - Configuración de un proyecto TypeScript moderno
 - Uso de Express.js v5 con TypeScript
 - Implementación de endpoints REST
@@ -26,7 +28,9 @@ Este proyecto está estructurado como una guía práctica de aprendizaje. Al seg
 - Despliegue en un entorno de producción
 
 ### Resultado Final
+
 Al completar todos los pasos, tendrás una API completamente funcional para control de inventario que permite:
+
 - Gestión completa de productos (CRUD)
 - Control de stock
 - Registro de movimientos de inventario
@@ -35,15 +39,19 @@ Al completar todos los pasos, tendrás una API completamente funcional para cont
 - Despliegue en un servidor de producción
 
 ### Público Objetivo
+
 Este repositorio está dirigido a desarrolladores que desean mejorar sus habilidades en el desarrollo backend utilizando tecnologías modernas. Es ideal para aquellos que tienen conocimientos básicos de programación y desean profundizar en el desarrollo de APIs RESTful con TypeScript y Node.js.
 
 ### Contribuciones
+
 Las contribuciones son bienvenidas. Si deseas mejorar este proyecto, por favor, abre un issue o envía un pull request con tus sugerencias y mejoras.
 
 ### Autor
+
 Este proyecto fue creado por [Germán Aliprandi](mailto:galiprandi@gmail.com) y te invito a contactarme si tienes alguna pregunta o sugerencia.
 
 ### Licencia
+
 Este proyecto está bajo la Licencia MIT. Consulta el archivo LICENSE para más detalles.
 
 ## Paso 1: Fork del repositorio [api-stock](https://github.com/galiprandi/api-stock)
@@ -64,10 +72,12 @@ Sigue las instrucciones en la [página oficial de GitHub CLI](https://cli.github
 Configurar Git:
 
 Configura tu nombre de usuario y correo electrónico:
+
 ```bash
 git config --global user.name "Tu Nombre"
 git config --global user.email "tu-email@example.com"
 ```
+
 ### Hacer el fork, clonar el repo y abrirlo en VSCode
 
 En tu navegador, ve al repositorio original: https://github.com/galiprandi/api-stock.
@@ -190,7 +200,7 @@ npm run dev
 
 Deberías ver el mensaje "Hello, World!" impreso en la consola. Si ves este mensaje, ¡tu configuración de TypeScript está lista y funcionando! Ahora, puedes avanzar al siguiente paso.
 
-```bash 
+```bash
 # Salida esperada
 > npx tsx watch --env-file=.env src/index.ts
 
@@ -198,6 +208,7 @@ Hello, World!
 ```
 
 ### Probando el hot-reloading
+
 Para probar el hot-reloading, modifica el mensaje en `src/index.ts` por "Hello, TypeScript!" y guarda el archivo. Deberías ver que el servidor se reinicia automáticamente y muestra el nuevo mensaje en la consola.
 
 > 📚 ¿Qué es hot-reloading? Hot-reloading es una técnica que permite recargar automáticamente la aplicación cuando se detectan cambios en el código fuente. Es una característica muy útil para el desarrollo de aplicaciones, ya que permite ver los cambios en tiempo real sin tener que reiniciar manualmente el servidor.
@@ -210,26 +221,29 @@ Hello, TypeScript!
 ¡Excelente! Has configurado correctamente tu proyecto con TypeScript y tsx. Ahora, puedes avanzar al siguiente paso para configurar un servidor Express.
 
 ## Paso 3: Configuración del Servidor Express y primer endpoint
+
 En este paso, vamos a instalar Express y CORS, y crearemos un endpoint /api/health-check que devolverá `status: "ready"`.
 
 > 📚 ¿Qué función tiene este endpoint? Este tipo de endpoints son comunes en las aplicaciones web y sirven para verificar si el servidor está en funcionamiento y listo para recibir solicitudes. Proporciona una forma sencilla de comprobar el estado del servidor y la conexión a la base de datos.
 
 ### Instalar Dependencias
+
 Ejecuta el siguiente comando en tu terminal para instalar Express y CORS:
 
 ```bash
 # Instalar Express y CORS
 npm install "express@>=5.0.0" cors 
 # Instalar tipos de TypeScript para Express y CORS
-npm install -D @types/express @types/cors 
+npm install -D @types/express @types/cors
 ```
 
 ### Configurar el Servidor
+
 Crea el archivo `src/libs/server.ts` y agrega el siguiente código:
 
 ```typescript
-import express from "express";
 import cors from "cors";
+import express from "express";
 
 const app = express();
 
@@ -249,20 +263,24 @@ export { app };
 > 📚 ¿Qué es un middleware? En Express, un middleware es una función que tiene acceso al objeto de solicitud (req), al objeto de respuesta (res) y a la siguiente función de middleware en el ciclo de solicitud-respuesta. Los middlewares se utilizan para realizar tareas como el registro de solicitudes, la validación de datos, la autenticación de usuarios, etc.
 
 ### Inicializar el Servidor
+
 Edita `src/index.ts` para importar e iniciar el servidor:
 
 ```typescript
-import { app } from "./libs/server";
 import { config } from "./config";
+import { app } from "./libs/server";
 
 const { PORT } = config;
 
 app.listen(PORT, () => {
-  console.log(`🚀 Server is up and running! Access it at: http://localhost:${PORT}/api/health-check`);
+  console.log(
+    `🚀 Server is up and running! Access it at: http://localhost:${PORT}/api/health-check`,
+  );
 });
 ```
 
 ### Probar el Servidor
+
 Ejecuta el siguiente comando:
 
 ```bash
@@ -284,13 +302,14 @@ Deberías recibir esta respuesta:
 > 📚 ¿Qué es curl? curl es una herramienta de línea de comandos que permite transferir datos con URL sintácticas. Es una herramienta muy practica para realizar solicitudes HTTP desde la terminal.
 
 ### Criterios de Aceptación del Paso 3
+
 - [ ] Deberás instalar Express y CORS en tu proyecto.
 - [ ] Deberás crear un servidor Express en el archivo `src/libs/server.ts`.
 - [ ] El servidor deberá tener un endpoint GET `/api/health-check` que devuelva `{ status: 'ready' }`.
 - [ ] Deberás inicializar el servidor en el archivo `src/index.ts` y escuchar en el puerto 3000.
 - [ ] Deberás probar el servidor y verificar que el endpoint `/api/health-check` responda correctamente.
 
- ## 🎉 ¡Felicitaciones!
+## 🎉 ¡Felicitaciones!
 
 Has creado tu primer endpoint en Express. Ahora, puedes avanzar al siguiente paso para implementar más funcionalidades en tu API.
 
@@ -301,6 +320,7 @@ Has creado tu primer endpoint en Express. Ahora, puedes avanzar al siguiente pas
 En este paso, agregaremos pruebas automatizadas para verificar que el endpoint /api/health-check responde correctamente.
 
 ### Instalar Dependencias necesarias
+
 Primero, necesitamos instalar Vitest y Supertest para realizar pruebas automatizadas. Ejecuta el siguiente comando en tu terminal:
 
 ```bash
@@ -314,14 +334,14 @@ npm install -D vitest supertest @types/supertest
 Crea el archivo `src/tests/health-check.get.test.ts` y agrega el siguiente código:
 
 ```typescript
-import { describe, it, expect } from "vitest";
 import request from "supertest";
+import { describe, expect, it } from "vitest";
 import { app } from "../libs/server";
 
 describe("GET /api/health-check", () => {
   it("should return { status: 'ready' }", async () => {
     const response = await request(app).get("/api/health-check");
-    
+
     expect(response.status).toBe(200);
     expect(response.body).toHaveProperty("status", "ready");
   });
@@ -363,9 +383,9 @@ Deberías ver una salida similar a esta:
        press h to show help, press q to quit
 ```
 
- ¡Listo! Ahora tienes pruebas automatizadas para validar que el endpoint /api/health-check funciona correctamente. 🚀
+¡Listo! Ahora tienes pruebas automatizadas para validar que el endpoint /api/health-check funciona correctamente. 🚀
 
- ## 🎉 ¡Felicitaciones!
+## 🎉 ¡Felicitaciones!
 
 En este punto, has configurado tu proyecto con TypeScript y Express, además haz configurado tu primer endpoint y pruebas automatizadas. ¡Estás en camino de construir una API REST moderna para control de inventario!
 
@@ -387,16 +407,86 @@ Crea un archivo `src/data/products.ts` y agrega el siguiente código:
 
 ```typescript
 export const products = [
-    { id: 1, title: "Laptop", brand: "Apple", category: "Electronics", price: 1299.99, stock: 10 },
-    { id: 2, title: "Smartphone", brand: "Samsung", category: "Electronics", price: 899.99, stock: 20 },
-    { id: 3, title: "Tablet", brand: "Amazon", category: "Electronics", price: 299.99, stock: 5 },
-    { id: 4, title: "Smartwatch", brand: "Fitbit", category: "Electronics", price: 199.99, stock: 15 },
-    { id: 5, title: "Headphones", brand: "Sony", category: "Electronics", price: 99.99, stock: 30 },
-    { id: 6, title: "Backpack", brand: "North Face", category: "Fashion", price: 79.99, stock: 25 },
-    { id: 7, title: "Sneakers", brand: "Nike", category: "Fashion", price: 129.99, stock: 40 },
-    { id: 8, title: "T-shirt", brand: "Adidas", category: "Fashion", price: 29.99, stock: 50 },
-    { id: 9, title: "Jeans", brand: "Levi's", category: "Fashion", price: 59.99, stock: 20 },
-    { id: 10, title: "Sunglasses", brand: "Ray-Ban", category: "Fashion", price: 149.99, stock: 10 }
+  {
+    id: 1,
+    title: "Laptop",
+    brand: "Apple",
+    category: "Electronics",
+    price: 1299.99,
+    stock: 10,
+  },
+  {
+    id: 2,
+    title: "Smartphone",
+    brand: "Samsung",
+    category: "Electronics",
+    price: 899.99,
+    stock: 20,
+  },
+  {
+    id: 3,
+    title: "Tablet",
+    brand: "Amazon",
+    category: "Electronics",
+    price: 299.99,
+    stock: 5,
+  },
+  {
+    id: 4,
+    title: "Smartwatch",
+    brand: "Fitbit",
+    category: "Electronics",
+    price: 199.99,
+    stock: 15,
+  },
+  {
+    id: 5,
+    title: "Headphones",
+    brand: "Sony",
+    category: "Electronics",
+    price: 99.99,
+    stock: 30,
+  },
+  {
+    id: 6,
+    title: "Backpack",
+    brand: "North Face",
+    category: "Fashion",
+    price: 79.99,
+    stock: 25,
+  },
+  {
+    id: 7,
+    title: "Sneakers",
+    brand: "Nike",
+    category: "Fashion",
+    price: 129.99,
+    stock: 40,
+  },
+  {
+    id: 8,
+    title: "T-shirt",
+    brand: "Adidas",
+    category: "Fashion",
+    price: 29.99,
+    stock: 50,
+  },
+  {
+    id: 9,
+    title: "Jeans",
+    brand: "Levi's",
+    category: "Fashion",
+    price: 59.99,
+    stock: 20,
+  },
+  {
+    id: 10,
+    title: "Sunglasses",
+    brand: "Ray-Ban",
+    category: "Fashion",
+    price: 149.99,
+    stock: 10,
+  },
 ];
 ```
 
@@ -424,8 +514,8 @@ export { router as productsRouter };
 Importa y usa la ruta `/api/products` en tu servidor. Edita el archivo `src/libs/server.ts` para agregar la ruta de productos:
 
 ```typescript
-import express from "express";
 import cors from "cors";
+import express from "express";
 import { productsRouter } from "../routes/products";
 
 const app = express();
@@ -436,7 +526,7 @@ app.use(express.json());
 
 // Rutas
 app.get("/api/health-check", (_req, res) => {
-    res.json({ status: "ready", uptime: process.uptime() });
+  res.json({ status: "ready", uptime: process.uptime() });
 });
 
 app.use("/api/products", productsRouter);
@@ -460,34 +550,35 @@ Deberías recibir una respuesta con la lista de productos en formato JSON.
 Agrega pruebas automatizadas para la ruta `/api/products`. Crea un archivo `src/tests/products.get.test.ts` y agrega el siguiente código:
 
 ```typescript
-import { describe, it, expect } from "vitest";
 import request from "supertest";
-import { app } from "../libs/server";
+import { describe, expect, it } from "vitest";
 import { products } from "../data/products";
+import { app } from "../libs/server";
 
 // ⚠️ Introducimos un error intencional en la prueba
 describe("GET /api/products", () => {
   it("should return a list of products", async () => {
     const response = await request(app).get("/api/products");
-    
+
     expect(response.status).toBe(200);
     expect(response.body).not.toEqual(products);
   });
 });
 ```
+
 > 📚 ¿Qué es TDD? El Desarrollo Guiado por Pruebas (TDD) es una metodología de desarrollo de software en la que las pruebas se escriben antes del código de producción. El ciclo de TDD generalmente sigue estos pasos:
 >
->1. **Escribir una prueba que falle:** Crear una prueba automatizada para una nueva funcionalidad que aún no está implementada.
->2. **Escribir el código mínimo para pasar la prueba:** Implementar el código necesario para que la prueba pase.
->3. **Refactorizar el código:** Mejorar el código asegurándose de que todas las pruebas sigan pasando.
+> 1. **Escribir una prueba que falle:** Crear una prueba automatizada para una nueva funcionalidad que aún no está implementada.
+> 2. **Escribir el código mínimo para pasar la prueba:** Implementar el código necesario para que la prueba pase.
+> 3. **Refactorizar el código:** Mejorar el código asegurándose de que todas las pruebas sigan pasando.
 >
->En este caso, hemos introducido un error intencional en la prueba para que falle. El siguiente paso es corregir el código para que la prueba pase.
+> En este caso, hemos introducido un error intencional en la prueba para que falle. El siguiente paso es corregir el código para que la prueba pase.
 
 ### ⚠️ Recuerda corregir la Prueba
 
-Corrige la prueba en `src/tests/products.get.test.ts` para que pase correctamente. Lee atentamente el código de la prueba, ejecuta las pruebas y asegúrate de que pasen correctamente. 
+Corrige la prueba en `src/tests/products.get.test.ts` para que pase correctamente. Lee atentamente el código de la prueba, ejecuta las pruebas y asegúrate de que pasen correctamente.
 
- ## 🎉 ¡Felicitaciones!
+## 🎉 ¡Felicitaciones!
 
 Haz avanzado mucho y ya tiene la estructura básica de tu API REST y los conocimientos necesarios para agregar nuevas rutas y funcionalidades. A partir de ahora las intrucciones serán menos precisas y tendrás que investigar y probar por tu cuenta. Las proximas tareas serán más parecidas a requeriemientos de un cliente y tendrás que implementarlos por tu cuenta, pero siempre especificaremos los criterios de aceptación que deberás cumplir.
 
@@ -498,6 +589,7 @@ Haz avanzado mucho y ya tiene la estructura básica de tu API REST y los conocim
 En este paso, vamos a implementar un endpoint POST /api/products que permita crear un nuevo producto. El endpoint recibirá los datos del producto en el cuerpo de la solicitud y devolverá el producto creado con un ID único.
 
 Los pasos a seguir son los siguientes:
+
 1. Crear la ruta POST /api/products en el archivo `src/routes/products.ts`.
 2. Recuperar del body de la solicitud los datos del producto a crear.
 3. Generar un ID único para el nuevo producto. Por ahora puedes usar la longitud del array + 1 como ID.
@@ -506,32 +598,31 @@ Los pasos a seguir son los siguientes:
 6. Verifica que el GET /api/products devuelva las lista de productos con el nuevo producto creado.
 7. Agregar pruebas automatizadas para el endpoint POST /api/products.
 
-
 Comencemos creando primero las pruebas unitarias, crea el archivo `src/tests/products.post.test.ts` y agrega el siguiente código:
 
 ```typescript
-import { describe, it, expect } from "vitest";
 import request from "supertest";
+import { describe, expect, it } from "vitest";
 import { app } from "../libs/server";
 
 describe("POST /api/products", () => {
-    it("should create a new product", async () => {
-      const newProduct = {
-        title: "Smart Speaker",
-        brand: "Google",
-        category: "Electronics",
-        price: 99.99,
-        stock: 15
-      };
-  
-      const response = await request(app)
-        .post("/api/products")
-        .send(newProduct);
-  
-      expect(response.status).toBe(201);
-      expect(response.body).toMatchObject(newProduct);
-    });
+  it("should create a new product", async () => {
+    const newProduct = {
+      title: "Smart Speaker",
+      brand: "Google",
+      category: "Electronics",
+      price: 99.99,
+      stock: 15,
+    };
+
+    const response = await request(app)
+      .post("/api/products")
+      .send(newProduct);
+
+    expect(response.status).toBe(201);
+    expect(response.body).toMatchObject(newProduct);
   });
+});
 ```
 
 Una vez que hayan implementado el endpoint POST /api/products y las pruebas unitarias unitarias pasen correctamente, prueba manualmente crea un nuevo producto usando el siguiente curl:
@@ -542,6 +633,7 @@ curl -X POST http://localhost:3000/api/products -H "Content-Type: application/js
 ```
 
 ### Criterios de Aceptación del Paso 6
+
 - [ ] Deberás implementar el endpoint POST /api/products en el archivo src/routes/products.ts.
 - [ ] El endpoint deberá recibir los datos del producto a crear en el cuerpo de la solicitud.
 - [ ] El endpoint deberá devolver el producto creado con un ID único y el código de estado 201 (Created).
@@ -556,6 +648,7 @@ curl -X POST http://localhost:3000/api/products -H "Content-Type: application/js
 En este paso, vamos a implementar un endpoint PUT /api/products/:id que permita actualizar un producto existente. El endpoint recibirá el ID del producto a actualizar en la URL y los nuevos datos del producto en el cuerpo de la solicitud.
 
 Los pasos a seguir son los siguientes:
+
 1. Crear la ruta PUT /api/products/:id en el archivo `src/routes/products.ts`.
 2. Recuperar el ID del producto a actualizar de los parámetros de la URL.
 3. Recuperar los nuevos datos del producto del cuerpo de la solicitud.
@@ -568,10 +661,10 @@ Los pasos a seguir son los siguientes:
 Comencemos creando primero las pruebas unitarias, crea el archivo `src/tests/products.put.test.ts` y agrega el siguiente código:
 
 ```typescript
-import { describe, it, expect } from "vitest";
 import request from "supertest";
-import { app } from "../libs/server";
+import { describe, expect, it } from "vitest";
 import { products } from "../data/products";
+import { app } from "../libs/server";
 
 describe("PUT /api/products/:id", () => {
   it("should update an existing product", async () => {
@@ -581,7 +674,7 @@ describe("PUT /api/products/:id", () => {
       brand: "Apple",
       category: "Electronics",
       price: 1499.99,
-      stock: 5
+      stock: 5,
     };
 
     const response = await request(app)
@@ -602,6 +695,7 @@ curl -X PUT http://localhost:3000/api/products/1 -H "Content-Type: application/j
 ```
 
 ### Criterios de Aceptación del Paso 7
+
 - [ ] Deberás implementar el endpoint PUT /api/products/:id en el archivo src/routes/products.ts.
 - [ ] El endpoint deberá recibir el ID del producto a actualizar en los parámetros de la URL.
 - [ ] El endpoint deberá recibir los nuevos datos del producto en el cuerpo de la solicitud.
@@ -613,6 +707,7 @@ curl -X PUT http://localhost:3000/api/products/1 -H "Content-Type: application/j
 En este paso, vamos a implementar un endpoint DELETE /api/products/:id que permita eliminar un producto existente. El endpoint recibirá el ID del producto a eliminar en la URL.
 
 Los pasos a seguir son los siguientes:
+
 1. Crear la ruta DELETE /api/products/:id en el archivo `src/routes/products.ts`.
 2. Recuperar el ID del producto a eliminar de los parámetros de la URL.
 3. Buscar el producto con el ID proporcionado en el array de productos.
@@ -624,10 +719,10 @@ Los pasos a seguir son los siguientes:
 Comencemos creando primero las pruebas unitarias, crea el archivo `src/tests/products.delete.test.ts` y agrega el siguiente código:
 
 ```typescript
-import { describe, it, expect } from "vitest";
 import request from "supertest";
-import { app } from "../libs/server";
+import { describe, expect, it } from "vitest";
 import { products } from "../data/products";
+import { app } from "../libs/server";
 
 describe("DELETE /api/products/:id", () => {
   it("should delete an existing product", async () => {
@@ -648,6 +743,7 @@ curl -X DELETE http://localhost:3000/api/products/1
 ```
 
 ### Criterios de Aceptación del Paso 8
+
 - [ ] Deberás implementar el endpoint DELETE /api/products/:id en el archivo src/routes/products.ts.
 - [ ] El endpoint deberá recibir el ID del producto a eliminar en los parámetros de la URL.
 - [ ] El producto eliminado deberá ser devuelto con el código de estado 200 (OK).
@@ -675,19 +771,19 @@ npm install pino pino-pretty pino-http
 Crea un archivo `src/libs/logger.ts` para configurar Pino y exportar un logger personalizado:
 
 ```typescript
-import pino from 'pino';
-import { config } from '../config';
+import pino from "pino";
+import { config } from "../config";
 
-const { ENV } = config
+const { ENV } = config;
 
 export const logger = pino({
   transport: {
-    target: 'pino-pretty',
+    target: "pino-pretty",
     options: {
-      colorize: true
-    }
+      colorize: true,
+    },
   },
-  level: ENV === 'production' ? 'info' : 'debug',
+  level: ENV === "production" ? "info" : "debug",
 });
 ```
 
@@ -704,10 +800,12 @@ app.use(pinoHttp({ logger }));
 Tambien podemos usar Pino para registar el evento que indica que el servidor está corriendo, para ello edita el archivo `src/index.ts` y modifica el mensaje de inicio del servidor por el siguiente:
 
 ```typescript
-logger.info(`🚀 Server is up and running! Access it at: http://localhost:${PORT}/api/health-check`);
+logger.info(
+  `🚀 Server is up and running! Access it at: http://localhost:${PORT}/api/health-check`,
+);
 ```
 
->📚 ¿Cuál es la diferencia entre pino y pino-http?
+> 📚 ¿Cuál es la diferencia entre pino y pino-http?
 >
 > - `pino` es un logger rápido para registrar eventos generales en la aplicación.
 > - `pino-http` es un middleware de Express que captura automáticamente las solicitudes HTTP y las registra en el log.
@@ -756,40 +854,40 @@ Crea un archivo `.biome.json` en la raíz de tu proyecto y agrega la siguiente c
 
 ```json
 {
-	"$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
-	"vcs": {
-		"enabled": false,
-		"clientKind": "git",
-		"useIgnoreFile": false
-	},
-	"files": {
-		"ignoreUnknown": false,
-		"ignore": []
-	},
-	"formatter": {
-		"enabled": true,
-		"indentStyle": "tab"
-	},
-	"organizeImports": {
-		"enabled": true
-	},
-	"linter": {
-		"enabled": true,
-		"rules": {
-			"correctness": {
-				"noUnusedImports": "warn",
-				"noUnusedVariables": "warn",
-				"noUnusedFunctionParameters": "warn"
-			},
-			"recommended": true
-		}
-	},
-	"javascript": {
-		"formatter": {
-			"quoteStyle": "single",
-			"semicolons": "asNeeded"
-		}
-	}
+  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "vcs": {
+    "enabled": false,
+    "clientKind": "git",
+    "useIgnoreFile": false
+  },
+  "files": {
+    "ignoreUnknown": false,
+    "ignore": []
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "tab"
+  },
+  "organizeImports": {
+    "enabled": true
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "correctness": {
+        "noUnusedImports": "warn",
+        "noUnusedVariables": "warn",
+        "noUnusedFunctionParameters": "warn"
+      },
+      "recommended": true
+    }
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "single",
+      "semicolons": "asNeeded"
+    }
+  }
 }
 ```
 
