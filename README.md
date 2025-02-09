@@ -746,7 +746,7 @@ Biome es una herramienta de análisis de código estático que ayuda a mantener 
 Ejecuta el siguiente comando en tu terminal para instalar Biome:
 
 ```bash
-npm install --save-dev --save-exact @biomejs/biome
+npm install -D @biomejs/biome
 npx @biomejs/biome init
 ```
 
@@ -807,20 +807,23 @@ Agrega el siguiente script en la sección "scripts" de tu archivo `package.json`
 
 ### Configuremos vscode para que Biome chequeé nuestro código por defecto al guardar
 
-Abre las configuraciones de Visual Studio Code presionando `Sift + Ctrl + P` y selecciona "Preferences: Open Settings (JSON)". Agrega la siguiente configuración para que Biome chequeé automáticamente tu código al guardar:
+Abre las configuraciones de Visual Studio Code presionando `Shift + Ctrl + P` y selecciona "Preferences: Open Settings (JSON)". Agrega la siguiente configuración para que Biome chequeé automáticamente tu código al guardar:
 
 ```json
 {
-    "editor.formatOnSave": true,
-    "[javascript]": {
-        "editor.defaultFormatter": "biomejs.biome"
-    },
-    "[jsonc]": {
-        "editor.defaultFormatter": "vscode.json-language-features"
-    },
-    "[typescript]": {
-        "editor.defaultFormatter": "biomejs.biome"
-    }
+  "editor.formatOnSave": true,
+  "[javascript]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  }
 }
 ```
 
@@ -830,5 +833,3 @@ Abre las configuraciones de Visual Studio Code presionando `Sift + Ctrl + P` y s
 - [ ] Deberás configurar Biome en tu proyecto con un estilo de código minimalista.
 - [ ] Deberás agregar un script en el archivo `package.json` para corregir automáticamente los errores de estilo.
 - [ ] Deberás configurar Visual Studio Code para que Biome chequeé automáticamente tu código.
-
-
