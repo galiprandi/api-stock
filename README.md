@@ -1,58 +1,107 @@
-# 📦 api-stock
+### 📦 API Stock – Curso de Backend en TypeScript
 
-Este es un repositorio educativo diseñado para aprender paso a paso cómo construir una API REST moderna para control de inventario utilizando TypeScript, Express v5, Prisma ORM y PostgreSQL.
+Este es un curso práctico y progresivo diseñado para personas con conocimientos básicos de JavaScript y TypeScript que quieren aprender a construir un backend moderno con tecnologías actuales. A diferencia de otros cursos, aquí trabajarás en un proyecto real desde el primer día, evolucionando tu propio repositorio en GitHub a medida que avanzas.
 
-## Propósito
+---
 
-Este proyecto está estructurado como una guía práctica de aprendizaje. Al seguir las instrucciones paso a paso, aprenderás a construir una API profesional mientras aplicas las mejores prácticas de desarrollo moderno. El objetivo es proporcionarte las habilidades necesarias para convertirte en un desarrollador backend moderno y competente.
+## 🎯 Objetivo del Curso
 
-### Herramientas Necesarias
+El objetivo es que, al finalizar, tengas una API funcional y escalable en tu GitHub, construida con buenas prácticas y herramientas profesionales. Aprenderás desde los fundamentos hasta técnicas avanzadas, ganando experiencia en un entorno similar al de un equipo de desarrollo real.
 
-- [Visual Studio Code](https://code.visualstudio.com/) (Editor de código recomendado)
-- [Github Copilot](https://copilot.github.com/) (como asistente de código)
-- [GitHub](https://github.com/) (para control de versiones)
-- [Github cli](https://cli.github.com/) (para manejar repositorios desde la terminal)
-- [ChatGPT](https://chat.openai.com/) (como asistente de aprendizaje)
-- [Node.js y npm](https://nodejs.org/) (para ejecutar y construir la aplicación)
+Este curso no solo te enseña a programar, sino que también te prepara para enfrentar desafíos comunes en el desarrollo backend, con un enfoque en depuración, pruebas automatizadas y uso de herramientas modernas.
 
-### Lo que Aprenderás
+---
 
-- Configuración de un proyecto TypeScript moderno
-- Uso de Express.js v5 con TypeScript
-- Implementación de endpoints REST
-- Manejo de errores y validaciones
-- Pruebas unitarias y de integración
-- Modelado de datos con Prisma ORM
-- Integración con PostgreSQL
-- Documentación de API
-- Despliegue en un entorno de producción
+## 👤 ¿A quién va dirigido?
 
-### Resultado Final
+- Personas que ya hicieron cursos introductorios de JavaScript/TypeScript y quieren dar el siguiente paso en backend.
+- Desarrolladores que buscan experiencia práctica con un proyecto real.
+- Estudiantes o autodidactas que quieran fortalecer su portafolio en GitHub.
+- Quienes quieran aprender herramientas modernas como Prisma, GitHub Copilot y Zod aplicadas a un backend real.
 
-Al completar todos los pasos, tendrás una API completamente funcional para control de inventario que permite:
+No es un curso para **absolutos principiantes** en programación. Se asume que entendés los fundamentos de JavaScript y TypeScript, pero no necesitás experiencia profesional en backend.
 
-- Gestión completa de productos (CRUD)
-- Control de stock
-- Registro de movimientos de inventario
-- Documentación completa de la API
-- Pruebas automatizadas para asegurar la calidad del código
-- Despliegue en un servidor de producción
+---
 
-### Público Objetivo
+## 🛠️ Tecnologías y herramientas
 
-Este repositorio está dirigido a desarrolladores que desean mejorar sus habilidades en el desarrollo backend utilizando tecnologías modernas. Es ideal para aquellos que tienen conocimientos básicos de programación y desean profundizar en el desarrollo de APIs RESTful con TypeScript y Node.js.
+Durante el curso, trabajarás con un stack moderno que simula lo que se usa en la industria:\
+✅ **TypeScript** – Código tipado para mayor seguridad y escalabilidad.\
+✅ **Express v5** – Framework rápido y flexible para APIs REST.\
+✅ **Prisma ORM** – Interfaz moderna para bases de datos SQL.\
+✅ **PostgreSQL** – Base de datos robusta y estándar en la industria.\
+✅ **Vitest + Supertest** – Pruebas automatizadas con TDD.\
+✅ **Zod** – Validaciones de datos seguras y declarativas.\
+✅ **GitHub Copilot + ChatGPT** – Aprendizaje asistido con IA.\
+✅ **GitHub Actions** _(opcional)_ – Automatización de pruebas y despliegue.\
+✅ **Docker + Railway** _(opcional)_ – Entornos de desarrollo y producción reales.
 
-### Contribuciones
+---
 
-Las contribuciones son bienvenidas. Si deseas mejorar este proyecto, por favor, abre un issue o envía un pull request con tus sugerencias y mejoras.
+## 🚀 ¿Qué aprenderás?
 
-### Autor
+✔️ Configurar un backend profesional desde cero.\
+✔️ Crear endpoints REST con buenas prácticas.\
+✔️ Manejar errores y validaciones avanzadas.\
+✔️ Conectar y gestionar bases de datos SQL con Prisma.\
+✔️ Aplicar TDD con pruebas automatizadas.\
+✔️ Implementar autenticación y autorización con JWT.\
+✔️ Estructurar código de forma escalable con una arquitectura en capas.\
+✔️ Optimizar la API con paginación, filtros y consultas eficientes.\
+✔️ Desplegar la API en producción _(opcional, con pasos extra)_.
 
-Este proyecto fue creado por [Germán Aliprandi](mailto:galiprandi@gmail.com) y te invito a contactarme si tienes alguna pregunta o sugerencia.
+---
 
-### Licencia
+## 📌 Metodología y progresión
 
-Este proyecto está bajo la Licencia MIT. Consulta el archivo LICENSE para más detalles.
+Este curso tiene un enfoque práctico y progresivo:
+
+1. **Inicio guiado** – Al principio, cada paso está detallado línea por línea.
+2. **Menos guía, más autonomía** – Luego, se dan requisitos y tests, dejando que el estudiante implemente.
+3. **Uso de herramientas como GitHub Copilot** – Para fomentar la resolución de problemas de forma autónoma.
+4. **Validación con pruebas** – Todo el código debe pasar tests para considerarse correcto.
+5. **Pasos opcionales** – Funcionalidades extra para quienes quieran profundizar más.
+
+---
+
+## 🌍 Comunidad y soporte
+
+El curso fomenta el aprendizaje colaborativo dentro de GitHub, usando:\
+📌 **GitHub Discussions** – Espacio para dudas y debates.\
+📌 **Issues** – Para reportar errores o sugerir mejoras.\
+📌 **Pull Requests** – Para desafíos opcionales y contribuciones.
+
+---
+
+## 💡 ¿Por qué este curso?
+
+A diferencia de otros cursos en español que se quedan en teoría o ejemplos básicos, este curso:\
+✅ Te da un proyecto real que podés mostrar en GitHub.\
+✅ Usa herramientas actuales y prácticas reales de la industria.\
+✅ Te entrena en depuración y pruebas automatizadas.\
+✅ No te deja todo servido: progresivamente te hace pensar y resolver problemas.
+
+Si querés aprender backend de verdad, no solo copiar código, este curso es para vos. 🚀
+
+## 🤝 Contribuciones
+
+Si querés mejorar este curso, podés contribuir de varias formas:
+
+- Reportando errores o mejoras en la sección de Issues.
+- Proponiendo cambios mediante Pull Requests.
+- Compartiendo el curso con otros desarrolladores.
+
+Todas las sugerencias y mejoras son bienvenidas. 🚀
+
+## 👤 Autor
+
+Este curso fue creado por [Germán Aliprandi](https://www.linkedin.com/in/galiprandi). Si tenés preguntas o sugerencias, no dudes en contactarme o abrir una discusión en GitHub.
+
+## 📜 Licencia
+
+Este proyecto está bajo la Licencia MIT, lo que significa que podés usar, modificar y distribuir el código con total libertad, siempre que incluyas la licencia original.
+
+---
 
 ## Paso 1: Fork del repositorio [api-stock](https://github.com/galiprandi/api-stock)
 
