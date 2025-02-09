@@ -26,6 +26,7 @@ No es un curso para **absolutos principiantes** en programación. Se asume que e
 ## 🛠️ Tecnologías y herramientas
 
 Durante el curso, trabajarás con un stack moderno que simula lo que se usa en la industria:\
+
 ✅ **TypeScript** – Código tipado para mayor seguridad y escalabilidad.\
 ✅ **Express v5** – Framework rápido y flexible para APIs REST.\
 ✅ **Prisma ORM** – Interfaz moderna para bases de datos SQL.\
@@ -66,7 +67,8 @@ Este curso tiene un enfoque práctico y progresivo:
 
 ## 🌍 Comunidad y soporte
 
-El curso fomenta el aprendizaje colaborativo dentro de GitHub, usando:\
+El curso fomenta el aprendizaje colaborativo dentro de GitHub, usando:
+
 📌 **GitHub Discussions** – Espacio para dudas y debates.\
 📌 **Issues** – Para reportar errores o sugerir mejoras.\
 📌 **Pull Requests** – Para desafíos opcionales y contribuciones.
@@ -75,7 +77,8 @@ El curso fomenta el aprendizaje colaborativo dentro de GitHub, usando:\
 
 ## 💡 ¿Por qué este curso?
 
-A diferencia de otros cursos en español que se quedan en teoría o ejemplos básicos, este curso:\
+A diferencia de otros cursos en español que se quedan en teoría o ejemplos básicos, este curso:
+
 ✅ Te da un proyecto real que podés mostrar en GitHub.\
 ✅ Usa herramientas actuales y prácticas reales de la industria.\
 ✅ Te entrena en depuración y pruebas automatizadas.\
@@ -141,6 +144,8 @@ Navega al directorio del proyecto clonado:
 Abre el proyecto en VSCode:
 
 Con estos pasos, habrás completado la configuración inicial y estarás listo para comenzar a trabajar en el proyecto.
+
+---
 
 ## Paso 2: Configuremos nuestro proyecto
 
@@ -269,6 +274,8 @@ Hello, TypeScript!
 
 ¡Excelente! Has configurado correctamente tu proyecto con TypeScript y tsx. Ahora, puedes avanzar al siguiente paso para configurar un servidor Express.
 
+---
+
 ## Paso 3: Configuración del Servidor Express y primer endpoint
 
 En este paso, vamos a instalar Express y CORS, y crearemos un endpoint /api/health-check que devolverá `status: "ready"`.
@@ -358,9 +365,11 @@ Deberías recibir esta respuesta:
 - [ ] Deberás inicializar el servidor en el archivo `src/index.ts` y escuchar en el puerto 3000.
 - [ ] Deberás probar el servidor y verificar que el endpoint `/api/health-check` responda correctamente.
 
-## 🎉 ¡Felicitaciones!
+### 🎉 ¡Felicitaciones!
 
 Has creado tu primer endpoint en Express. Ahora, puedes avanzar al siguiente paso para implementar más funcionalidades en tu API.
+
+---
 
 ## Paso 4: Agregar Pruebas Unitarias
 
@@ -434,7 +443,7 @@ Deberías ver una salida similar a esta:
 
 ¡Listo! Ahora tienes pruebas automatizadas para validar que el endpoint /api/health-check funciona correctamente. 🚀
 
-## 🎉 ¡Felicitaciones!
+### 🎉 ¡Felicitaciones!
 
 En este punto, has configurado tu proyecto con TypeScript y Express, además haz configurado tu primer endpoint y pruebas automatizadas. ¡Estás en camino de construir una API REST moderna para control de inventario!
 
@@ -445,6 +454,8 @@ Si aún tienes ganas de explorar más en profundidad, puedes visitar los siguien
 - [Intercambio de recursos de origen cruzado (CORS)](https://developer.mozilla.org/es/docs/Web/HTTP/CORS)
 - [Supertest](https://github.com/ladjs/supertest)
 - [API REST](https://es.wikipedia.org/wiki/Transferencia_de_Estado_Representacional)
+
+---
 
 ## Paso 5: Ruta /api/products
 
@@ -627,11 +638,13 @@ describe("GET /api/products", () => {
 
 Corrige la prueba en `src/tests/products.get.test.ts` para que pase correctamente. Lee atentamente el código de la prueba, ejecuta las pruebas y asegúrate de que pasen correctamente.
 
-## 🎉 ¡Felicitaciones!
+### 🎉 ¡Felicitaciones!
 
 Haz avanzado mucho y ya tiene la estructura básica de tu API REST y los conocimientos necesarios para agregar nuevas rutas y funcionalidades. A partir de ahora las intrucciones serán menos precisas y tendrás que investigar y probar por tu cuenta. Las proximas tareas serán más parecidas a requeriemientos de un cliente y tendrás que implementarlos por tu cuenta, pero siempre especificaremos los criterios de aceptación que deberás cumplir.
 
 > 💡 Recuerda apoyarte en las sugerencias de GitHub Copilot a partir de ahora, será tu compañero y te facilitará el aprendizaje y las tareas repetitivas. Para más información, consulta la [documentación oficial de GitHub Copilot](https://docs.github.com/en/copilot/quickstart?tool=visualstudio).
+
+---
 
 ## Paso 6: Implementar un Endpoint para Crear Productos
 
@@ -689,6 +702,8 @@ curl -X POST http://localhost:3000/api/products -H "Content-Type: application/js
 - [ ] El producto creado deberá ser agregado al array de productos.
 - [ ] El endpoint GET /api/products deberá devolver la lista de productos con el nuevo producto creado.
 - [ ] Deberás agregar pruebas automatizadas para el endpoint POST /api/products.
+
+---
 
 ## Paso 7: Implementar un Endpoint para Actualizar Productos
 
@@ -751,6 +766,8 @@ curl -X PUT http://localhost:3000/api/products/1 -H "Content-Type: application/j
 - [ ] El producto actualizado deberá ser devuelto con el código de estado 200 (OK).
 - [ ] Deberás agregar pruebas automatizadas para el endpoint PUT /api/products/:id.
 
+---
+
 ## Paso 8: Implementar un Endpoint para Eliminar Productos
 
 En este paso, vamos a implementar un endpoint DELETE /api/products/:id que permita eliminar un producto existente. El endpoint recibirá el ID del producto a eliminar en la URL.
@@ -798,6 +815,8 @@ curl -X DELETE http://localhost:3000/api/products/1
 - [ ] El producto eliminado deberá ser devuelto con el código de estado 200 (OK).
 - [ ] El producto eliminado deberá ser removido del array de productos.
 - [ ] Deberás agregar pruebas automatizadas para el endpoint DELETE /api/products/:id.
+
+---
 
 ## Paso 9: Introducción a la Observabilidad y Configuración de Herramientas
 
@@ -878,9 +897,11 @@ Luego de instalar y configurar Pino, ejecuta tu servidor con `npm run dev` y ver
 - [ ] Deberás crear un archivo `src/libs/datadog.ts` para configurar Datadog y exportar el agente.
 - [ ] Deberás verificar que el logging y la integración con Datadog funcionen correctamente en tu aplicación.
 
-## 🎉 ¡Felicitaciones!
+### 🎉 ¡Felicitaciones!
 
 Has hecho avances muy impresionantes en tu proyecto, y mejorado la infraestructura de tu API con herramientas de observabilidad y monitoreo que son claves para escalar y mantener aplicaciones en producción. ¡Sigue así!
+
+---
 
 ## Paso 10: Le pongamos estilo a nuestro código con Biome
 
@@ -988,9 +1009,11 @@ Abre las configuraciones de Visual Studio Code presionando `Shift + Ctrl + P` y 
 - [ ] Deberás configurar Visual Studio Code para que Biome chequeé automáticamente tu código al guardar.
 - [ ] Deberás verificar que Biome funcione correctamente y corrija los errores de estilo en tu código.
 
-## 🎉 ¡Felicitaciones!
+### 🎉 ¡Felicitaciones!
 
 Has mejorado la calidad y consistencia de tu código con Biome, una herramienta de análisis de código estático que te ayudará a mantener un código limpio y consistente. ¡Sigue así!
+
+---
 
 ## Paso 11: Refactorización del CRUD con Servicios y Controladores
 
@@ -1130,9 +1153,11 @@ Luego ejecuta los tests para verificar que todo sigue funcionando correctamente,
 - [ ] Deberás integrar las rutas de productos en el servidor Express y eliminar las rutas antiguas.
 - [ ] Deberás verificar que las rutas de productos funcionen correctamente después de la refactorización.
 
-## 🎉 ¡Felicitaciones!
+### 🎉 ¡Felicitaciones!
 
 Has refactorizado tu API para seguir una arquitectura más escalable y mantenible, utilizando servicios y controladores para separar la lógica de negocio de las rutas. ¡Sigue así!
+
+---
 
 ## Paso 12: Implementar una base de datos PostgreSQL con Prisma
 
@@ -1318,13 +1343,15 @@ import "./libs/prisma";
 - [ ] Deberás generar la primera migración y el Prisma Client.
 - [ ] Deberás configurar y exportar el Prisma Client en un archivo src/libs/prisma.ts.
 
-## 🎉 ¡Felicitaciones!
+### 🎉 ¡Felicitaciones!
 
 Has implementado una base de datos PostgreSQL con Prisma, un ORM moderno y seguro para Node.js y TypeScript. Prisma te permitirá interactuar con la base de datos de forma segura y eficiente, y facilitará la implementación de consultas y migraciones de esquema. ¡Sigue así!
 
 > ### ⚠️ Importante: Esta guía se encuentra en desarrollo y puede sufrir cambios en el futuro. Si tienes alguna sugerencia o corrección, no dudes en abrir un issue o una pull request. ¡Gracias por tu colaboración!
 
-### Próximos Pasos
+---
+
+## Próximos Pasos
 
 - Paso 13: Manejo de Errores y Validaciones Avanzadas
   - Implementar un middleware de manejo de errores con Zod.
