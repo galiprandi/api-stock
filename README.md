@@ -1085,14 +1085,196 @@ Luego ejecuta los tests para verificar que todo sigue funcionando correctamente,
 
 Has refactorizado tu API para seguir una arquitectura más escalable y mantenible, utilizando servicios y controladores para separar la lógica de negocio de las rutas. ¡Sigue así!
 
+## Paso 12: Implementar una base de datos PostgreSQL con Prisma
+
+En este paso, vamos a implementar una base de datos PostgreSQL con Prisma, un ORM moderno y seguro para Node.js y TypeScript. Prisma nos permitirá interactuar con la base de datos de forma segura y eficiente, y nos facilitará la implementación de consultas y migraciones de esquema.
+
+Antes de comenzar con el código, necesitas hacer lo siguiente:
+
+1. Crea un archivo `.gitignore` en la raíz de tu proyecto y agregues las siguientes líneas:
+
+```bash
+.env
+node_modules
+```
+
+> ⚠️ IMPORTANTE: Esto evitará que el archivo `.env`, con las variables de entorno sensibles, se suba al repositorio.
+
+2. Crea una cuenta en Prisma ORM.
+3. Crea un nuevo proyecto en la Prisma Console. Te sugerimos el nombre api-stock.
+4. Crea una base de datos Prisma PostgreSQL. Este proceso tomará unos minutos.
+5. Copia tu `DATABASE_URL` y agregalo en el archivo `.env` de tu proyecto.
+6. Copia tu DATABASE_URL y agrégalo en el archivo .env de tu proyecto.
+
+Listo, ya podemos comenzar con la implementación de Prisma ORM
+
+### Instalación de Prisma
+
+Ejecuta el siguiente comando en tu terminal para instalar Prisma CLI y Prisma Client:
+
+```bash
+npm install -D prisma
+npx prisma init
+```
+
+### Configuración de Prisma
+
+Luego de inicializar Prisma, se creará un archivo `prisma/schema.prisma` con la configuración de la base de datos. Este archivo es clave para definir el esquema de la base de datos y las tablas que vamos a utilizar en nuestra aplicación y la relación entre ellas.
+
+Edita el archivo `prisma/schema.prisma` y reemplázalo con el siguiente código:
+
+```prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Configuration {
+  id            String   @id @default(cuid())
+  currency      String
+  cents         Int
+  negativeStock Boolean
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model User {
+  id          String   @id @default(cuid())
+  email       String   @unique
+  displayName String?
+  password    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Product {
+  id         String          @id @default(cuid())
+  title      String
+  price      Int
+  stock      Int
+  brand      ProductBrand    @relation(fields: [brandId], references: [id], onDelete: Cascade)
+  brandId    String
+  category   ProductCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  categoryId String
+  createdAt  DateTime        @default(now())
+  updatedAt  DateTime        @updatedAt
+}
+
+model ProductBrand {
+  id        String    @id @default(cuid())
+  name      String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  Product   Product[]
+
+  @@map("product_brand")
+}
+
+model ProductCategory {
+  id        String    @id @default(cuid())
+  name      String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  Product   Product[]
+
+  @@map("product_category")
+}
+```
+
+Hemos creado 5 modelos en el archivo `prisma/schema.prisma`:
+
+- `Configuration`: Configuración de la aplicación, como la moneda y la cantidad de decimales. (Lo necesitarás más adelante)
+- `User`: Usuarios de la aplicación, con un email, nombre de usuario y contraseña. (Lo necesitarás más adelante)
+- `Product`: Productos de la aplicación, con un título, precio, stock, marca y categoría.
+- `ProductBrand`: Marcas de los productos, con un nombre.
+- `ProductCategory`: Categorías de los productos, con un nombre.
+
+Cada modelo tiene campos y relaciones que definen la estructura de la base de datos. Si quieres aprender más sobre el modelado de datos en Prisma, consulta la [documentación oficial de Prisma](https://www.prisma.io/docs/orm/prisma-schema/data-model/models).
+
+### Generación de Migraciones y Prisma Client
+
+> 📚 ¿Que son las migraciones en Prisma ORM? Las migraciones en Prisma ORM son cambios en el esquema de la base de datos que se aplican de forma incremental y controlada. Las migraciones permiten modificar la estructura de la base de datos sin perder datos existentes.
+
+Ejecuta los siguientes comandos en tu terminal para generar tu primera migración y generar el Prisma Client:
+
+```bash
+npx prisma migrate dev --name init
+npx prisma generate
+```
+
+### Instalación de Prisma Client
+
+Prisma Client es una biblioteca de base de datos generada automáticamente que se utiliza para interactuar con la base de datos PostgreSQL. Vamos a instalar Prisma Client en nuestra aplicación para realizar consultas y operaciones en la base de datos.
+
+En tu terminal:
+
+```bash
+npm install @prisma/client
+```
+
+Además vamos a modificar el archivo `package.json` para agregar un script que genere el Prisma Client automáticamente después de cada migración:
+
+```json
+{
+  "scripts": {
+    "prisma:generate": "npx prisma generate"
+  }
+}
+```
+
+### Configuración de Prisma Client
+
+Crea un archivo `src/libs/prisma.ts` para configurar y exportar el Prisma Client:
+
+```typescript
+import { PrismaClient } from "@prisma/client";
+import { logger } from "./logger";
+
+export const DB = new PrismaClient();
+
+DB.$connect()
+  .then(() => {
+    logger.info("💾 Database connected successfully");
+  })
+  .catch((error) => {
+    logger.fatal(error, "💾 Database connection error");
+    throw error;
+  });
+
+process.on("beforeExit", async () => {
+  await DB.$disconnect();
+  logger.info("💾 Database connection closed");
+});
+```
+
+### Integración de Prisma Client en el Servidor
+
+Agrega al archivo `src/index.ts` la importación del cliente de Prisma para que se conecte a la base de datos al iniciar el servidor:
+
+```typescript
+import "./libs/prisma";
+```
+
+### Criterios de Aceptación del Paso 12
+
+- [ ] Deberás crear una cuenta en Prisma y configurar una base de datos PostgreSQL.
+- [ ] Deberás obtener el string de conexión DATABASE_URL y agregarlo en el archivo .env.
+- [ ] Deberás instalar Prisma CLI y Prisma Client en tu proyecto.
+- [ ] Deberás configurar el archivo prisma/schema.prisma con los modelos y relaciones de la base de datos.
+- [ ] Deberás generar la primera migración y el Prisma Client.
+- [ ] Deberás configurar y exportar el Prisma Client en un archivo src/libs/prisma.ts.
+
+## 🎉 ¡Felicitaciones!
+
+Has implementado una base de datos PostgreSQL con Prisma, un ORM moderno y seguro para Node.js y TypeScript. Prisma te permitirá interactuar con la base de datos de forma segura y eficiente, y facilitará la implementación de consultas y migraciones de esquema. ¡Sigue así!
+
 > ### ⚠️ Importante: Esta guía se encuentra en desarrollo y puede sufrir cambios en el futuro. Si tienes alguna sugerencia o corrección, no dudes en abrir un issue o una pull request. ¡Gracias por tu colaboración!
 
 ### Próximos Pasos
-
-- Paso 12: Implementar una base de datos PostgreSQL con Prisma
-  - Crear una base de datos PostgreSQL en el servicio Prisma Postgres®.
-  - Configurar Prisma para conectarse a la base de datos.
-  - Implementar la migración de esquema y los modelos de base de datos.
 
 - Paso 13: Manejo de Errores y Validaciones Avanzadas
   - Implementar un middleware de manejo de errores con Zod.
