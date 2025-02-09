@@ -41,7 +41,7 @@ Este repositorio está dirigido a desarrolladores que desean mejorar sus habilid
 Las contribuciones son bienvenidas. Si deseas mejorar este proyecto, por favor, abre un issue o envía un pull request con tus sugerencias y mejoras.
 
 ### Autor
-Este proyecto fue creado por [Germán Aliprandi](mailto:galiprandi@gmail.com) y te inito a contactarme si tienes alguna pregunta o sugerencia.
+Este proyecto fue creado por [Germán Aliprandi](mailto:galiprandi@gmail.com) y te invito a contactarme si tienes alguna pregunta o sugerencia.
 
 ### Licencia
 Este proyecto está bajo la Licencia MIT. Consulta el archivo LICENSE para más detalles.
@@ -306,7 +306,8 @@ En este paso, agregaremos pruebas automatizadas para verificar que el endpoint /
 Primero, necesitamos instalar Vitest y Supertest para realizar pruebas automatizadas. Ejecuta el siguiente comando en tu terminal:
 
 ```bash
-npm install -D vitest supertest @types/supertest
+npm install supertest
+npm install -D vitest @types/supertest
 ```
 
 ### Crear el Archivo de Pruebas
@@ -731,7 +732,7 @@ DD_API_KEY=your-api-key
 
 ```typescript
 export const config = {
-  ENV: process.env.NODE_ENV || "development
+  ENV: process.env.NODE_ENV || "development"
   PORT: process.env.PORT || 3000,
   DD_API_KEY: process.env.DD_API_KEY || "",
 };
