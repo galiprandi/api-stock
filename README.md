@@ -931,3 +931,7 @@ Abre las configuraciones de Visual Studio Code presionando `Shift + Ctrl + P` y 
 - [ ] Deberás configurar Biome en tu proyecto con un estilo de código minimalista.
 - [ ] Deberás agregar un script en el archivo `package.json` para corregir automáticamente los errores de estilo.
 - [ ] Deberás configurar Visual Studio Code para que Biome chequeé automáticamente tu código.
+
+## 🎉 ¡Felicitaciones!
+
+Has mejorado la calidad y consistencia de tu código con Biome, una herramienta de análisis de código estático que te ayudará a mantener un código limpio y consistente. ¡Sigue así!
