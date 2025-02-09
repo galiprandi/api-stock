@@ -699,8 +699,26 @@ export const logger = pino({
 Luego, integra Pino en tu servidor Express. Edita el archivo `src/libs/server.ts` para importar y usar Pino como un nuevo middleware de Express, recuerda importar el `logger` que acabas de crear:
 
 ```typescript
-import pinoHttp from "pino-http"; 
+import pinoHttp from "pino-http";
+import { logger } from "./logger";
+
+// Middleware
 app.use(pinoHttp({ logger }));
+```
+
+>📚 ¿Cuál es la diferencia entre pino y pino-http?
+>
+> - `pino` es un logger rápido para registrar eventos generales en la aplicación.
+> - `pino-http` es un middleware de Express que captura automáticamente las solicitudes HTTP y las registra en el log.
+>
+> Usamos pino-http({ logger }) en server.ts para que todas las peticiones queden registradas automáticamente.
+
+Luego de instalar y configurar Pino, ejecuta tu servidor con `npm run dev` y verifica que los eventos y errores se registren correctamente en la consola.
+
+```bash
+# Salida esperada
+> npx tsx watch --env-file=.env src/index.ts
+INFO  [1678987645000] req: { method: 'GET', url: '/api/products', statusCode: 200, responseTime: 5 }
 ```
 
 ### Instalación de Datadog para Monitoreo
