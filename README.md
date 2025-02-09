@@ -734,3 +734,101 @@ Luego de instalar y configurar Pino, ejecuta tu servidor con `npm run dev` y ver
 ## 🎉 ¡Felicitaciones!
 
 Has hecho avances muy impresionantes en tu proyecto, y mejorado la infraestructura de tu API con herramientas de observabilidad y monitoreo que son claves para escalar y mantener aplicaciones en producción. ¡Sigue así!
+
+## Paso 10: Le pongamos un poco de estilo
+
+En este paso, vamos a asegurarnos que el código de nuestra API siga las mejores prácticas y estándares de codificación. Para ello, vamos a utilizar Biome, su extensión para vscode y definiremos un estilo de código minimalista inspirado en StandardJS.
+
+### Instalación de Biome
+
+Biome es una herramienta de análisis de código estático que ayuda a mantener un código limpio y consistente. Vamos a instalar Biome y su extensión para Visual Studio Code.
+
+Ejecuta el siguiente comando en tu terminal para instalar Biome:
+
+```bash
+npm install --save-dev --save-exact @biomejs/biome
+npx @biomejs/biome init
+```
+
+### Configuración de Biome
+
+Crea un archivo `.biome.json` en la raíz de tu proyecto y agrega la siguiente configuración:
+
+```json
+{
+	"$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+	"vcs": {
+		"enabled": false,
+		"clientKind": "git",
+		"useIgnoreFile": false
+	},
+	"files": {
+		"ignoreUnknown": false,
+		"ignore": []
+	},
+	"formatter": {
+		"enabled": true,
+		"indentStyle": "tab"
+	},
+	"organizeImports": {
+		"enabled": true
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"correctness": {
+				"noUnusedImports": "warn",
+				"noUnusedVariables": "warn",
+				"noUnusedFunctionParameters": "warn"
+			},
+			"recommended": true
+		}
+	},
+	"javascript": {
+		"formatter": {
+			"quoteStyle": "single",
+			"semicolons": "asNeeded"
+		}
+	}
+}
+```
+
+### Agregemos un script que corrige automáticamente los errores y estandardiza el código
+
+Agrega el siguiente script en la sección "scripts" de tu archivo `package.json`:
+
+```json
+{
+  "scripts": {
+    "check": "biome check --write ."
+  }
+}
+```
+
+### Configuremos vscode para que Biome chequeé nuestro código por defecto al guardar
+
+Abre las configuraciones de Visual Studio Code presionando `Sift + Ctrl + P` y selecciona "Preferences: Open Settings (JSON)". Agrega la siguiente configuración para que Biome chequeé automáticamente tu código al guardar:
+
+```json
+{
+    "editor.formatOnSave": true,
+    "[javascript]": {
+        "editor.defaultFormatter": "biomejs.biome"
+    },
+    "[jsonc]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "[typescript]": {
+        "editor.defaultFormatter": "biomejs.biome"
+    }
+}
+```
+
+### Criterios de Aceptación del Paso 10
+
+- [ ] Deberás instalar Biome y su extensión para Visual Studio Code.
+- [ ] Deberás configurar Biome en tu proyecto con un estilo de código minimalista.
+- [ ] Deberás agregar un script en el archivo `package.json` para corregir automáticamente los errores de estilo.
+- [ ] Deberás configurar Visual Studio Code para que Biome chequeé automáticamente tu código.
+
+
