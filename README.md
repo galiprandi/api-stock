@@ -942,3 +942,146 @@ Abre las configuraciones de Visual Studio Code presionando `Shift + Ctrl + P` y 
 ## 🎉 ¡Felicitaciones!
 
 Has mejorado la calidad y consistencia de tu código con Biome, una herramienta de análisis de código estático que te ayudará a mantener un código limpio y consistente. ¡Sigue así!
+
+## Paso 11: Refactorización del CRUD con Servicios y Controladores
+
+En este paso, vamos a refactorizar el código de nuestra API para seguir una arquitectura más escalable y mantenible. Vamos a separar la lógica de negocio en servicios y controladores para mejorar la organización y reutilización del código. Además vamos a implementar una arquitectura en capas (Layered Architecture) que es más escalable y mantenible.
+
+### Creemos la estructura de carpetas
+
+Organizaremos los servicios y controladores en módulos dentro del directorio `src/api`. Cada módulo representará un recurso de la aplicación, como products y users.
+
+```bash
+src/
+│── api/
+│   ├── health-check/
+│   │   ├── controllers/
+│   │   ├── services/
+│   │   ├── health-check.route.ts
+│   ├── products/
+│   │   ├── controllers/
+│   │   ├── services/
+│   │   ├── products.routes.ts
+│   ├── users/ # Ejemplo de un módulo de usuarios
+│   │   ├── controllers/
+│   │   ├── services/
+│   │   ├── users.route.ts
+│   ├── orders/ # Ejemplo de un módulo de órdenes
+│   │   ├── controllers/
+│   │   ├── services/
+│   │   ├── orders.route.ts
+│   ├── ... # Otros módulos
+```
+
+> 📚 Separación en módulos: La separación en módulos es una técnica de diseño de software que consiste en dividir una aplicación en partes más pequeñas y manejables. Cada módulo se enfoca en una tarea específica y se comunica con otros módulos a través de interfaces bien definidas.
+
+### Creemos nuestro primer Servicio
+
+Crea un archivo `src/api/products/services/products.get.all.service.ts` y agrega el siguiente código:
+
+```typescript
+import { products } from "../../../data/products";
+
+export const getAllProductsService = () => {
+  return products;
+};
+```
+
+### Creemos el primer Controlador
+
+Crea un archivo `src/api/products/controllers/products.get.all.controller.ts` y agrega el siguiente código:
+
+```typescript
+import type { Request, Response } from "express";
+import { getAllProductsService } from "../services/products.get.all.service";
+
+export const getAllProductsController = (_req: Request, res: Response) => {
+  const allProducts = getAllProductsService();
+  res.json(allProducts);
+};
+```
+
+### Creemos la Ruta para los Productos
+
+Crea un archivo `src/api/products/products.routes.ts` y agrega el siguiente código:
+
+```typescript
+import { Router } from 'express'
+import { getAllProductsController } from './controllers/products.get.all.controller'
+
+export const productsRoutes = Router()
+
+productsRoutes.get('/', getAllProductsController)
+```
+
+### Integremos la Ruta en el Servidor
+
+Edita el archivo `src/libs/server.ts` para importar y usar la ruta de productos y eliminar las rutas antiguas:
+
+```typescript
+import cors from 'cors'
+import express from 'express'
+import pinoHttp from 'pino-http'
+import { logger } from './logger'
+import { productsRoutes } from '../api/products/products.routes'
+import { healthCheckRoutes } from '../api/health-check/health-check.routes'
+
+const app = express()
+
+// Middleware
+app.use(cors())
+app.use(express.json())
+app.use(pinoHttp({ logger }))
+
+// Routes
+app.use('/api/health-check', healthCheckRoutes)
+app.use('/api/products', productsRoutes)
+
+// Exportar el servidor para usarlo en index.ts
+export { app }
+
+```
+
+### Refactoriza el resto de las rutas
+
+Mueve la lógica de negocio del archivo `src/routes/products.ts` a los servicios y controladores correspondientes en el directorio `src/api/products`. Repite el proceso para las rutas de creación, actualización y eliminación de productos.
+
+La estructura de carpetas y archivos debería verse así:
+
+```bash
+src/
+│── api/
+│   ├──   /
+│   │   ├── controllers/
+│   │   │   ├── health-check.get.controller.ts
+│   │   ├── services/
+│   │   │   ├── health-check.get.service.ts
+│   │   ├── health-check.routes.ts
+│   ├── products/
+│   │   ├── controllers/
+│   │   │   ├── products.create.controller.ts
+│   │   │   ├── products.get.all.controller.ts
+│   │   │   ├── products.update.controller.ts
+│   │   │   ├── products.delete.controller.ts
+│   │   ├── services/
+│   │   │   ├── products.create.service.ts
+│   │   │   ├── products.get.all.service.ts
+│   │   │   ├── products.update.service.ts
+│   │   │   ├── products.delete.service.ts
+│   │   ├── products.routes.ts
+```
+
+Ya puedes eliminar el archivo `src/routes/products.ts` y su importación en `src/libs/server.ts`.
+Luego ejecuta los tests para verificar que todo sigue funcionando correctamente, y has los ajustes necesarios en caso de que algo falle.
+
+### Criterios de Aceptación del Paso 11
+
+- [ ] Deberás crear una estructura de carpetas y archivos para los servicios y controladores de la API.
+- [ ] Deberás crear servicios y controladores para las operaciones CRUD de los productos.
+- [ ] Deberás mover la lógica de negocio de las rutas a los servicios y controladores correspondientes.
+- [ ] Deberás integrar las rutas de productos en el servidor Express y eliminar las rutas antiguas.
+- [ ] Deberás verificar que las rutas de productos funcionen correctamente después de la refactorización.
+
+## 🎉 ¡Felicitaciones!
+
+Has refactorizado tu API para seguir una arquitectura más escalable y mantenible, utilizando servicios y controladores para separar la lógica de negocio de las rutas. ¡Sigue así!
