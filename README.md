@@ -1006,12 +1006,12 @@ export const getAllProductsController = (_req: Request, res: Response) => {
 Crea un archivo `src/api/products/products.routes.ts` y agrega el siguiente código:
 
 ```typescript
-import { Router } from 'express'
-import { getAllProductsController } from './controllers/products.get.all.controller'
+import { Router } from "express";
+import { getAllProductsController } from "./controllers/products.get.all.controller";
 
-export const productsRoutes = Router()
+export const productsRoutes = Router();
 
-productsRoutes.get('/', getAllProductsController)
+productsRoutes.get("/", getAllProductsController);
 ```
 
 ### Integremos la Ruta en el Servidor
@@ -1019,27 +1019,26 @@ productsRoutes.get('/', getAllProductsController)
 Edita el archivo `src/libs/server.ts` para importar y usar la ruta de productos y eliminar las rutas antiguas:
 
 ```typescript
-import cors from 'cors'
-import express from 'express'
-import pinoHttp from 'pino-http'
-import { logger } from './logger'
-import { productsRoutes } from '../api/products/products.routes'
-import { healthCheckRoutes } from '../api/health-check/health-check.routes'
+import cors from "cors";
+import express from "express";
+import pinoHttp from "pino-http";
+import { healthCheckRoutes } from "../api/health-check/health-check.routes";
+import { productsRoutes } from "../api/products/products.routes";
+import { logger } from "./logger";
 
-const app = express()
+const app = express();
 
 // Middleware
-app.use(cors())
-app.use(express.json())
-app.use(pinoHttp({ logger }))
+app.use(cors());
+app.use(express.json());
+app.use(pinoHttp({ logger }));
 
 // Routes
-app.use('/api/health-check', healthCheckRoutes)
-app.use('/api/products', productsRoutes)
+app.use("/api/health-check", healthCheckRoutes);
+app.use("/api/products", productsRoutes);
 
 // Exportar el servidor para usarlo en index.ts
-export { app }
-
+export { app };
 ```
 
 ### Refactoriza el resto de las rutas
@@ -1085,3 +1084,56 @@ Luego ejecuta los tests para verificar que todo sigue funcionando correctamente,
 ## 🎉 ¡Felicitaciones!
 
 Has refactorizado tu API para seguir una arquitectura más escalable y mantenible, utilizando servicios y controladores para separar la lógica de negocio de las rutas. ¡Sigue así!
+
+> ### ⚠️ Importante: Esta guía se encuentra en desarrollo y puede sufrir cambios en el futuro. Si tienes alguna sugerencia o corrección, no dudes en abrir un issue o una pull request. ¡Gracias por tu colaboración!
+
+### Próximos Pasos
+
+- Paso 12: Manejo de Errores y Validaciones Avanzadas
+  - Implementar un middleware de manejo de errores con Zod.
+  - Estandarizar respuestas de error con códigos de estado adecuados.
+
+- Paso 13: Implementar una base de datos PostgreSQL con Prisma
+  - Crear una base de datos PostgreSQL en el servicio Prisma Postgres®.
+  - Configurar Prisma para conectarse a la base de datos.
+  - Implementar la migración de esquema y los modelos de base de datos.
+
+- Paso 14: Adaptar Servicios para Usar Base de Datos Real
+  - Actualizar los servicios para interactuar con PostgreSQL a través de Prisma.
+  - Implementar consultas eficientes y manejar transacciones si es necesario.
+
+- Paso 15: Implementar Paginación y Filtros en Endpoints
+  - Agregar paginación y filtros dinámicos en los endpoints.
+  - Optimizar consultas para mejorar el rendimiento en grandes volúmenes de datos.
+
+- Paso 16: Documentación Automática con OpenAPI (Swagger)
+  - Generar documentación interactiva para la API.
+  - Agregar ejemplos de uso y esquemas de respuesta.
+  - Permitir pruebas de endpoints directamente desde la documentación.
+
+- Paso 17: Implementar authentificación y autorización
+  - Agregar autenticación con JWT y Passport.
+  - Implementar autorización basada en roles y permisos.
+  - Proteger rutas sensibles y recursos críticos.
+
+- Paso 18: CRUD de usuarios y roles
+  - Implementar endpoints para crear, leer, actualizar y eliminar usuarios y roles.
+  - Agregar endpoints obtener token de acceso y refrescar token.
+  - Implementar endpoints para asignar y revocar roles y permisos.
+
+- Paso 19: Ruta /stocks
+  - Crear una ruta para manejar el stock de productos.
+  - Implementar endpoints para ajustar el stock y obtener el stock actual.
+  - Agregar pruebas automatizadas para los endpoints de stock.
+
+- Paso 20: Seguridad y Buenas Prácticas en Producción
+  - Configurar Helmet y Rate Limiting para proteger la API.
+  - Evitar inyecciones SQL y ataques XSS.
+  - Agregar CORS con restricciones adecuadas.
+  -
+- Paso 21: Despliegue y Configuración en Producción
+  - Desplegar la API Railway.
+  - Manejar variables de entorno y logs en producción.
+
+- Paso 22: Implementación de CI/CD
+  - Configurar GitHub Actions para pruebas automatizadas y despliegue continuo.
