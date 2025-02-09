@@ -1089,14 +1089,14 @@ Has refactorizado tu API para seguir una arquitectura más escalable y mantenibl
 
 ### Próximos Pasos
 
-- Paso 12: Manejo de Errores y Validaciones Avanzadas
-  - Implementar un middleware de manejo de errores con Zod.
-  - Estandarizar respuestas de error con códigos de estado adecuados.
-
-- Paso 13: Implementar una base de datos PostgreSQL con Prisma
+- Paso 12: Implementar una base de datos PostgreSQL con Prisma
   - Crear una base de datos PostgreSQL en el servicio Prisma Postgres®.
   - Configurar Prisma para conectarse a la base de datos.
   - Implementar la migración de esquema y los modelos de base de datos.
+
+- Paso 13: Manejo de Errores y Validaciones Avanzadas
+  - Implementar un middleware de manejo de errores con Zod.
+  - Estandarizar respuestas de error con códigos de estado adecuados.
 
 - Paso 14: Adaptar Servicios para Usar Base de Datos Real
   - Actualizar los servicios para interactuar con PostgreSQL a través de Prisma.
@@ -1111,29 +1111,37 @@ Has refactorizado tu API para seguir una arquitectura más escalable y mantenibl
   - Agregar ejemplos de uso y esquemas de respuesta.
   - Permitir pruebas de endpoints directamente desde la documentación.
 
-- Paso 17: Implementar authentificación y autorización
-  - Agregar autenticación con JWT y Passport.
+- Paso 17: CRUD de Usuarios, Roles y Autenticación
+  - Implementar endpoints para crear, leer, actualizar y eliminar usuarios y roles.
+  - Agregar endpoints para obtener y refrescar tokens de acceso.
+  - Implementar endpoints para asignar y revocar roles y permisos.
+  - Implementar autenticación con JWT y Passport.
   - Implementar autorización basada en roles y permisos.
   - Proteger rutas sensibles y recursos críticos.
+  - Agregar pruebas automatizadas para los endpoints de usuarios y roles.
 
-- Paso 18: CRUD de usuarios y roles
-  - Implementar endpoints para crear, leer, actualizar y eliminar usuarios y roles.
-  - Agregar endpoints obtener token de acceso y refrescar token.
-  - Implementar endpoints para asignar y revocar roles y permisos.
+- Paso 18: Movimientos de stocks y Control de Inventario
+  - Implementar endpoints para registrar movimientos de stocks.
+  - Agregar lógica de negocio para controlar el inventario.
+  - Implementar endpoints para consultar el stock disponible y los movimientos de inventario.
+  - Agregar pruebas automatizadas para los endpoints de inventario.
 
-- Paso 19: Ruta /stocks
-  - Crear una ruta para manejar el stock de productos.
-  - Implementar endpoints para ajustar el stock y obtener el stock actual.
-  - Agregar pruebas automatizadas para los endpoints de stock.
+- Paso 19: Reportes y Estadísticas
+  - Implementar endpoints para generar reportes y estadísticas.
+  - Agregar filtros y parámetros para personalizar los reportes.
 
-- Paso 20: Seguridad y Buenas Prácticas en Producción
+- Paso 20: Módulo de importar/exportar datos
+  - Implementar endpoints para importar y exportar datos en formato CSV o JSON.
+  - Agregar validaciones y transformaciones de datos para garantizar la integridad.
+  
+- Paso 21: Seguridad y Buenas Prácticas en Producción
   - Configurar Helmet y Rate Limiting para proteger la API.
   - Evitar inyecciones SQL y ataques XSS.
   - Agregar CORS con restricciones adecuadas.
   -
-- Paso 21: Despliegue y Configuración en Producción
-  - Desplegar la API Railway.
+- Paso 22: Despliegue y Configuración en Producción
+  - Desplegar la API Railway o Fly.io.
   - Manejar variables de entorno y logs en producción.
 
-- Paso 22: Implementación de CI/CD
+- Paso 23: Implementación de CI/CD
   - Configurar GitHub Actions para pruebas automatizadas y despliegue continuo.
