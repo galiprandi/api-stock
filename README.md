@@ -1,4 +1,4 @@
-### 📦 API Stock – Curso de Backend en TypeScript
+# 📦 API Stock – Curso de Backend en TypeScript
 
 Este es un curso práctico y progresivo diseñado para personas con conocimientos básicos de JavaScript y TypeScript que quieren aprender a construir un backend moderno con tecnologías actuales. A diferencia de otros cursos, aquí trabajarás en un proyecto real desde el primer día, evolucionando tu propio repositorio en GitHub a medida que avanzas.
 
