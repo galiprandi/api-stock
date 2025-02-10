@@ -1347,11 +1347,11 @@ import "./libs/prisma";
 
 Has implementado una base de datos PostgreSQL con Prisma, un ORM moderno y seguro para Node.js y TypeScript. Prisma te permitirá interactuar con la base de datos de forma segura y eficiente, y facilitará la implementación de consultas y migraciones de esquema. ¡Sigue así!
 
+
+
+# 🔜 Próximos Pasos
+
 > ### ⚠️ Importante: Esta guía se encuentra en desarrollo y puede sufrir cambios en el futuro. Si tienes alguna sugerencia o corrección, no dudes en abrir un issue o una pull request. ¡Gracias por tu colaboración!
-
----
-
-## Próximos Pasos
 
 - Paso 13: Manejo de Errores y Validaciones Avanzadas
   - Implementar un middleware de manejo de errores con Zod.
