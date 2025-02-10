@@ -27,15 +27,15 @@ No es un curso para **absolutos principiantes** en programación. Se asume que e
 
 Durante el curso, trabajarás con un stack moderno que simula lo que se usa en la industria:\
 
-✅ **TypeScript** – Código tipado para mayor seguridad y escalabilidad.\
-✅ **Express v5** – Framework rápido y flexible para APIs REST.\
-✅ **Prisma ORM** – Interfaz moderna para bases de datos SQL.\
-✅ **PostgreSQL** – Base de datos robusta y estándar en la industria.\
-✅ **Vitest + Supertest** – Pruebas automatizadas con TDD.\
+✅ **TypeScript**: Código tipado para mayor seguridad y escalabilidad.\
+✅ **Express v5**: Framework rápido y flexible para APIs REST.\
+✅ **Prisma ORM**: Interfaz moderna para bases de datos SQL.\
+✅ **PostgreSQL**: Base de datos robusta y estándar en la industria.\
+✅ **Vitest + Supertest**: Pruebas automatizadas con TDD.\
 ✅ **Zod** – Validaciones de datos seguras y declarativas.\
-✅ **GitHub Copilot + ChatGPT** – Aprendizaje asistido con IA.\
-✅ **GitHub Actions** _(opcional)_ – Automatización de pruebas y despliegue.\
-✅ **Docker + Railway** _(opcional)_ – Entornos de desarrollo y producción reales.
+✅ **GitHub Copilot + ChatGPT**: Aprendizaje asistido con IA.\
+✅ **GitHub Actions**: _(opcional)_ Automatización de pruebas y despliegue.\
+✅ **Docker + Railway**: _(opcional)_ Entornos de desarrollo y producción reales.
 
 ---
 
