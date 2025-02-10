@@ -1351,10 +1351,6 @@ Has implementado una base de datos PostgreSQL con Prisma, un ORM moderno y segur
 
 ---
 
-## Paso 13: 
-
----
-
 ## Próximos Pasos
 
 - Paso 13: Manejo de Errores y Validaciones Avanzadas
