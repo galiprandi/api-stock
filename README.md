@@ -179,7 +179,7 @@ Esto creará un archivo `tsconfig.json` en tu proyecto. A continuación, te mues
 
 Este archivo de configuración establece varias opciones importantes para un proyecto Node.js, como el objetivo de compilación (target), el sistema de módulos (module), y los directorios de salida y raíz (outDir y rootDir).
 
-Para más detalles sobre las opciones de configuración de TypeScript, te recomiendo leer la [cheat sheet de tsconfig](https://www.totaltypescript.com/tsconfig-cheat-sheet).
+> 📚 Para más detalles sobre las opciones de configuración de TypeScript, te recomiendo leer la [cheat sheet de tsconfig](https://www.totaltypescript.com/tsconfig-cheat-sheet).
 
 ### Scripts del package.json
 
@@ -1348,6 +1348,10 @@ import "./libs/prisma";
 Has implementado una base de datos PostgreSQL con Prisma, un ORM moderno y seguro para Node.js y TypeScript. Prisma te permitirá interactuar con la base de datos de forma segura y eficiente, y facilitará la implementación de consultas y migraciones de esquema. ¡Sigue así!
 
 > ### ⚠️ Importante: Esta guía se encuentra en desarrollo y puede sufrir cambios en el futuro. Si tienes alguna sugerencia o corrección, no dudes en abrir un issue o una pull request. ¡Gracias por tu colaboración!
+
+---
+
+## Paso 13: 
 
 ---
 
