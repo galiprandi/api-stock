@@ -2,15 +2,11 @@
 
 Este es un curso práctico y progresivo diseñado para personas con conocimientos básicos de JavaScript y TypeScript que quieren aprender a construir un backend moderno con tecnologías actuales. A diferencia de otros cursos, aquí trabajarás en un proyecto real desde el primer día, evolucionando tu propio repositorio en GitHub a medida que avanzas.
 
----
-
 ## 🎯 Objetivo del Curso
 
 El objetivo es que, al finalizar, tengas una API funcional y escalable en tu GitHub, construida con buenas prácticas y herramientas profesionales. Aprenderás desde los fundamentos hasta técnicas avanzadas, ganando experiencia en un entorno similar al de un equipo de desarrollo real.
 
 Este curso no solo te enseña a programar, sino que también te prepara para enfrentar desafíos comunes en el desarrollo backend, con un enfoque en depuración, pruebas automatizadas y uso de herramientas modernas.
-
----
 
 ## 👤 ¿A quién va dirigido?
 
@@ -20,8 +16,6 @@ Este curso no solo te enseña a programar, sino que también te prepara para enf
 - Quienes quieran aprender herramientas modernas como Prisma, GitHub Copilot y Zod aplicadas a un backend real.
 
 No es un curso para **absolutos principiantes** en programación. Se asume que entendés los fundamentos de JavaScript y TypeScript, pero no necesitás experiencia profesional en backend.
-
----
 
 ## 🛠️ Tecnologías y herramientas
 
@@ -37,8 +31,6 @@ Durante el curso, trabajarás con un stack moderno que simula lo que se usa en l
 ✅ **GitHub Actions**: _(opcional)_ Automatización de pruebas y despliegue.\
 ✅ **Docker + Railway**: _(opcional)_ Entornos de desarrollo y producción reales.
 
----
-
 ## 🚀 ¿Qué aprenderás?
 
 ✔️ Configurar un backend profesional desde cero.\
@@ -51,8 +43,6 @@ Durante el curso, trabajarás con un stack moderno que simula lo que se usa en l
 ✔️ Optimizar la API con paginación, filtros y consultas eficientes.\
 ✔️ Desplegar la API en producción _(opcional, con pasos extra)_.
 
----
-
 ## 📌 Metodología y progresión
 
 Este curso tiene un enfoque práctico y progresivo:
@@ -63,8 +53,6 @@ Este curso tiene un enfoque práctico y progresivo:
 4. **Validación con pruebas** – Todo el código debe pasar tests para considerarse correcto.
 5. **Pasos opcionales** – Funcionalidades extra para quienes quieran profundizar más.
 
----
-
 ## 🌍 Comunidad y soporte
 
 El curso fomenta el aprendizaje colaborativo dentro de GitHub, usando:
@@ -72,8 +60,6 @@ El curso fomenta el aprendizaje colaborativo dentro de GitHub, usando:
 📌 **GitHub Discussions** – Espacio para dudas y debates.\
 📌 **Issues** – Para reportar errores o sugerir mejoras.\
 📌 **Pull Requests** – Para desafíos opcionales y contribuciones.
-
----
 
 ## 💡 ¿Por qué este curso?
 
@@ -103,8 +89,6 @@ Este curso fue creado por [Germán Aliprandi](https://www.linkedin.com/in/galipr
 ## 📜 Licencia
 
 Este proyecto está bajo la Licencia MIT, lo que significa que podés usar, modificar y distribuir el código con total libertad, siempre que incluyas la licencia original.
-
----
 
 ## Paso 1: Fork del repositorio [api-stock](https://github.com/galiprandi/api-stock)
 
@@ -144,8 +128,6 @@ Navega al directorio del proyecto clonado:
 Abre el proyecto en VSCode:
 
 Con estos pasos, habrás completado la configuración inicial y estarás listo para comenzar a trabajar en el proyecto.
-
----
 
 ## Paso 2: Configuremos nuestro proyecto
 
@@ -274,8 +256,6 @@ Hello, TypeScript!
 
 ¡Excelente! Has configurado correctamente tu proyecto con TypeScript y tsx. Ahora, puedes avanzar al siguiente paso para configurar un servidor Express.
 
----
-
 ## Paso 3: Configuración del Servidor Express y primer endpoint
 
 En este paso, vamos a instalar Express y CORS, y crearemos un endpoint /api/health-check que devolverá `status: "ready"`.
@@ -369,8 +349,6 @@ Deberías recibir esta respuesta:
 
 Has creado tu primer endpoint en Express. Ahora, puedes avanzar al siguiente paso para implementar más funcionalidades en tu API.
 
----
-
 ## Paso 4: Agregar Pruebas Unitarias
 
 > 📚 ¿Qué son las pruebas unitarias? Las pruebas unitarias son pruebas automatizadas que verifican que una unidad de código (como una función o un módulo) funcione correctamente. Estas pruebas se centran en probar partes específicas del código para garantizar que se comporten como se espera.
@@ -454,8 +432,6 @@ Si aún tienes ganas de explorar más en profundidad, puedes visitar los siguien
 - [Intercambio de recursos de origen cruzado (CORS)](https://developer.mozilla.org/es/docs/Web/HTTP/CORS)
 - [Supertest](https://github.com/ladjs/supertest)
 - [API REST](https://es.wikipedia.org/wiki/Transferencia_de_Estado_Representacional)
-
----
 
 ## Paso 5: Ruta /api/products
 
@@ -644,8 +620,6 @@ Haz avanzado mucho y ya tiene la estructura básica de tu API REST y los conocim
 
 > 💡 Recuerda apoyarte en las sugerencias de GitHub Copilot a partir de ahora, será tu compañero y te facilitará el aprendizaje y las tareas repetitivas. Para más información, consulta la [documentación oficial de GitHub Copilot](https://docs.github.com/en/copilot/quickstart?tool=visualstudio).
 
----
-
 ## Paso 6: Implementar un Endpoint para Crear Productos
 
 En este paso, vamos a implementar un endpoint POST /api/products que permita crear un nuevo producto. El endpoint recibirá los datos del producto en el cuerpo de la solicitud y devolverá el producto creado con un ID único.
@@ -702,8 +676,6 @@ curl -X POST http://localhost:3000/api/products -H "Content-Type: application/js
 - [ ] El producto creado deberá ser agregado al array de productos.
 - [ ] El endpoint GET /api/products deberá devolver la lista de productos con el nuevo producto creado.
 - [ ] Deberás agregar pruebas automatizadas para el endpoint POST /api/products.
-
----
 
 ## Paso 7: Implementar un Endpoint para Actualizar Productos
 
@@ -766,8 +738,6 @@ curl -X PUT http://localhost:3000/api/products/1 -H "Content-Type: application/j
 - [ ] El producto actualizado deberá ser devuelto con el código de estado 200 (OK).
 - [ ] Deberás agregar pruebas automatizadas para el endpoint PUT /api/products/:id.
 
----
-
 ## Paso 8: Implementar un Endpoint para Eliminar Productos
 
 En este paso, vamos a implementar un endpoint DELETE /api/products/:id que permita eliminar un producto existente. El endpoint recibirá el ID del producto a eliminar en la URL.
@@ -815,8 +785,6 @@ curl -X DELETE http://localhost:3000/api/products/1
 - [ ] El producto eliminado deberá ser devuelto con el código de estado 200 (OK).
 - [ ] El producto eliminado deberá ser removido del array de productos.
 - [ ] Deberás agregar pruebas automatizadas para el endpoint DELETE /api/products/:id.
-
----
 
 ## Paso 9: Introducción a la Observabilidad y Configuración de Herramientas
 
@@ -900,8 +868,6 @@ Luego de instalar y configurar Pino, ejecuta tu servidor con `npm run dev` y ver
 ### 🎉 ¡Felicitaciones!
 
 Has hecho avances muy impresionantes en tu proyecto, y mejorado la infraestructura de tu API con herramientas de observabilidad y monitoreo que son claves para escalar y mantener aplicaciones en producción. ¡Sigue así!
-
----
 
 ## Paso 10: Le pongamos estilo a nuestro código con Biome
 
@@ -1012,8 +978,6 @@ Abre las configuraciones de Visual Studio Code presionando `Shift + Ctrl + P` y 
 ### 🎉 ¡Felicitaciones!
 
 Has mejorado la calidad y consistencia de tu código con Biome, una herramienta de análisis de código estático que te ayudará a mantener un código limpio y consistente. ¡Sigue así!
-
----
 
 ## Paso 11: Refactorización del CRUD con Servicios y Controladores
 
@@ -1156,8 +1120,6 @@ Luego ejecuta los tests para verificar que todo sigue funcionando correctamente,
 ### 🎉 ¡Felicitaciones!
 
 Has refactorizado tu API para seguir una arquitectura más escalable y mantenible, utilizando servicios y controladores para separar la lógica de negocio de las rutas. ¡Sigue así!
-
----
 
 ## Paso 12: Implementar una base de datos PostgreSQL con Prisma
 
@@ -1346,8 +1308,6 @@ import "./libs/prisma";
 ### 🎉 ¡Felicitaciones!
 
 Has implementado una base de datos PostgreSQL con Prisma, un ORM moderno y seguro para Node.js y TypeScript. Prisma te permitirá interactuar con la base de datos de forma segura y eficiente, y facilitará la implementación de consultas y migraciones de esquema. ¡Sigue así!
-
-
 
 # 🔜 Próximos Pasos
 
