@@ -712,7 +712,6 @@ Comencemos creando primero las pruebas unitarias, crea el archivo `src/tests/pro
 ```typescript
 import request from "supertest";
 import { describe, expect, it } from "vitest";
-import { products } from "../data/products";
 import { app } from "../libs/server";
 
 describe("PUT /api/products/:id", () => {
