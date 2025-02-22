@@ -650,9 +650,11 @@ Comencemos creando primero las pruebas unitarias, crea el archivo `src/tests/pro
 import request from "supertest";
 import { describe, expect, it } from "vitest";
 import { app } from "../libs/server";
+import { products } from "../data/products";
 
 describe("POST /api/products", () => {
   it("should create a new product", async () => {
+    const totlasProducts = products.length;
     const newProduct = {
       title: "Smart Speaker",
       brand: "Google",
@@ -666,6 +668,7 @@ describe("POST /api/products", () => {
       .send(newProduct);
 
     expect(response.status).toBe(201);
+    expect(response.body.id).toBe(totlasProducts +1);
     expect(response.body).toMatchObject(newProduct);
   });
 });
