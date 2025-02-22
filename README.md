@@ -201,7 +201,7 @@ npm install -D tsx @types/node
 
 > 📚 ¿Qué son las variables de entorno? Las variables de entorno son valores dinámicos que pueden afectar el comportamiento de un programa. Se utilizan para configurar la aplicación en diferentes entornos, como desarrollo, pruebas y producción.
 
-Antes de crear el archivo `.env` que contrendrá información sensible, debemos crear un archivo .gitignore en la raíz de tu proyecto y agregues las siguientes líneas:
+Antes de crear el archivo `.env` que contrendrá información sensible, debemos crear un archivo `.gitignore` en la raíz de tu proyecto y agregues las siguientes líneas:
 
 ```env
 .env
