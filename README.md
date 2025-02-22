@@ -201,6 +201,16 @@ npm install -D tsx @types/node
 
 > 📚 ¿Qué son las variables de entorno? Las variables de entorno son valores dinámicos que pueden afectar el comportamiento de un programa. Se utilizan para configurar la aplicación en diferentes entornos, como desarrollo, pruebas y producción.
 
+Antes de crear el archivo `.env` que contrendrá información sensible, debemos crear un archivo .gitignore en la raíz de tu proyecto y agregues las siguientes líneas:
+
+```env
+.env
+node_modules
+dist
+```
+
+⚠️ IMPORTANTE: Esto evitará que el archivo .env, con las variables de entorno sensibles, se suba al repositorio.
+
 Para gestionar las variables de entorno en nuestro proyecto, vamos a crear un archivo `.env` en la raíz de nuestro proyecto. Este archivo contendrá las variables de entorno necesarias para configurar nuestra aplicación.
 
 Crea un archivo `.env` en la raíz de tu proyecto y agrega las siguientes variables de entorno:
@@ -1127,21 +1137,11 @@ En este paso, vamos a implementar una base de datos PostgreSQL con Prisma, un OR
 
 Antes de comenzar con el código, necesitas hacer lo siguiente:
 
-1. Crea un archivo `.gitignore` en la raíz de tu proyecto y agregues las siguientes líneas:
-
-```gitignore
-.env
-node_modules
-dist
-```
-
-> ⚠️ IMPORTANTE: Esto evitará que el archivo `.env`, con las variables de entorno sensibles, se suba al repositorio.
-
-2. Crea una cuenta en Prisma ORM.
-3. Crea un nuevo proyecto en la Prisma Console. Te sugerimos el nombre api-stock.
-4. Crea una base de datos Prisma PostgreSQL. Este proceso tomará unos minutos.
-5. Copia tu `DATABASE_URL` y agregalo en el archivo `.env` de tu proyecto.
-6. Copia tu DATABASE_URL y agrégalo en el archivo .env de tu proyecto.
+1. Crea una cuenta en Prisma ORM.
+2. Crea un nuevo proyecto en la Prisma Console. Te sugerimos el nombre api-stock.
+3. Crea una base de datos Prisma PostgreSQL. Este proceso tomará unos minutos.
+4. Copia tu `DATABASE_URL` y agregalo en el archivo `.env` de tu proyecto.
+5. Copia tu DATABASE_URL y agrégalo en el archivo .env de tu proyecto.
 
 Listo, ya podemos comenzar con la implementación de Prisma ORM
 
