@@ -1339,28 +1339,459 @@ import "./libs/prisma";
 
 Has implementado una base de datos PostgreSQL con Prisma, un ORM moderno y seguro para Node.js y TypeScript. Prisma te permitirá interactuar con la base de datos de forma segura y eficiente, y facilitará la implementación de consultas y migraciones de esquema. ¡Sigue así!
 
+## Paso 13: Manejo de Errores y Validaciones Avanzadas
+
+En este paso, vamos a implementar un middleware de manejo de errores y validaciones avanzadas utilizando Zod. Esto nos permitirá estandarizar las respuestas de error y asegurarnos de que los datos recibidos en las solicitudes sean válidos.
+
+> 📚 ¿Qué es Zod? Zod es una biblioteca de validación de esquemas para TypeScript y JavaScript. Permite definir esquemas de datos y validar objetos de manera declarativa y segura.
+
+### Instalación de Zod
+
+Primero, necesitamos instalar Zod, una biblioteca de validación de esquemas para TypeScript.
+
+Ejecuta el siguiente comando en tu terminal:
+
+```bash
+npm install zod
+```
+
+### Creación del Middleware de Manejo de Errores
+
+Vamos a crear un middleware para manejar los errores de forma centralizada. Crea un archivo `src/middleware/errorHandler.ts` y agrega el siguiente código:
+
+```typescript
+import type { Request, Response, NextFunction } from "express";
+import { ZodError } from "zod";
+import { logger } from "../libs/logger";
+
+export const errorHandler = (
+  err: any,
+  _req: Request,
+  res: Response,
+  _next: NextFunction,
+) => {
+  if (err instanceof ZodError) {
+    return res.status(400).json({
+      message: "Validation error",
+      errors: err.errors,
+    });
+  }
+
+  logger.error(err);
+  res.status(500).json({
+    message: "Internal server error",
+  });
+};
+```
+
+### Integración del Middleware en el Servidor
+
+Edita el archivo `src/libs/server.ts` para usar el middleware de manejo de errores:
+
+```typescript
+import cors from "cors";
+import express from "express";
+import pinoHttp from "pino-http";
+import { healthCheckRoutes } from "../api/health-check/health-check.routes";
+import { productsRoutes } from "../api/products/products.routes";
+import { logger } from "./logger";
+import { errorHandler } from "../middleware/errorHandler";
+
+const app = express();
+
+// Middleware
+app.use(cors());
+app.use(express.json());
+app.use(pinoHttp({ logger }));
+
+// Routes
+app.use("/api/health-check", healthCheckRoutes);
+app.use("/api/products", productsRoutes);
+
+// Error handling middleware
+app.use(errorHandler);
+
+// Exportar el servidor para usarlo en index.ts
+export { app };
+```
+
+### Validaciones con Zod
+
+Vamos a crear un esquema de validación para los productos utilizando Zod. Crea un archivo `src/api/products/schemas/product.schema.ts` y agrega el siguiente código:
+
+```typescript
+import { z } from "zod";
+
+export const productSchema = z.object({
+  title: z.string().min(1, "Title is required"),
+  brand: z.string().min(1, "Brand is required"),
+  category: z.string().min(1, "Category is required"),
+  price: z.number().positive("Price must be a positive number"),
+  stock: z.number().int().nonnegative("Stock must be a non-negative integer"),
+});
+```
+
+### Validación en el Controlador de Creación de Productos
+
+Edita el archivo `src/api/products/controllers/products.create.controller.ts` para validar los datos del producto antes de crear uno nuevo:
+
+```typescript
+import type { Request, Response } from "express";
+import { productSchema } from "../schemas/product.schema";
+import { createProductService } from "../services/products.create.service";
+
+export const createProductController = (req: Request, res: Response) => {
+  const validationResult = productSchema.safeParse(req.body);
+
+  if (!validationResult.success) {
+    throw validationResult.error;
+  }
+
+  const newProduct = createProductService(validationResult.data);
+  res.status(201).json(newProduct);
+};
+```
+
+> 💡 Es importante usar `safeParse` de Zod para filtrar cualquier dato sensible en la respuesta y asegurarse de que solo los datos válidos sean procesados.
+
+### Criterios de Aceptación del Paso 13
+
+- [ ] Deberás instalar la librería `zod` para validaciones.
+- [ ] Deberás crear un middleware de manejo de errores en `src/middleware/errorHandler.ts`.
+- [ ] Deberás integrar el middleware de manejo de errores en el servidor Express.
+- [ ] Deberás crear un esquema de validación para los productos en `src/api/products/schemas/product.schema.ts`.
+- [ ] Deberás validar los datos del producto en el controlador de creación de productos.
+
+### 🎉 ¡Felicitaciones!
+
+Has implementado un middleware de manejo de errores y validaciones avanzadas utilizando Zod. Esto te permitirá estandarizar las respuestas de error y asegurarte de que los datos recibidos en las solicitudes sean válidos. ¡Sigue así!
+
+## Paso 14: Adaptar Servicios para Usar Base de Datos Real
+
+En este paso, vamos a actualizar los servicios de tu API de productos para que, en lugar de usar datos mockeados (como arrays en memoria), realicen operaciones reales contra la base de datos PostgreSQL a través de Prisma. Esto significa que modificarás los servicios de obtención, creación, actualización y eliminación de productos para que interactúen directamente con las tablas definidas en tu modelo Prisma (por ejemplo, la tabla `Product` y sus relaciones con `ProductBrand` y `ProductCategory`). Además, ajustaremos los controladores correspondientes para manejar las operaciones asíncronas y los errores de forma correcta.
+
+La integración con la base de datos se realizará utilizando la instancia de Prisma Client configurada en `src/libs/prisma.ts`. Con estos cambios, tu API trabajará con datos persistentes y podrás aplicar consultas reales, transacciones y operaciones complejas en la base de datos.
+
+### 1. Servicio para Obtener Todos los Productos
+
+Actualiza el servicio para obtener todos los productos consultando la base de datos.  
+Modifica el archivo `src/api/products/services/products.get.all.service.ts`:
+
+```typescript
+import { DB } from "../../../libs/prisma";
+
+export const getAllProductsService = async () => {
+  const products = await DB.product.findMany({
+    include: {
+      brand: true,
+      category: true,
+    },
+  });
+  return products;
+};
+```
+
+### 2. Servicio para Crear un Producto
+
+Actualiza el servicio de creación para insertar un nuevo producto en la base de datos. Se consultarán las entidades relacionadas (marca y categoría) antes de crear el producto.
+
+Modifica el archivo `src/api/products/services/products.create.service.ts`:
+
+```typescript
+import { DB } from "../../../libs/prisma";
+
+export interface CreateProductData {
+  title: string;
+  brand: string;
+  category: string;
+  price: number;
+  stock: number;
+}
+
+export const createProductService = async (data: CreateProductData) => {
+  // Buscar la marca y categoría por nombre
+  const brandRecord = await DB.productBrand.findFirst({ where: { name: data.brand } });
+  const categoryRecord = await DB.productCategory.findFirst({ where: { name: data.category } });
+
+  if (!brandRecord || !categoryRecord) {
+    throw new Error("La marca o categoría no existen en la base de datos");
+  }
+
+  const newProduct = await DB.product.create({
+    data: {
+      title: data.title,
+      price: Math.floor(data.price), // Asegurarse de que el precio sea un entero
+      stock: data.stock,
+      brandId: brandRecord.id,
+      categoryId: categoryRecord.id,
+    },
+    include: {
+      brand: true,
+      category: true,
+    },
+  });
+
+  return newProduct;
+};
+```
+
+### 3. Servicio para Actualizar un Producto
+
+Actualiza el servicio para modificar un producto existente. Se leerán los posibles cambios, incluyendo la actualización de la marca y/o categoría, validando y obteniendo sus IDs correspondientes.
+
+Modifica el archivo `src/api/products/services/products.update.service.ts`:
+
+```typescript
+import { DB } from "../../../libs/prisma";
+
+export interface UpdateProductData {
+  title?: string;
+  brand?: string;
+  category?: string;
+  price?: number;
+  stock?: number;
+}
+
+export const updateProductService = async (id: string, data: UpdateProductData) => {
+  let brandId: string | undefined;
+  let categoryId: string | undefined;
+
+  if (data.brand) {
+    const brandRecord = await DB.productBrand.findFirst({ where: { name: data.brand } });
+    if (!brandRecord) {
+      throw new Error("Marca no encontrada");
+    }
+    brandId = brandRecord.id;
+  }
+  if (data.category) {
+    const categoryRecord = await DB.productCategory.findFirst({ where: { name: data.category } });
+    if (!categoryRecord) {
+      throw new Error("Categoría no encontrada");
+    }
+    categoryId = categoryRecord.id;
+  }
+
+  const updatedProduct = await DB.product.update({
+    where: { id },
+    data: {
+      title: data.title,
+      price: data.price !== undefined ? Math.floor(data.price) : undefined,
+      stock: data.stock,
+      ...(brandId && { brandId }),
+      ...(categoryId && { categoryId }),
+    },
+    include: {
+      brand: true,
+      category: true,
+    },
+  });
+
+  return updatedProduct;
+};
+```
+
+### 4. Servicio para Eliminar un Producto
+
+Actualiza el servicio para eliminar un producto, validando que existe en la base de datos antes de borrar el registro.
+
+Modifica el archivo `src/api/products/services/products.delete.service.ts`:
+
+```typescript
+import { DB } from "../../../libs/prisma";
+
+export const deleteProductService = async (id: string) => {
+  const productToDelete = await DB.product.findUnique({ where: { id } });
+  if (!productToDelete) {
+    throw new Error("Product not found");
+  }
+
+  await DB.product.delete({
+    where: { id },
+  });
+
+  return { message: "Product deleted", id };
+};
+```
+
+### 5. Actualización de los Controladores
+
+Modifica los controladores para utilizar las funciones de los servicios adaptadas a Prisma y para manejar correctamente las operaciones asíncronas y los errores.
+
+Para modificar el controlador para Crear un Producto, modifica el archivo `src/api/products/controllers/products.create.controller.ts`:
+
+```typescript
+import type { Request, Response } from "express";
+import { productSchema } from "../schemas/product.schema";
+import { createProductService } from "../services/products.create.service";
+
+export const createProductController = async (req: Request, res: Response) => {
+  const validationResult = productSchema.safeParse(req.body);
+
+  if (!validationResult.success) {
+    return res.status(400).json({
+      message: "Validation error",
+      errors: validationResult.error.errors,
+    });
+  }
+  
+  try {
+    const newProduct = await createProductService(validationResult.data);
+    res.status(201).json(newProduct);
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
+  }
+};
+```
+
+Para modificar el controlador para Actualizar un Producto, modifica el archivo `src/api/products/controllers/products.update.controller.ts`:
+
+```typescript
+import type { Request, Response } from "express";
+import { updateProductService } from "../services/products.update.service";
+import { productSchema } from "../schemas/product.schema"; // (Opcional: para validar datos)
+
+export const updateProductController = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const validationResult = productSchema.safeParse(req.body);
+
+  if (!validationResult.success) {
+    return res.status(400).json({
+      message: "Validation error",
+      errors: validationResult.error.errors,
+    });
+  }
+
+  try {
+    const updatedProduct = await updateProductService(id, validationResult.data);
+    res.status(200).json(updatedProduct);
+  } catch (error: any) {
+    if (error.message === "Marca no encontrada" || error.message === "Categoría no encontrada") {
+      return res.status(404).json({ message: error.message });
+    }
+    res.status(500).json({ message: error.message });
+  }
+};
+```
+
+Para modificar el controlador para Eliminar un Producto, modifica el archivo `src/api/products/controllers/products.delete.controller.ts`:
+
+```typescript
+import type { Request, Response } from "express";
+import { deleteProductService } from "../services/products.delete.service";
+
+export const deleteProductController = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  try {
+    const result = await deleteProductService(id);
+    res.status(200).json(result);
+  } catch (error: any) {
+    if (error.message === "Product not found") {
+      return res.status(404).json({ message: error.message });
+    }
+    res.status(500).json({ message: error.message });
+  }
+};
+```
+💡 Es una buena práctica utilizar Zod dentro de cada servicio para validar tanto los datos de entrada como los datos de salida. Esto asegura que los datos que se procesan y se devuelven cumplen con los esquemas definidos, lo que ayuda a prevenir errores y a mantener la integridad de los datos en toda la aplicación.
+
+Por ejemplo, puedes definir un esquema de validación para los datos de entrada en el servicio de creación de productos y otro esquema para los datos de salida:
+
+Crea un archivo `src/api/products/schemas/product.schema.ts` y agrega los esquemas de validación:
+
+```typescript
+import { z } from "zod";
+
+const createProductInputSchema = z.object({
+  title: z.string().min(1, "Title is required"),
+  brand: z.string().min(1, "Brand is required"),
+  category: z.string().min(1, "Category is required"),
+  price: z.number().positive("Price must be a positive number"),
+  stock: z.number().int().nonnegative("Stock must be a non-negative integer"),
+});
+
+const createProductOutputSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  brand: z.string(),
+  category: z.string(),
+  price: z.number(),
+  stock: z.number(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
+});
+
+export const createProductService = async (data: CreateProductData) => {
+  const validationResult = createProductInputSchema.safeParse(data);
+
+  if (!validationResult.success) {
+    throw new Error("Validation error");
+  }
+
+  // Lógica para crear el producto en la base de datos
+  const newProduct = await DB.product.create({
+    data: validationResult.data,
+    include: {
+      brand: true,
+      category: true,
+    },
+  });
+
+  const outputValidationResult = createProductOutputSchema.safeParse(newProduct);
+
+  if (!outputValidationResult.success) {
+    throw new Error("Output validation error");
+  }
+
+  return outputValidationResult.data;
+};
+```
+
+De esta manera, aseguras que tanto los datos de entrada como los datos de salida cumplen con los esquemas definidos, lo que mejora la robustez y la confiabilidad de tu aplicación. Te invitamos a crear schemas para los demás servicios y controladores siguiendo esta misma lógica.
+
+### Criterios de Aceptación del Paso 14
+
+- [ ] Actualizar el servicio de obtención de productos en `src/api/products/services/products.get.all.service.ts` para consultar la base de datos usando Prisma.
+- [ ] Actualizar el servicio de creación en `src/api/products/services/products.create.service.ts` para insertar un nuevo producto, validando y consultando las relaciones de marca y categoría.
+- [ ] Actualizar el servicio de actualización en `src/api/products/services/products.update.service.ts` para modificar un producto existente.
+- [ ] Actualizar el servicio de eliminación en `src/api/products/services/products.delete.service.ts` para remover el producto de la base de datos.
+- [ ] Modificar los controladores en `src/api/products/controllers/` para utilizar las funciones asíncronas de los servicios y manejar errores de forma adecuada.
+- [ ] Ejecutar las pruebas para verificar que las operaciones CRUD funcionan correctamente contra la base de datos real.
+
+
+### 🎉 ¡Felicitaciones!
+
+Has adaptado exitosamente tus servicios y controladores para interactuar con una base de datos PostgreSQL real mediante Prisma. Con estos cambios, tu API ahora trabajará con datos persistentes y estarás un paso más cerca de construir una solución escalable y profesional. ¡Sigue así y continúa avanzando en el curso!
+
 # 🔜 Próximos Pasos
 
 > ### ⚠️ Importante: Esta guía se encuentra en desarrollo y puede sufrir cambios en el futuro. Si tienes alguna sugerencia o corrección, no dudes en abrir un issue o una pull request. ¡Gracias por tu colaboración!
 
-- Paso 13: Manejo de Errores y Validaciones Avanzadas
-  - Implementar un middleware de manejo de errores con Zod.
-  - Estandarizar respuestas de error con códigos de estado adecuados.
 
-- Paso 14: Adaptar Servicios para Usar Base de Datos Real
-  - Actualizar los servicios para interactuar con PostgreSQL a través de Prisma.
-  - Implementar consultas eficientes y manejar transacciones si es necesario.
 
-- Paso 15: Implementar Paginación y Filtros en Endpoints
+
+  
+- Paso 15: Despliegue y Configuración en Producción
+  - Desplegar la API Railway o Fly.io.
+  - Manejar variables de entorno y logs en producción.
+
+- Paso 16: Implementación de CI/CD
+  - Configurar GitHub Actions para pruebas automatizadas y despliegue continuo.
+
+# Pasos opcionales
+
+Esta serie de pasos busca que el usuario continue en su aprendizaje incluyendo desafíos más complejos y avanzados. Si deseas continuar con el curso, puedes seguir con los pasos opcionales.
+
+- Opcional: Implementar Paginación y Filtros en Endpoints
   - Agregar paginación y filtros dinámicos en los endpoints.
   - Optimizar consultas para mejorar el rendimiento en grandes volúmenes de datos.
 
-- Paso 16: Documentación Automática con OpenAPI (Swagger)
+- Opcional: Documentación Automática con OpenAPI (Swagger)
   - Generar documentación interactiva para la API.
   - Agregar ejemplos de uso y esquemas de respuesta.
   - Permitir pruebas de endpoints directamente desde la documentación.
 
-- Paso 17: CRUD de Usuarios, Roles y Autenticación
+- Opcional: CRUD de Usuarios, Roles y Autenticación
   - Implementar endpoints para crear, leer, actualizar y eliminar usuarios y roles.
   - Agregar endpoints para obtener y refrescar tokens de acceso.
   - Implementar endpoints para asignar y revocar roles y permisos.
@@ -1369,15 +1800,15 @@ Has implementado una base de datos PostgreSQL con Prisma, un ORM moderno y segur
   - Proteger rutas sensibles y recursos críticos.
   - Agregar pruebas automatizadas para los endpoints de usuarios y roles.
 
+- Opcional: Reportes y Estadísticas
+  - Implementar endpoints para generar reportes y estadísticas.
+  - Agregar filtros y parámetros para personalizar los reportes.
+
 - Paso 18: Movimientos de stocks y Control de Inventario
   - Implementar endpoints para registrar movimientos de stocks.
   - Agregar lógica de negocio para controlar el inventario.
   - Implementar endpoints para consultar el stock disponible y los movimientos de inventario.
   - Agregar pruebas automatizadas para los endpoints de inventario.
-
-- Paso 19: Reportes y Estadísticas
-  - Implementar endpoints para generar reportes y estadísticas.
-  - Agregar filtros y parámetros para personalizar los reportes.
 
 - Paso 20: Módulo de importar/exportar datos
   - Implementar endpoints para importar y exportar datos en formato CSV o JSON.
@@ -1387,10 +1818,3 @@ Has implementado una base de datos PostgreSQL con Prisma, un ORM moderno y segur
   - Configurar Helmet y Rate Limiting para proteger la API.
   - Evitar inyecciones SQL y ataques XSS.
   - Agregar CORS con restricciones adecuadas.
-  -
-- Paso 22: Despliegue y Configuración en Producción
-  - Desplegar la API Railway o Fly.io.
-  - Manejar variables de entorno y logs en producción.
-
-- Paso 23: Implementación de CI/CD
-  - Configurar GitHub Actions para pruebas automatizadas y despliegue continuo.
