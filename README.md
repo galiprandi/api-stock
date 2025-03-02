@@ -1782,13 +1782,184 @@ De esta manera, aseguras que tanto los datos de entrada como los datos de salida
 
 Has adaptado exitosamente tus servicios y controladores para interactuar con una base de datos PostgreSQL real mediante Prisma. Con estos cambios, tu API ahora trabajará con datos persistentes y estarás un paso más cerca de construir una solución escalable y profesional. ¡Sigue así y continúa avanzando en el curso!
 
+## Paso 15: Despliegue y Configuración en Producción
+
+En este paso, desplegaremos tu API en Railway, una plataforma en la nube que facilita el hosting de aplicaciones. Aprovecharemos la base de datos PostgreSQL y la configuración de Prisma ya establecidas, y configuraremos las variables de entorno y logging para el ambiente de producción.
+
+### Creación de una Cuenta y Servicio en Railway
+
+Si aún no tienes una cuenta en Railway, puedes crear una gratuita visitando [Railway](https://railway.app/). Sigue estos pasos básicos:
+
+1. Regístrate con tu email o con tu cuenta de GitHub.
+2. Una vez dentro, haz clic en **"New Project"**.
+3. Selecciona la opción **"Deploy from GitHub Repo"** y conecta tu repositorio.
+4. Configura el servicio, asegurándote de establecer la variable `DATABASE_URL` (con el string de conexión de tu base de datos PostgreSQL) y otras variables necesarias para la ejecución, como `NODE_ENV` con el valor `"production"`.
+5. Railway generará una URL pública para acceder a tu API en producción.
+
+### Configuración de Variables de Entorno y Logs
+
+1. **Variables de Entorno:**\
+   Asegúrate de definir en Railway las siguientes variables:
+   - `DATABASE_URL`: Conecta tu base de datos PostgreSQL.
+   - `NODE_ENV`: Establecido a `"production"`.
+   - Cualquier otra variable que tu aplicación requiera (por ejemplo, `PORT`).
+
+2. **Logging en Producción:**\
+   Revisa que en el archivo `src/libs/logger.ts` el nivel de log se configure según el entorno:
+   ```typescript
+   import pino from "pino";
+   import { config } from "../config";
+
+   const { ENV } = config;
+
+   export const logger = pino({
+     transport: {
+       target: "pino-pretty",
+       options: {
+         colorize: true,
+       },
+     },
+     level: ENV === "production" ? "info" : "debug",
+   });
+   ```
+   Esto garantizará que en producción se muestren logs a nivel `info` para evitar el exceso de información.
+
+### Actualización del Script de Inicio
+
+Asegúrate de que el script de inicio en tu `package.json` utilice el código compilado y respete las variables de entorno:
+
+```json
+{
+  "scripts": {
+    "start": "node --env-file=.env dist/index.js"
+  }
+}
+```
+
+> Nota: Railway manejará sus propias variables de entorno en el dashboard, por lo que es crucial que la variable `DATABASE_URL` y `NODE_ENV` estén correctamente definidas allí.
+
+### Pruebas y Validaciones Previas al Despliegue
+
+Antes de desplegar, verifica los siguientes puntos:
+
+- Ejecuta `npm test` para asegurarte de que todos los tests pasen.
+- Comprueba el funcionamiento de la API en ambiente local en modo producción:
+  1. Compila el proyecto con `npm run build`.
+  2. Inicia la aplicación con `npm start`.
+- Revisa los logs para confirmar que no se presenten errores y que la conexión a la base de datos sea exitosa.
+
+Una vez validados estos pasos, realiza el despliegue en Railway siguiendo el proceso de importación del repositorio.
+
+### Criterios de Aceptación del Paso 15
+
+- [ ] Deberás tener una cuenta en Railway (puedes crear una gratuita [aquí](https://railway.app/)).
+- [ ] Deberás configurar en Railway las variables de entorno, incluyendo `DATABASE_URL` y `NODE_ENV=production`.
+- [ ] La API deberá conectarse correctamente a la base de datos PostgreSQL en el entorno de Railway.
+- [ ] Los logs deben indicar que la aplicación se inicia sin errores y en modo producción.
+- [ ] Deberás verificar el funcionamiento de la API en producción accediendo a la URL proporcionada por Railway.
+
+### 🎉 ¡Felicitaciones!
+
+Has completado el despliegue de tu API en Railway, configurando adecuadamente las variables de entorno y los logs para el ambiente de producción. ¡Tu API ahora está lista para recibir tráfico real y crecer de forma escalable! ¡Excelente trabajo y sigue adelante!
+
+## Paso 16: Implementación de CI/CD
+
+En este paso, configuraremos GitHub Actions para automatizar las pruebas y el despliegue continuo de tu API. Con esta integración, cada vez que realices cambios en la rama principal se ejecutarán los tests y, de estar todo correcto, se compilará y desplegará la aplicación. Esto te ayudará a detectar errores rápidamente y a mantener un proceso de despliegue confiable y eficiente.
+
+### Creación del Workflow en GitHub Actions
+
+1. Dentro de tu repositorio, crea el directorio `.github/workflows`.
+2. Crea un archivo llamado `ci-cd.yml` en dicho directorio.
+
+En este archivo definirás el workflow de CI/CD. Un ejemplo de configuración es el siguiente:
+
+```yaml
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm test
+
+      - name: Build project
+        run: npm run build
+
+      - name: Deploy to Railway
+        if: github.ref == 'refs/heads/main'
+        run: |
+          npx railway deploy
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+```
+
+> 📚 Nota:
+>
+> - Asegúrate de tener configurado el secret `RAILWAY_TOKEN` en la sección de secrets de tu repositorio en GitHub. Railway ofrece un CLI que permite desplegar tu servicio; si aún no lo tienes instalado, puedes agregarlo a través de `npx railway` en tus scripts.
+> - Revisa que los scripts definidos en tu `package.json` (como `npm test` y `npm run build`) funcionen correctamente.
+
+### Pruebas y Validaciones Previas al Despliegue
+
+Antes de integrar el workflow de CI/CD, sigue estos pasos en local:
+
+- Ejecuta `npm test` para confirmar que las pruebas pasen sin errores.
+- Realiza la compilación con `npm run build` y verifica que no se produzcan errores.
+- Si usas Railway, prueba manualmente el despliegue con `npx railway deploy` para asegurarte de que la conexión y las variables de entorno están correctamente configuradas.
+
+### Criterios de Aceptación del Paso 16
+
+- [ ] Deberás crear el directorio `.github/workflows` en tu repositorio si aún no existe.
+- [ ] Deberás crear un archivo `ci-cd.yml` que defina el workflow para ejecutar tests, compilar la aplicación y desplegarla.
+- [ ] El workflow deberá ejecutarse en cada push o pull request a la rama `main`.
+- [ ] Deberás tener configurado el secret `RAILWAY_TOKEN` en GitHub para el despliegue.
+- [ ] Los tests deben correr y pasar, y el despliegue se debe ejecutar sin errores.
+
+### 🎉 ¡Felicitaciones!
+
+Has implementado con éxito un pipeline de CI/CD utilizando GitHub Actions. Ahora, cada cambio en la rama principal activará automáticamente pruebas y despliegues, lo que garantiza la calidad y la estabilidad de tu API en producción. ¡Excelente trabajo y sigue avanzando en tu aprendizaje!
+
+> 💡 Consejo: Revisa periódicamente los logs de GitHub Actions para detectar posibles fallos o áreas de mejora en tu pipeline de CI/CD.
+
+## ⚠️ Recuerda detener y eliminar cualquier instancia de tu API en Railway si ya no la necesitas para evitar costos innecesarios.
+
+Si bien Railway ofrece un plan gratuito, es importante mantener un control de los recursos utilizados para evitar cargos adicionales. Si no estás utilizando tu API en producción, asegúrate de detener y eliminar cualquier instancia para evitar costos innecesarios.
+
+# 🏁 ¡Felicidades! Has completado el Curso de API REST con Node.js y TypeScript
+
+¡Enhorabuena! Has completado el Curso de API REST con Node.js y TypeScript. Has aprendido a construir una API RESTful escalable y mantenible utilizando tecnologías modernas como Express, Prisma, Zod y Railway. Has implementado funcionalidades esenciales como CRUD de productos, servicios, controladores, validaciones, manejo de errores, base de datos PostgreSQL, despliegue en producción y CI/CD. ¡Excelente trabajo!
+
+💡 Es fundamental que entiendas que este curso es solo el comienzo para convertirte en un gran desarrollador backend, pero que debes seguir aprendiendo y practicando con frecuencia para lograr tus objetivos. La práctica constante y la curiosidad por aprender nuevas tecnologías y mejores prácticas te ayudarán a mejorar tus habilidades y a mantenerte actualizado en un campo que evoluciona rápidamente. ¡Sigue adelante y nunca dejes de aprender!
+
+# 🚀 Recursos Adicionale
+
+- [Express.js](https://expressjs.com/): Documentación oficial de Express.js.
+- [Prisma](https://www.prisma.io/): Documentación oficial de Prisma ORM.
+- [Zod](https://zod.dev/): Documentación oficial de Zod.
+- [Railway](https://railway.app/): Documentación oficial de Railway.
+- [GitHub Actions](https://docs.github.com/en/actions): Documentación oficial de GitHub Actions.
+
 # 🔜 Próximos Pasos
 
 > ### ⚠️ Importante: Esta guía se encuentra en desarrollo y puede sufrir cambios en el futuro. Si tienes alguna sugerencia o corrección, no dudes en abrir un issue o una pull request. ¡Gracias por tu colaboración!
-
-- Paso 15: Despliegue y Configuración en Producción
-  - Desplegar la API Railway o Fly.io.
-  - Manejar variables de entorno y logs en producción.
 
 - Paso 16: Implementación de CI/CD
   - Configurar GitHub Actions para pruebas automatizadas y despliegue continuo.
