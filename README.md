@@ -1850,6 +1850,19 @@ Antes de desplegar, verifica los siguientes puntos:
 
 Una vez validados estos pasos, realiza el despliegue en Railway siguiendo el proceso de importación del repositorio.
 
+### Solución de Problemas Comunes
+
+- Verificá que las variables de entorno estén correctamente definidas.
+- Revisá los logs (usando Pino) para identificar problemas de conexión a la base de datos.
+- Probá localmente en modo producción antes del despliegue:
+
+```bash
+npm run build
+npm start
+```
+
+> 💡 Consejo: Si se presentan errores en la conexión a la base de datos, consultá la documentación de Prisma y Railway.
+
 ### Criterios de Aceptación del Paso 15
 
 - [ ] Deberás tener una cuenta en Railway (puedes crear una gratuita [aquí](https://railway.app/)).
@@ -1956,6 +1969,8 @@ Si bien Railway ofrece un plan gratuito, es importante mantener un control de lo
 - [Zod](https://zod.dev/): Documentación oficial de Zod.
 - [Railway](https://railway.app/): Documentación oficial de Railway.
 - [GitHub Actions](https://docs.github.com/en/actions): Documentación oficial de GitHub Actions.
+- [Documentación de Pino](https://getpino.io/): Documentación oficial de Pino.
+- [Biome para vscode](https://marketplace.visualstudio.com/items?itemName=biomejs.biome): Extensión de Biome para Visual Studio Code.
 
 # 🔜 Próximos Pasos
 
