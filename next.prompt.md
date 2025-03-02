@@ -19,7 +19,7 @@
 
 ## Paso N: _Título_
 
-_Descripción breve del paso._
+_Descripción del paso y que se consegirá en él_
 
 ### _Subsecciones_
 
