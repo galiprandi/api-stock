@@ -1,5 +1,4 @@
-Analiza detenidamente todo el contenido creado y luego implementemos juntos el próximo paso faltante:
----
+## Analiza detenidamente todo el contenido creado y luego implementemos juntos el próximo paso faltante:
 
 **Instrucciones:**
 
@@ -12,7 +11,7 @@ Analiza detenidamente todo el contenido creado y luego implementemos juntos el p
 - Antes de comenzar a escribir el siguiente paso, asegúrate de haber reunido toda la información necesaria.
 - No dudes en hacer preguntas adicionales si lo consideras necesario.
 - Obtén el próximo paso de la sección **Próximos Pasos** y asegúrate de respetar tanto el contenido como el título.
-- Antes de utilizar alguna herramienta o librería verifica si ha sido instalada y de lo contrario guía al usuario  en la instalación.
+- Antes de utilizar alguna herramienta o librería verifica si ha sido instalada y de lo contrario guía al usuario en la instalación.
 
 ---
 
