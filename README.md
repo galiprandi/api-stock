@@ -649,8 +649,8 @@ Comencemos creando primero las pruebas unitarias, crea el archivo `src/tests/pro
 ```typescript
 import request from "supertest";
 import { describe, expect, it } from "vitest";
-import { app } from "../libs/server";
 import { products } from "../data/products";
+import { app } from "../libs/server";
 
 describe("POST /api/products", () => {
   it("should create a new product", async () => {
@@ -668,7 +668,7 @@ describe("POST /api/products", () => {
       .send(newProduct);
 
     expect(response.status).toBe(201);
-    expect(response.body.id).toBe(totlasProducts +1);
+    expect(response.body.id).toBe(totlasProducts + 1);
     expect(response.body).toMatchObject(newProduct);
   });
 });
@@ -715,42 +715,41 @@ import { describe, expect, it } from "vitest";
 import { app } from "../libs/server";
 
 describe("PUT /api/products/:id", () => {
-    it("should update an existing product", async () => {
-        const productId = 1;
-        const updatedProduct = {
-            title: "Updated Laptop",
-            brand: "Apple",
-            category: "Electronics",
-            price: 1499.99,
-            stock: 5,
-        };
+  it("should update an existing product", async () => {
+    const productId = 1;
+    const updatedProduct = {
+      title: "Updated Laptop",
+      brand: "Apple",
+      category: "Electronics",
+      price: 1499.99,
+      stock: 5,
+    };
 
-        const response = await request(app)
-            .put(`/api/products/${productId}`)
-            .send(updatedProduct);
+    const response = await request(app)
+      .put(`/api/products/${productId}`)
+      .send(updatedProduct);
 
-        expect(response.status).toBe(200);
-        expect(response.body).toMatchObject(updatedProduct);
-    });
+    expect(response.status).toBe(200);
+    expect(response.body).toMatchObject(updatedProduct);
+  });
 
-    it("should return 404 if product not found", async () => {
-        const productId = 'invalid-id';
-        const updatedProduct = {
-            title: "Updated Laptop",
-            brand: "Apple",
-            category: "Electronics",
-            price: 1499.99,
-            stock: 5,
-        };
+  it("should return 404 if product not found", async () => {
+    const productId = "invalid-id";
+    const updatedProduct = {
+      title: "Updated Laptop",
+      brand: "Apple",
+      category: "Electronics",
+      price: 1499.99,
+      stock: 5,
+    };
 
-        const response = await request(app)
-            .put(`/api/products/${productId}`)
-            .send(updatedProduct);
+    const response = await request(app)
+      .put(`/api/products/${productId}`)
+      .send(updatedProduct);
 
-        expect(response.status).toBe(404);
-        expect(response.body).toMatchObject({ message: "Product not found" });
-    }
-    );
+    expect(response.status).toBe(404);
+    expect(response.body).toMatchObject({ message: "Product not found" });
+  });
 });
 ```
 
@@ -792,22 +791,22 @@ import { products } from "../data/products";
 import { app } from "../libs/server";
 
 describe("DELETE /api/products/:id", () => {
-    it("should delete an existing product", async () => {
-        const productId = 1;
-        const response = await request(app).delete(`/api/products/${productId}`);
+  it("should delete an existing product", async () => {
+    const productId = 1;
+    const response = await request(app).delete(`/api/products/${productId}`);
 
-        expect(response.status).toBe(200);
-        expect(response.body).toMatchObject({ message: "Product deleted" });
-        expect(products.some(product => product.id === productId)).toBe(false);
-    });
+    expect(response.status).toBe(200);
+    expect(response.body).toMatchObject({ message: "Product deleted" });
+    expect(products.some(product => product.id === productId)).toBe(false);
+  });
 
-    it("should return 404 if product not found", async () => {
-        const productId = 'invalid-id';
-        const response = await request(app).delete(`/api/products/${productId}`);
+  it("should return 404 if product not found", async () => {
+    const productId = "invalid-id";
+    const response = await request(app).delete(`/api/products/${productId}`);
 
-        expect(response.status).toBe(404);
-        expect(response.body).toMatchObject({ message: "Product not found" });
-    });
+    expect(response.status).toBe(404);
+    expect(response.body).toMatchObject({ message: "Product not found" });
+  });
 });
 ```
 
@@ -1360,7 +1359,7 @@ npm install zod
 Vamos a crear un middleware para manejar los errores de forma centralizada. Crea un archivo `src/middleware/errorHandler.ts` y agrega el siguiente código:
 
 ```typescript
-import type { Request, Response, NextFunction } from "express";
+import type { NextFunction, Request, Response } from "express";
 import { ZodError } from "zod";
 import { logger } from "../libs/logger";
 
@@ -1394,8 +1393,8 @@ import express from "express";
 import pinoHttp from "pino-http";
 import { healthCheckRoutes } from "../api/health-check/health-check.routes";
 import { productsRoutes } from "../api/products/products.routes";
-import { logger } from "./logger";
 import { errorHandler } from "../middleware/errorHandler";
+import { logger } from "./logger";
 
 const app = express();
 
@@ -1474,7 +1473,8 @@ La integración con la base de datos se realizará utilizando la instancia de Pr
 
 ### 1. Servicio para Obtener Todos los Productos
 
-Actualiza el servicio para obtener todos los productos consultando la base de datos.  
+Actualiza el servicio para obtener todos los productos consultando la base de datos.
+
 Modifica el archivo `src/api/products/services/products.get.all.service.ts`:
 
 ```typescript
@@ -1510,8 +1510,12 @@ export interface CreateProductData {
 
 export const createProductService = async (data: CreateProductData) => {
   // Buscar la marca y categoría por nombre
-  const brandRecord = await DB.productBrand.findFirst({ where: { name: data.brand } });
-  const categoryRecord = await DB.productCategory.findFirst({ where: { name: data.category } });
+  const brandRecord = await DB.productBrand.findFirst({
+    where: { name: data.brand },
+  });
+  const categoryRecord = await DB.productCategory.findFirst({
+    where: { name: data.category },
+  });
 
   if (!brandRecord || !categoryRecord) {
     throw new Error("La marca o categoría no existen en la base de datos");
@@ -1552,19 +1556,26 @@ export interface UpdateProductData {
   stock?: number;
 }
 
-export const updateProductService = async (id: string, data: UpdateProductData) => {
+export const updateProductService = async (
+  id: string,
+  data: UpdateProductData,
+) => {
   let brandId: string | undefined;
   let categoryId: string | undefined;
 
   if (data.brand) {
-    const brandRecord = await DB.productBrand.findFirst({ where: { name: data.brand } });
+    const brandRecord = await DB.productBrand.findFirst({
+      where: { name: data.brand },
+    });
     if (!brandRecord) {
       throw new Error("Marca no encontrada");
     }
     brandId = brandRecord.id;
   }
   if (data.category) {
-    const categoryRecord = await DB.productCategory.findFirst({ where: { name: data.category } });
+    const categoryRecord = await DB.productCategory.findFirst({
+      where: { name: data.category },
+    });
     if (!categoryRecord) {
       throw new Error("Categoría no encontrada");
     }
@@ -1633,7 +1644,7 @@ export const createProductController = async (req: Request, res: Response) => {
       errors: validationResult.error.errors,
     });
   }
-  
+
   try {
     const newProduct = await createProductService(validationResult.data);
     res.status(201).json(newProduct);
@@ -1647,8 +1658,8 @@ Para modificar el controlador para Actualizar un Producto, modifica el archivo `
 
 ```typescript
 import type { Request, Response } from "express";
-import { updateProductService } from "../services/products.update.service";
 import { productSchema } from "../schemas/product.schema"; // (Opcional: para validar datos)
+import { updateProductService } from "../services/products.update.service";
 
 export const updateProductController = async (req: Request, res: Response) => {
   const { id } = req.params;
@@ -1662,10 +1673,16 @@ export const updateProductController = async (req: Request, res: Response) => {
   }
 
   try {
-    const updatedProduct = await updateProductService(id, validationResult.data);
+    const updatedProduct = await updateProductService(
+      id,
+      validationResult.data,
+    );
     res.status(200).json(updatedProduct);
   } catch (error: any) {
-    if (error.message === "Marca no encontrada" || error.message === "Categoría no encontrada") {
+    if (
+      error.message === "Marca no encontrada"
+      || error.message === "Categoría no encontrada"
+    ) {
       return res.status(404).json({ message: error.message });
     }
     res.status(500).json({ message: error.message });
@@ -1693,6 +1710,7 @@ export const deleteProductController = async (req: Request, res: Response) => {
   }
 };
 ```
+
 💡 Es una buena práctica utilizar Zod dentro de cada servicio para validar tanto los datos de entrada como los datos de salida. Esto asegura que los datos que se procesan y se devuelven cumplen con los esquemas definidos, lo que ayuda a prevenir errores y a mantener la integridad de los datos en toda la aplicación.
 
 Por ejemplo, puedes definir un esquema de validación para los datos de entrada en el servicio de creación de productos y otro esquema para los datos de salida:
@@ -1737,7 +1755,9 @@ export const createProductService = async (data: CreateProductData) => {
     },
   });
 
-  const outputValidationResult = createProductOutputSchema.safeParse(newProduct);
+  const outputValidationResult = createProductOutputSchema.safeParse(
+    newProduct,
+  );
 
   if (!outputValidationResult.success) {
     throw new Error("Output validation error");
@@ -1758,7 +1778,6 @@ De esta manera, aseguras que tanto los datos de entrada como los datos de salida
 - [ ] Modificar los controladores en `src/api/products/controllers/` para utilizar las funciones asíncronas de los servicios y manejar errores de forma adecuada.
 - [ ] Ejecutar las pruebas para verificar que las operaciones CRUD funcionan correctamente contra la base de datos real.
 
-
 ### 🎉 ¡Felicitaciones!
 
 Has adaptado exitosamente tus servicios y controladores para interactuar con una base de datos PostgreSQL real mediante Prisma. Con estos cambios, tu API ahora trabajará con datos persistentes y estarás un paso más cerca de construir una solución escalable y profesional. ¡Sigue así y continúa avanzando en el curso!
@@ -1767,10 +1786,6 @@ Has adaptado exitosamente tus servicios y controladores para interactuar con una
 
 > ### ⚠️ Importante: Esta guía se encuentra en desarrollo y puede sufrir cambios en el futuro. Si tienes alguna sugerencia o corrección, no dudes en abrir un issue o una pull request. ¡Gracias por tu colaboración!
 
-
-
-
-  
 - Paso 15: Despliegue y Configuración en Producción
   - Desplegar la API Railway o Fly.io.
   - Manejar variables de entorno y logs en producción.
