@@ -931,7 +931,7 @@ npx @biomejs/biome init
 
 ### Configuración de Biome
 
-Crea un archivo `biome.json` en la raíz de tu proyecto y agrega la siguiente configuración:
+Reemplaza el contenido de archivo `biome.json` recientemente creado en la raíz de tu proyecto con el siguiente contenido:
 
 ```json
 {
@@ -986,10 +986,11 @@ Agrega el siguiente script en la sección "scripts" de tu archivo `package.json`
 
 ### Configuración de Visual Studio Code
 
-Abre las configuraciones de Visual Studio Code presionando `Shift + Ctrl + P` y selecciona "Preferences: Open Settings (JSON)". Agrega la siguiente configuración para que Biome chequeé automáticamente tu código al guardar:
+Abre las configuraciones de Visual Studio Code presionando `Shift + Ctrl + P` y selecciona "Preferences: Open User Settings (JSON)". Agrega la siguiente configuración para que Biome chequeé automáticamente tu código al guardar:
 
 ```json
 {
+  // Mantén el resto de configuraciones
   "editor.formatOnSave": true,
   "[javascript]": {
     "editor.defaultFormatter": "biomejs.biome"
@@ -1006,6 +1007,18 @@ Abre las configuraciones de Visual Studio Code presionando `Shift + Ctrl + P` y 
 }
 ```
 
+### Da formato a tu código con Biome
+
+Ejecuta el siguiente comando en tu terminal para dar formato a tu código con Biome:
+
+```bash
+npm run check
+```
+
+Esto formateará automáticamente TODO tu código según las reglas definidas en el archivo `biome.json` por lo que verás muchos cambios en tus archivos. Si ingresas a ver esos cambios verás que Biome ha corregido automáticamente los errores de estilo en tu código uniformando el estilo de todo tu proyecto.
+
+💡 Este es un buen momento para hacer un commit con todo tu código formateado. Antes de hacerlo, asegúrate de que tu servidor funcione correctamente y que todas las pruebas unitarias se ejecuten sin errores.
+
 ### Criterios de Aceptación del Paso 10
 
 - [ ] Deberás instalar la extensión de Biome para Visual Studio Code.
@@ -1013,6 +1026,8 @@ Abre las configuraciones de Visual Studio Code presionando `Shift + Ctrl + P` y 
 - [ ] Deberás agregar un script en el archivo `package.json` para corregir automáticamente los errores de estilo.
 - [ ] Deberás configurar Visual Studio Code para que Biome chequeé automáticamente tu código al guardar.
 - [ ] Deberás verificar que Biome funcione correctamente y corrija los errores de estilo en tu código.
+- [ ] Deberás chequear tu código con Biome y corregir los errores de estilo.
+- [ ] Deberas verificar que las pruebas unitarias sigan pasando después de dar formato a tu código.
 
 ### 🎉 ¡Felicitaciones!
 
@@ -1021,6 +1036,30 @@ Has mejorado la calidad y consistencia de tu código con Biome, una herramienta 
 ## Paso 11: Refactorización del CRUD con Servicios y Controladores
 
 En este paso, vamos a refactorizar el código de nuestra API para seguir una arquitectura más escalable y mantenible. Vamos a separar la lógica de negocio en servicios y controladores para mejorar la organización y reutilización del código. Además vamos a implementar una arquitectura en capas (Layered Architecture) que es más escalable y mantenible.
+
+### Agreguemos los typos necesarios
+
+Antes de continuar con la refactorización, necesitamos agregar los tipos necesarios para TypeScript. Crea un archivo `src/api/products/products.interfaces.ts` y agrega el siguiente código:
+
+```typescript
+// Interface para el objeto Producto
+export type ProductDTO = {
+  id: number;
+  title: string;
+  brand: string;
+  category: string;
+  price: number;
+  stock: number;
+}
+
+// Interface para crear un nuevo producto
+export type CreateProductDTO = Omit<ProductDTO, "id">;
+
+// Interface para actualizar un producto existente
+export type UpdateProductDTO = Partial<ProductDTO>;
+```
+
+Estas interfaces nos ayudarán a definir la forma de los objetos de producto, así como los datos necesarios para crear y actualizar un producto.
 
 ### Creemos la estructura de carpetas
 
@@ -1108,7 +1147,7 @@ app.use(cors());
 app.use(express.json());
 app.use(pinoHttp({ logger }));
 
-// Routes
+// Rutas
 app.use("/api/health-check", healthCheckRoutes);
 app.use("/api/products", productsRoutes);
 
@@ -1116,9 +1155,80 @@ app.use("/api/products", productsRoutes);
 export { app };
 ```
 
+### Refactorizamos la ruta de creación de productos
+
+Crea un archivo `src/api/products/services/products.create.service.ts` y agrega el siguiente código:
+
+```typescript
+import { products } from "../../../data/products";
+import { CreateProductDTO } from "../products.interfaces";
+
+export const createProductService = (newProduct: CreateProductDTO) => {
+  const id = products.length + 1;
+  const product = { id, ...newProduct };
+  products.push(product);
+  return product;
+};
+```
+
+Crea un archivo `src/api/products/controllers/products.create.controller.ts` y agrega el siguiente código:
+
+```typescript
+import type { Request, Response } from "express";
+import { createProductService } from "../services/products.create.service";
+
+export const createProductController = (req: Request, res: Response) => {
+  const newProduct = req.body;
+  const product = createProductService(newProduct);
+  res.status(201).json(product);
+};
+```
+
+Modifica el archivo `src/api/products/products.routes.ts` y agrega el siguiente código:
+
+```typescript
+import { Router } from "express";
+import { createProductController } from "./controllers/products.create.controller";
+import { getAllProductsController } from "./controllers/products.get.all.controller";
+
+export const productsRoutes = Router();
+
+productsRoutes.get("/", getAllProductsController);
+productsRoutes.post("/", createProductController);
+```
+
+### Tu guía de desarrollo deben ser la pruebas unitarias
+
+Si ejecutas las pruebas unitarias ahora, es posible que algunas fallen debido a la refactorización. Asegúrate de refactorizar las rutas PUT y DELETE siguiendo el mismo proceso hasta que las pruebas pasen correctamente.
+
+```bash
+  RERUN  rerun all tests 
+
+ ✓ src/tests/products.get.test.ts (1 test) 39ms
+   ✓ GET /api/products > should return a list of products
+ ❯ src/tests/products.delete.test.ts (2 tests | 2 failed) 66ms
+   × DELETE /api/products/:id > should delete an existing product 49ms
+     → expected 404 to be 200 // Object.is equality
+   × DELETE /api/products/:id > should return 404 if product not found 16ms
+     → expected {} to match object { message: 'Product not found' }
+ ✓ src/tests/health-check.get.test.ts (1 test) 39ms
+   ✓ GET /api/health-check > should return { status: 'ready' }
+ ❯ src/tests/products.put.test.ts (2 tests | 2 failed) 78ms
+   × PUT /api/products/:id > should update an existing product 64ms
+     → expected 404 to be 200 // Object.is equality
+   × PUT /api/products/:id > should return 404 if product not found 13ms
+     → expected {} to match object { message: 'Product not found' }
+ ✓ src/tests/products.post.test.ts (1 test) 42ms
+   ✓ POST /api/products > should create a new product
+```
+
 ### Refactoriza el resto de las rutas
 
 Mueve la lógica de negocio del archivo `src/routes/products.ts` a los servicios y controladores correspondientes en el directorio `src/api/products`. Repite el proceso para las rutas de creación, actualización y eliminación de productos.
+
+💡 Usa GitHub Copilot o ChatGPT para obtener sugerencias y asistencia mientras desarrollas tu API. Estas herramientas pueden ayudarte a escribir código más rápido y a resolver problemas comunes de programación.
+
+⚠️ Recuerda que por cada ruta deberás crear un servicio y un controlador correspondiente, además de crear la ruta en el archivo `src/api/products/products.routes.ts` y verificar que el test unitario correspondiente pase correctamente.
 
 La estructura de carpetas y archivos debería verse así:
 
@@ -1133,25 +1243,27 @@ src/
 │   │   ├── health-check.routes.ts
 │   ├── products/
 │   │   ├── controllers/
-│   │   │   ├── products.create.controller.ts
 │   │   │   ├── products.get.all.controller.ts
+│   │   │   ├── products.create.controller.ts
 │   │   │   ├── products.update.controller.ts
 │   │   │   ├── products.delete.controller.ts
 │   │   ├── services/
-│   │   │   ├── products.create.service.ts
 │   │   │   ├── products.get.all.service.ts
+│   │   │   ├── products.create.service.ts
 │   │   │   ├── products.update.service.ts
 │   │   │   ├── products.delete.service.ts
 │   │   ├── products.routes.ts
 ```
 
-Ya puedes eliminar el archivo `src/routes/products.ts` y su importación en `src/libs/server.ts`.
+⚠️ Ya puedes eliminar el archivo `src/routes/products.ts`.
 Luego ejecuta los tests para verificar que todo sigue funcionando correctamente, y has los ajustes necesarios en caso de que algo falle.
 
 ### Criterios de Aceptación del Paso 11
 
 - [ ] Deberás crear una estructura de carpetas y archivos para los servicios y controladores de la API.
 - [ ] Deberás crear servicios y controladores para las operaciones CRUD de los productos.
+- [ ] Deberás crear interfaces para los objetos de producto y los datos necesarios para crear y actualizar un producto.
+- [ ] Deberás refactorizar las rutas de productos para seguir una arquitectura en capas.
 - [ ] Deberás mover la lógica de negocio de las rutas a los servicios y controladores correspondientes.
 - [ ] Deberás integrar las rutas de productos en el servidor Express y eliminar las rutas antiguas.
 - [ ] Deberás verificar que las rutas de productos funcionen correctamente después de la refactorización.
